@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Deal from '../views/Deal/index.vue'
+import Input from '../views/Input/index.vue'
+import Statistics from '../views/Statistics/index.vue'
+import Earning from '../views/Earning/index.vue'
+import Expend from '../views/Expend/index.vue'
+import Personal from '../views/Personal/index.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -16,37 +23,43 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },{
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
     path: '/deal',
     name: 'deal',
-    component: () => import('../view/deal/index.vue')
+    component: Deal
   },
   {
     path: '/input',
     name: 'input',
-    component: () => import('../view/input/index.vue')
+    component: Input
   },
   {
     path: '/statistics',
     name: 'statistics',
-    component: () => import('../view/statistics/index.vue')
+    component: Statistics
   },
   {
     path: '/earning',
     name: 'earning',
-    component: () => import('../view/earning/index.vue')
+    component: Earning
   },
   {
     path: '/expend',
     name: 'expend',
-    component: () => import('../view/expend/index.vue')
+    component: Expend
   },
   {
     path: '/personal',
     name: 'personal',
-    component: () => import('../view/personal/index.vue')
-
+    component: Personal
+  },
+  {
+    path: '*',
+    name: 'notfound',
+    component: NotFound
   }
 ]
 

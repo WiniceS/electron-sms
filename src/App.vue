@@ -5,9 +5,6 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view />
-    <el-row>
-      <el-button>54646</el-button>
-    </el-row>
   </div>
 </template>
 

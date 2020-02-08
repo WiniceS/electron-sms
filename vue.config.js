@@ -1,7 +1,7 @@
-const path = require('path');
+const path = require('path')
 
 function resolve(dir) {
-  return path.join(__dirname, dir);
+  return path.join(__dirname, dir)
 }
 
 module.exports = {
@@ -16,6 +16,8 @@ module.exports = {
       .set('@', resolve('src'))
       .set('src', resolve('src'))
       .set('common', resolve('src/common'))
-      .set('components', resolve('src/components'));
-  }
-};
+      .set('components', resolve('src/components'))
+      .set('framework', resolve('src/framework'))
+  },
+  transpileDependencies: ['vue-echarts', 'resize-detector']
+}

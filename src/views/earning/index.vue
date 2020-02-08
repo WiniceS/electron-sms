@@ -13,7 +13,7 @@
 import echarts from 'vue-echarts'
 import 'echarts/lib/chart/line'
 export default {
-  name: 'GoodsEarning',
+  name: 'Earning',
   data() {
     return {
       option: {
@@ -107,7 +107,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="stylus">
 .echarts {
   width: 100%;
   height: 600px;

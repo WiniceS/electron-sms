@@ -3,10 +3,9 @@
     Not Find The Page!!!
   </div>
 </template>
-<style>
-
-</style>
+<style></style>
 <script type="babel">
-  export default {
-  }
+export default {
+  name: 'NotFound'
+}
 </script>
