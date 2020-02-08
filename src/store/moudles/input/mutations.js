@@ -3,9 +3,6 @@ const mutations = {
   [types.SET_GOODS_INPUT_LIST](state, list) {
     state.goodsInputData = list
   },
-  [types.CLEAR_SET_GOOD_INFO](state) {
-    state.goodInfo = {}
-  },
   [types.SET_GOOD_INFO](state, info) {
     state.goodInfo = info
   },

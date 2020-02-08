@@ -20,17 +20,16 @@ const mutations = {
     })
   },
   [types.MINUS_DEAL_LIST](state, id) {
-    state.goodsDealList = state.goodsDealList.map(e => {
-      if (e.good_id === id) {
-        e.good_sell_number--
-      }
-      return e
-    }).filter(f => f.good_sell_number > 0)
+    state.goodsDealList = state.goodsDealList
+      .map(e => {
+        if (e.good_id === id) {
+          e.good_sell_number--
+        }
+        return e
+      })
+      .filter(f => f.good_sell_number > 0)
   },
-  [types.MODIFY_DISCOUNTS](state, {
-    value,
-    id
-  }) {
+  [types.MODIFY_DISCOUNTS](state, { value, id }) {
     state.goodsDealList = state.goodsDealList.map(e => {
       if (e.good_id === id) {
         e.discounts = value
