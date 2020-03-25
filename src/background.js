@@ -4,7 +4,6 @@ import {
   app,
   protocol,
   BrowserWindow,
-  Menu,
   globalShortcut
 } from 'electron'
 import {
