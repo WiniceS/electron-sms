@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Deal from '../views/Deal/index.vue'
-import Input from '../views/Input/index.vue'
-import Statistics from '../views/Statistics/index.vue'
-import Earning from '../views/Earning/index.vue'
-import Expend from '../views/Expend/index.vue'
-import Personal from '../views/Personal/index.vue'
-import NotFound from '../views/NotFound.vue'
+import Deal from '../views/deal/index.vue'
+import Input from '../views/input/index.vue'
+import Statistics from '../views/statistics/index.vue'
+import Earning from '../views/earning/index.vue'
+import Expend from '../views/expend/index.vue'
+import Personal from '../views/personal/index.vue'
+import NotFound from '../views/notfound.vue'
 
 Vue.use(VueRouter)
 
