@@ -7,6 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 import VueI18n from 'vue-i18n'
 
+import '@/icons' // icon
+import '@/permission' // permission control
+
 Vue.config.productionTip = false
 Vue.use(ElementUI, VueI18n, {
   locale

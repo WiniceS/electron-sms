@@ -1,69 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
-// import Deal from '../views/deal/index.vue'
-// import Input from '../views/input/index.vue'
-// import Statistics from '../views/statistics/index.vue'
-// import Earning from '../views/earning/index.vue'
-// import Expend from '../views/expend/index.vue'
-// import Personal from '../views/personal/index.vue'
-// import NotFound from '../views/notfound.vue'
 /* Layout */
 import Layout from '../views/layout/Layout'
 
 Vue.use(VueRouter)
-
-// const routes = [
-//   {
-//     path: '/',
-//     name: 'home',
-//     component: Home
-//   },
-//   {
-//     path: '/about',
-//     name: 'about',
-//     // route level code-splitting
-//     // this generates a separate chunk (about.[hash].js) for this route
-//     // which is lazy-loaded when the route is visited.
-//     component: () =>
-//       import(/* webpackChunkName: "about" */ '../views/About.vue')
-//   },
-//   {
-//     path: '/deal',
-//     name: 'deal',
-//     component: Deal
-//   },
-//   {
-//     path: '/input',
-//     name: 'input',
-//     component: Input
-//   },
-//   {
-//     path: '/statistics',
-//     name: 'statistics',
-//     component: Statistics
-//   },
-//   {
-//     path: '/earning',
-//     name: 'earning',
-//     component: Earning
-//   },
-//   {
-//     path: '/expend',
-//     name: 'expend',
-//     component: Expend
-//   },
-//   {
-//     path: '/personal',
-//     name: 'personal',
-//     component: Personal
-//   },
-//   {
-//     path: '*',
-//     name: 'notfound',
-//     component: NotFound
-//   }
-// ]
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -83,7 +23,6 @@ export const constantRouterMap = [
     hidden: true
   },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
@@ -94,6 +33,71 @@ export const constantRouterMap = [
       {
         path: 'deal',
         component: () => import('@/views/deal/index')
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/input',
+    name: 'Input',
+    hidden: true,
+    children: [
+      {
+        path: 'input',
+        component: () => import('@/views/input/index')
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/statistics',
+    name: 'Statistics',
+    hidden: true,
+    children: [
+      {
+        path: 'statistics',
+        component: () => import('@/views/statistics/index')
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/earning',
+    name: 'Earning',
+    hidden: true,
+    children: [
+      {
+        path: 'earning',
+        component: () => import('@/views/earning/index')
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/expend',
+    name: 'Expend',
+    hidden: true,
+    children: [
+      {
+        path: 'expend',
+        component: () => import('@/views/expend/index')
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/personal',
+    name: 'Personal',
+    hidden: true,
+    children: [
+      {
+        path: 'personal',
+        component: () => import('@/views/personal/index')
       }
     ]
   },
