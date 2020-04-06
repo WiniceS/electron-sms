@@ -12,22 +12,26 @@ import gearning from './moudles/earning'
 import expend from './moudles/expend'
 import statistics from './moudles/statistics'
 import personal from './moudles/personal'
+import app from './moudles/app'
+import user from './moudles/user'
 
 Vue.use(Vuex)
 const state = initState()
-export default function createStore() {
-  return new Vuex.Store({
-    state,
-    actions,
-    getters,
-    mutations,
-    modules: {
-      deal,
-      input,
-      gearning,
-      expend,
-      statistics,
-      personal
-    }
-  })
-}
+
+const store = new Vuex.Store({
+  state,
+  actions,
+  getters,
+  mutations,
+  modules: {
+    deal,
+    input,
+    gearning,
+    expend,
+    statistics,
+    personal,
+    app,
+    user
+  }
+})
+export default store

@@ -21,7 +21,7 @@
       :summary-method="getSummaries"
       show-summary
       stripe
-      :height="winHeight - 170"
+      :height="400"
       :style="{ width: '100%;' }"
       border
     >
@@ -165,8 +165,8 @@ export default {
           sums[index] = '合计'
           return
         }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
+        const values = data.map((item) => Number(item[column.property]))
+        if (!values.every((value) => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
@@ -242,7 +242,7 @@ export default {
         .then(() => {
           this.goodId = ''
         })
-        .catch(e => {
+        .catch((e) => {
           this.$message({
             type: 'error',
             message: '结算失败'
