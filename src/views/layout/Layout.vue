@@ -2,20 +2,18 @@
   <div class="app-wrapper" :class="classObj">
     <sidebar class="sidebar-container"></sidebar>
     <div class="main-container">
-      <navbar></navbar>
       <app-main></app-main>
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
+import { Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'layout',
   components: {
-    Navbar,
     Sidebar,
     AppMain
   },
@@ -40,8 +38,13 @@ export default {
 
 <style rel="stylesheet/stylus" lang="stylus" scoped>
 .app-wrapper {
-  position: relative;
+  display: flex;
   height: 100%;
   width: 100%;
+}
+
+.main-container {
+  width: 100%;
+  height: 100%;
 }
 </style>

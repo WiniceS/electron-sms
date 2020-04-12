@@ -1,15 +1,11 @@
 'use strict'
 
-import {
-  app,
-  protocol,
-  BrowserWindow,
-  globalShortcut
-} from 'electron'
+import { app, protocol, BrowserWindow, globalShortcut } from 'electron'
 import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
+const ipc = require('electron').ipcMain
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -17,13 +13,15 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{
-  scheme: 'app',
-  privileges: {
-    secure: true,
-    standard: true
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'app',
+    privileges: {
+      secure: true,
+      standard: true
+    }
   }
-}])
+])
 
 function createWindow() {
   // Create the browser window.
@@ -91,7 +89,7 @@ app.on('ready', async () => {
     }
   }
   // 在开发环境和生产环境均可通过快捷键打开devTools
-  globalShortcut.register('CommandOrControl+Shift+i', function () {
+  globalShortcut.register('CommandOrControl+Shift+i', function() {
     win.webContents.openDevTools()
   })
 
@@ -112,3 +110,26 @@ if (isDevelopment) {
     })
   }
 }
+
+let miniWindow = null
+
+ipc.on('add', () => {
+  // Menu.setApplicationMenu(null) // 关闭子窗口菜单栏
+  const modalPath = 'http://localhost:8080/#/statistics/test'
+  // 使用hash对子页面跳转，这是vue的路由思想
+  miniWindow = new BrowserWindow({
+    width: 600,
+    height: 400,
+    webPreferences: {
+      webSecurity: false,
+      nodeIntegration: true
+    },
+    parent: win // mainWindow是主窗口
+  })
+
+  miniWindow.loadURL(modalPath)
+
+  miniWindow.on('closed', () => {
+    miniWindow = null
+  })
+})

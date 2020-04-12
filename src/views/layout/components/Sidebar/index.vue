@@ -9,6 +9,20 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
+      <el-dropdown class="avatar-container" trigger="click">
+        <div class="avatar-wrapper">
+          <img class="user-avatar" :src="avatar + '?imageView2/1/w/80/h/80'" />
+          <i class="el-icon-caret-bottom"></i>
+        </div>
+        <el-dropdown-menu class="user-dropdown" slot="dropdown">
+          <router-link class="inlineBlock" to="/">
+            <el-dropdown-item>Home</el-dropdown-item>
+          </router-link>
+          <el-dropdown-item divided>
+            <span style="display: block;">LogOut</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <sidebar-item :routes="routes"></sidebar-item>
     </el-menu>
   </scroll-bar>
@@ -23,7 +37,7 @@ export default {
   name: 'sidebar',
   components: { SidebarItem, ScrollBar },
   computed: {
-    ...mapGetters(['sidebar']),
+    ...mapGetters(['sidebar', 'avatar']),
     routes() {
       return this.$router.options.routes
     },
@@ -33,3 +47,29 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.avatar-container {
+  height: 50px;
+  display: inline-block;
+
+  .avatar-wrapper {
+    cursor: pointer;
+    margin-top: 5px;
+    position: relative;
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+
+    .el-icon-caret-bottom {
+      position: absolute;
+      right: -20px;
+      top: 25px;
+      font-size: 12px;
+    }
+  }
+}
+</style>

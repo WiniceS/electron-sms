@@ -24,80 +24,110 @@ export const constantRouterMap = [
   },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
-    path: '/',
+    path: '/deal',
     component: Layout,
-    redirect: '/deal',
-    name: 'Deal',
-    hidden: true,
+    redirect: '/deal/deal',
+    name: 'DealCompilations',
+    meta: { title: 'DealCompilations', icon: 'dealCompilations' },
+    hidden: false,
     children: [
       {
+        name: 'Deal',
         path: 'deal',
-        component: () => import('@/views/deal/index')
+        component: () => import('@/views/deal/index'),
+        meta: { title: 'Deal', icon: 'deal' }
       }
     ]
   },
   {
-    path: '/',
+    path: '/input',
     component: Layout,
-    redirect: '/input',
-    name: 'Input',
-    hidden: true,
+    redirect: '/input/input',
+    name: 'InputCompilations',
+    meta: { title: 'InputCompilations', icon: 'inputCompilations' },
+    hidden: false,
     children: [
       {
+        name: 'Input',
         path: 'input',
-        component: () => import('@/views/input/index')
+        component: () => import('@/views/input/index'),
+        meta: { title: 'Input', icon: 'input' }
       }
     ]
   },
   {
-    path: '/',
+    path: '/statistics',
     component: Layout,
-    redirect: '/statistics',
-    name: 'Statistics',
-    hidden: true,
+    redirect: '/statistics/statistics',
+    name: 'StatisticsCompilations',
+    meta: { title: 'StatisticsCompilations', icon: 'statisticsCompilations' },
+    hidden: false,
     children: [
       {
+        name: 'Statistics',
         path: 'statistics',
-        component: () => import('@/views/statistics/index')
+        child: {
+          hidden: false
+        },
+        component: () => import('@/views/statistics/index'),
+        meta: { title: 'Statistics', icon: 'statistics' }
+      },
+      {
+        name: 'Test',
+        path: 'test',
+        child: {
+          hidden: false
+        },
+        component: () => import('@/views/input/index'),
+        meta: { title: 'Test', icon: 'test' }
       }
     ]
   },
   {
-    path: '/',
+    path: '/earning',
     component: Layout,
-    redirect: '/earning',
-    name: 'Earning',
-    hidden: true,
+    redirect: '/earning/earning',
+    name: 'EarningCompilations',
+    meta: { title: 'EarningCompilations', icon: 'earningCompilations' },
+    hidden: false,
     children: [
       {
+        name: 'Earning',
         path: 'earning',
-        component: () => import('@/views/earning/index')
+        component: () => import('@/views/earning/index'),
+        meta: { title: 'Earning', icon: 'earning' }
       }
     ]
   },
   {
-    path: '/',
+    path: '/expend',
     component: Layout,
-    redirect: '/expend',
-    name: 'Expend',
-    hidden: true,
+    redirect: '/expend/expend',
+    name: 'ExpendCompilations',
+    meta: { title: 'ExpendCompilations', icon: 'expendCompilations' },
+    hidden: false,
     children: [
       {
+        name: 'Expend',
         path: 'expend',
-        component: () => import('@/views/expend/index')
+        component: () => import('@/views/expend/index'),
+        meta: { title: 'Expend', icon: 'expend' }
       }
     ]
   },
   {
-    path: '/',
+    path: '/personal',
     component: Layout,
-    redirect: '/personal',
-    name: 'Personal',
-    hidden: true,
+    redirect: '/personal/personal',
+    name: 'PersonalCompilations',
+    meta: { title: 'PersonalCompilations', icon: 'personalCompilations' },
+    hidden: false,
     children: [
       {
+        name: 'Personal',
         path: 'personal',
-        component: () => import('@/views/personal/index')
+        component: () => import('@/views/personal/index'),
+        meta: { title: 'Personal', icon: 'personal' }
       }
     ]
   },
