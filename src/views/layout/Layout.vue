@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper" :class="classObj">
+  <div class="app-wrapper">
     <sidebar class="sidebar-container"></sidebar>
     <div class="main-container">
       <app-main></app-main>
@@ -24,19 +24,12 @@ export default {
     },
     device() {
       return this.$store.state.app.device
-    },
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
     }
   }
 }
 </script>
 
-<style rel="stylesheet/stylus" lang="stylus" scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
 .app-wrapper {
   display: flex;
   height: 100%;

@@ -5,11 +5,12 @@
         <span
           v-if="item.redirect === 'noredirect' || index == levelList.length - 1"
           class="no-redirect"
-          >{{ item.meta.title }}</span
-        >
-        <router-link v-else :to="item.redirect || item.path">{{
+        >{{ item.meta.title }}</span>
+        <router-link v-else :to="item.redirect || item.path">
+          {{
           item.meta.title
-        }}</router-link>
+          }}
+        </router-link>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -35,13 +36,13 @@ export default {
       if (!this.levelList) {
         return []
       } else {
-        return this.levelList.filter((f) => f.meta.title)
+        return this.levelList.filter(f => f.meta.title)
       }
     }
   },
   methods: {
     getBreadcrumb() {
-      let matched = this.$route.matched.filter((item) => item.name)
+      let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0]
       if (first && first.name !== 'dashboard') {
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(
@@ -54,7 +55,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/stylus" lang="stylus" scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;

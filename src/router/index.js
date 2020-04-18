@@ -28,7 +28,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/deal/deal',
     name: 'DealCompilations',
-    meta: { title: 'DealCompilations', icon: 'dealCompilations' },
+    meta: { title: 'DealCompilations', icon: 'deal' },
     hidden: false,
     children: [
       {
@@ -44,7 +44,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/input/input',
     name: 'InputCompilations',
-    meta: { title: 'InputCompilations', icon: 'inputCompilations' },
+    meta: { title: 'InputCompilations', icon: 'input' },
     hidden: false,
     children: [
       {
@@ -60,7 +60,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/statistics/statistics',
     name: 'StatisticsCompilations',
-    meta: { title: 'StatisticsCompilations', icon: 'statisticsCompilations' },
+    meta: { title: 'StatisticsCompilations', icon: 'earning' },
     hidden: false,
     children: [
       {
@@ -79,7 +79,7 @@ export const constantRouterMap = [
           hidden: false
         },
         component: () => import('@/views/input/index'),
-        meta: { title: 'Test', icon: 'test' }
+        meta: { title: 'Test', icon: 'earning' }
       }
     ]
   },
@@ -88,7 +88,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/earning/earning',
     name: 'EarningCompilations',
-    meta: { title: 'EarningCompilations', icon: 'earningCompilations' },
+    meta: { title: 'EarningCompilations', icon: 'earning' },
     hidden: false,
     children: [
       {

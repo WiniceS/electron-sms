@@ -2,17 +2,8 @@
   <div class="goods-deal">
     <div class="goods-deal-input">
       <div class="goods-deal-input-id">
-        <el-input
-          class="goods-deal-input-goodid"
-          v-model="goodId"
-          placeholder="请输入商品编号"
-        ></el-input>
-        <el-button
-          class="goods-deal-input-add"
-          type="primary"
-          @click="addGoodInSell"
-          >添加</el-button
-        >
+        <el-input class="goods-deal-input-goodid" v-model="goodId" placeholder="请输入商品编号"></el-input>
+        <el-button class="goods-deal-input-add" type="primary" @click="addGoodInSell">添加</el-button>
       </div>
     </div>
     <el-table
@@ -99,35 +90,15 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            title="数量减1"
-            @click="minusDealList(scope.row.good_id)"
-            >-</el-button
-          >
-          <el-button
-            size="mini"
-            title="数量加1"
-            @click="plusDealList(scope.row.good_id)"
-            >+</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="delDealList(scope.row.good_id)"
-            >删除</el-button
-          >
+          <el-button size="mini" title="数量减1" @click="minusDealList(scope.row.good_id)">-</el-button>
+          <el-button size="mini" title="数量加1" @click="plusDealList(scope.row.good_id)">+</el-button>
+          <el-button size="mini" type="danger" @click="delDealList(scope.row.good_id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="goods-deal-button">
       <el-button type="warning" @click="clearDeal">清空</el-button>
-      <el-button
-        type="primary"
-        :style="{ width: '150px' }"
-        @click="settleAccounts"
-        >确认</el-button
-      >
+      <el-button type="primary" :style="{ width: '150px' }" @click="settleAccounts">确认</el-button>
     </div>
   </div>
 </template>
@@ -143,13 +114,13 @@ export default {
     }
   },
   computed: {
-    ...mapState('goodsDeal', []),
+    ...mapState('deal', []),
     ...mapState(['winHeight']),
-    ...mapGetters('goodsDeal', ['computedDealList'])
+    ...mapGetters('deal', ['computedDealList'])
   },
   methods: {
-    ...mapActions('goodsDeal', ['onSale', 'getGoodInfoById', 'sell']),
-    ...mapMutations('goodsDeal', {
+    ...mapActions('deal', ['onSale', 'getGoodInfoById', 'sell']),
+    ...mapMutations('deal', {
       clearDealList: 'CLEAR_DEAL_LIST',
       delDealList: 'DEL_DEAL_LIST',
       plusDealList: 'PLUS_DEAL_LIST',
@@ -253,11 +224,10 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="scss">
 .goods-deal {
-  display:none;
-  .goods-deal-input
-  {
+  display: none;
+  .goods-deal-input {
     height: 50px;
     display: flex;
     justify-content: space-between;

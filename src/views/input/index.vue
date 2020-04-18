@@ -1,11 +1,8 @@
 <template>
   <div class="goods-input" :style="{ height: winHeight - 70 + 'px' }">
-    <el-row :gutter="20" class="goods-input-header">
+    <el-row class="goods-input-header">
       <el-col :span="16">
-        <el-input
-          v-model="goodsInputForm.goodId"
-          placeholder="请输入商品编号"
-        ></el-input>
+        <el-input v-model="goodsInputForm.goodId" placeholder="请输入商品编号"></el-input>
       </el-col>
       <el-col :span="2">
         <el-button type="primary" @click="getGood">查询</el-button>
@@ -14,16 +11,8 @@
         <el-button type="primary" @click="open">查看入库记录</el-button>
       </el-col>
     </el-row>
-    <el-row
-      class="goods-input-form"
-      :style="{ height: winHeight - 120 + 'px' }"
-    >
-      <el-form
-        :model="goodsInputForm"
-        :rules="rules"
-        ref="goodsInputForm"
-        label-width="120px"
-      >
+    <el-row class="goods-input-form" :style="{ height: winHeight - 120 + 'px' }">
+      <el-form :model="goodsInputForm" :rules="rules" ref="goodsInputForm" label-width="120px">
         <el-row class="goods-input-form-body">
           <el-form-item label="商品编号" prop="goodId">
             <el-input
@@ -102,12 +91,8 @@
             ></el-input-number>
           </el-form-item>
           <el-form-item label="有无父商品" prop="havfather">
-            <el-radio v-model="goodsInputForm.havfather" label="0"
-              >没有父商品</el-radio
-            >
-            <el-radio v-model="goodsInputForm.havfather" label="1"
-              >有父商品</el-radio
-            >
+            <el-radio v-model="goodsInputForm.havfather" label="0">没有父商品</el-radio>
+            <el-radio v-model="goodsInputForm.havfather" label="1">有父商品</el-radio>
           </el-form-item>
           <el-form-item label="父商品编号">
             <el-input
@@ -127,15 +112,16 @@
           </el-form-item>
         </el-row>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('goodsInputForm')">{{
+          <el-button type="primary" @click="submitForm('goodsInputForm')">
+            {{
             isNew ? '商品入库' : '更新商品'
-          }}</el-button>
+            }}
+          </el-button>
           <el-button
             type="warning"
             :style="{ marginLeft: '50px' }"
             @click="resetForm('goodsInputForm')"
-            >清空</el-button
-          >
+          >清空</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -148,27 +134,14 @@
     >
       <el-row :style="{ padding: '5px' }">
         <el-col :span="16">
-          <el-input
-            v-model="recordGoodId"
-            placeholder="请输入商品编号"
-          ></el-input>
+          <el-input v-model="recordGoodId" placeholder="请输入商品编号"></el-input>
         </el-col>
         <el-col :span="4" :offset="2">
-          <el-button
-            type="primary"
-            :style="{ width: '100%' }"
-            @click="toSearchRecord"
-            >查询</el-button
-          >
+          <el-button type="primary" :style="{ width: '100%' }" @click="toSearchRecord">查询</el-button>
         </el-col>
       </el-row>
       <el-row class="goods-input-table">
-        <el-table
-          :data="goodsInputData"
-          stripe
-          :height="winHeight * 0.45"
-          border
-        >
+        <el-table :data="goodsInputData" stripe :height="winHeight * 0.45" border>
           <el-table-column
             prop="good_id"
             label="商品编号"
@@ -232,18 +205,8 @@
             fixed="right"
           >
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                type="primay"
-                @click="handleEdit(scope.row)"
-                >修改</el-button
-              >
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.row.goodsId)"
-                >删除</el-button
-              >
+              <el-button size="mini" type="primay" @click="handleEdit(scope.row)">修改</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.goodsId)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -315,7 +278,7 @@ export default {
   },
   computed: {
     ...mapState(['winHeight']),
-    ...mapState('goodsInput', [
+    ...mapState('input', [
       'goodsInputData',
       'varietyOption',
       'unitOption',
@@ -326,14 +289,14 @@ export default {
     ])
   },
   methods: {
-    ...mapActions('goodsInput', [
+    ...mapActions('input', [
       'getGoodInfoById',
       'getGoodInfo',
       'delGoodById',
       'updateGoodById',
       'addGood'
     ]),
-    ...mapMutations('goodsInput', {
+    ...mapMutations('input', {
       setPageSize: 'SET_PAGESIZE',
       setCurrentSize: 'SET_CURRENTSIZE'
     }),
@@ -508,25 +471,31 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="scss">
 .goods-input {
   background-color: #fff;
+
   .goods-input-header {
-    padding: 10px 20px;
+    width: 100%;
+    padding: 10px 10px;
   }
+
   .goods-input-form {
     width: 100%;
     padding: 10px 10px;
+
     &-body {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
+
       .el-form-item {
         width: 50%;
       }
     }
   }
+
   .goods-input-table {
     flex: auto;
     padding: 10px 5px;

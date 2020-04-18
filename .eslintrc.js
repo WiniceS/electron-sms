@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
   extends: ['plugin:vue/essential', '@vue/standard'],
   rules: {
@@ -14,9 +14,9 @@ module.exports = {
     'space-before-function-paren': 0,
     // 忽略大括号内的空格
     'object-curly-spacing': 0,
-    'comma-dangle': ['error', 'never'],
+    'comma-dangle': ['error', 'never']
   },
   parserOptions: {
-    parser: 'babel-eslint',
-  },
+    parser: 'babel-eslint'
+  }
 }

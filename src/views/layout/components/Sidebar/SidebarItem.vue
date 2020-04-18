@@ -28,11 +28,6 @@
       <el-submenu v-else :index="item.name || item.path" :key="item.name">
         <template slot="title">
           <svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon"></svg-icon>
-          <span v-if="item.meta && item.meta.title" slot="title">
-            {{
-            item.meta.title
-            }}
-          </span>
         </template>
 
         <template v-for="child in getShowChildren(item.children)">
@@ -94,8 +89,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.menu-wrapper {
-  height: calc(100% - 50px);
-}
+<style lang="scss" scoped>
+// .menu-wrapper {
+//   height: calc(100% - 50px);
+// }
 </style>

@@ -44,13 +44,11 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/stylus" lang="stylus" scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import '../../styles/variables.scss';
 .scroll-container {
   width: 65px;
   height: 100%;
   background-color: $menuBg;
-
-  .scroll-wrapper {
-  }
 }
 </style>
