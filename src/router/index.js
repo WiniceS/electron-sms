@@ -79,7 +79,7 @@ export const constantRouterMap = [
           hidden: false
         },
         component: () => import('@/views/input/index'),
-        meta: { title: 'Test', icon: 'earning' }
+        meta: { title: 'Test', icon: 'config' }
       }
     ]
   },
@@ -112,6 +112,43 @@ export const constantRouterMap = [
         path: 'expend',
         component: () => import('@/views/expend/index'),
         meta: { title: 'Expend', icon: 'expend' }
+      }
+    ]
+  },
+  {
+    path: '/config',
+    component: Layout,
+    redirect: '/config/commodity',
+    name: 'ConfigCompilations',
+    meta: { title: 'ConfigCompilations', icon: 'config' },
+    hidden: false,
+    children: [
+      {
+        name: 'Commodity',
+        path: 'commodity',
+        child: {
+          hidden: false
+        },
+        component: () => import('@/views/config/commodity.vue'),
+        meta: { title: 'Commodity', icon: 'commodity' }
+      },
+      {
+        name: 'CommodityUnit',
+        path: 'commodityUnit',
+        child: {
+          hidden: false
+        },
+        component: () => import('@/views/config/commodityUnit.vue'),
+        meta: { title: 'CommodityUnit', icon: 'commodityUnit' }
+      },
+      {
+        name: 'GoodsType',
+        path: 'goodsType',
+        child: {
+          hidden: false
+        },
+        component: () => import('@/views/config/goodsType.vue'),
+        meta: { title: 'GoodsType', icon: 'goodsType' }
       }
     ]
   },

@@ -17,3 +17,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.app-main {
+  margin: 10px;
+  min-height: calc(100% - 20px);
+  background-color: white;
+}
+</style>

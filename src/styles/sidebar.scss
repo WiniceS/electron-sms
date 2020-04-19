@@ -27,7 +27,11 @@
       width: 100%;
     }
     .svg-icon {
-      margin-right: 16px;
+      width: 2em;
+      height: 2em;
+      vertical-align: -0.65em;
+      fill: currentColor;
+      overflow: hidden;
     }
     .el-menu {
       border: none;
