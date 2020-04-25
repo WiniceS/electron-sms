@@ -14,6 +14,7 @@ import statistics from './moudles/statistics'
 import personal from './moudles/personal'
 import app from './moudles/app'
 import user from './moudles/user'
+import commodityUnit from './moudles/commodityUnit'
 
 Vue.use(Vuex)
 const state = initState()
@@ -31,7 +32,8 @@ const store = new Vuex.Store({
     statistics,
     personal,
     app,
-    user
+    user,
+    commodityUnit
   }
 })
 export default store

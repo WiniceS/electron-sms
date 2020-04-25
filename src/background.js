@@ -7,7 +7,6 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 const ipc = require('electron').ipcMain
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -26,8 +25,8 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1200,
-    height: 620,
+    width: 1000,
+    height: 640,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true
