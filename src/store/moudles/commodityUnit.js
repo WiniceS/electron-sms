@@ -1,12 +1,14 @@
 import { getAll } from '@/api/commodityUnit'
 
 const commodityUnit = {
-  state: {},
-
+  namespaced: true,
+  state: {
+    commodityUnitList: []
+  },
   mutations: {},
-
   actions: {
     async getAll() {
+      console.log('store')
       let res = await getAll()
       console.log('store', res)
       return res

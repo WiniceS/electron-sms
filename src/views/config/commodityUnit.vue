@@ -43,7 +43,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'GoodsType',
+  name: 'commodityUnit',
   data() {
     return {
       tableData: [
@@ -76,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['commodityUnitList'])
+    ...mapState('commodityUnit', ['commodityUnitList'])
   },
   methods: {
     ...mapActions('commodityUnit', ['getAll']),
@@ -90,6 +90,8 @@ export default {
     handleEdit(index, row) {},
     handleDelete(index, row) {},
     getAllUnit() {
+      console.log(this.commodityUnitList)
+      console.log(this)
       let res = this.getAll()
       console.log('最外层', res)
     }
