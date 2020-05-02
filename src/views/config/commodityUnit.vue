@@ -9,7 +9,7 @@
         size="small"
       >
         <el-form-item label="单位名称" prop="name">
-          <el-input v-model="formFilter.name" placeholder="请选择单位名称"></el-input>
+          <el-input v-model="formFilter.name" placeholder="请输入单位名称"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSearch">查询</el-button>
@@ -70,28 +70,6 @@ export default {
       formFilter: {
         name: ''
       },
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ],
       currentPage: 1,
       total: 0,
       pageSizes: [10, 20, 50],
@@ -148,7 +126,7 @@ export default {
     },
     onSubmit() {
       if (this.createForm.name === '') {
-        this.$message.error('商品名称不能为空')
+        this.$message.error('商品单位名称不能为空')
       }
       if (this.createForm.id === '') {
         this.add({ name: this.createForm.name })
