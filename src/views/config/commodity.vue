@@ -64,12 +64,74 @@
       :visible.sync="dialogFormVisible"
       class="commodity-dialog"
       @close="onClose"
+      width="70%"
     >
-      <el-form label-position="left" :model="createForm" ref="commodityCreateForm" size="small">
-        <el-form-item label="类型" prop="name">
-          <el-input v-model="createForm.name" autocomplete="off" style="width:70%"></el-input>
-        </el-form-item>
+      <el-form :model="createForm" :rules="rules" ref="createForm" label-width="120px" size="small">
+        <el-row class="commodity--dialog-form">
+          <el-col :span="12">
+            <el-form-item label="商品编号" prop="no">
+              <el-input v-model="createForm.no" placeholder="请输入商品编号" :style="{ width: '90%' }"></el-input>
+            </el-form-item>
+            <el-form-item label="商品名称" prop="name">
+              <el-input v-model="createForm.name" placeholder="请输入商品名称" :style="{ width: '90%' }"></el-input>
+            </el-form-item>
+            <el-form-item label="商品规格" prop="specification">
+              <el-input
+                v-model="createForm.specification"
+                placeholder="请输入商品规格"
+                :style="{ width: '90%' }"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="商品单位" prop="unit">
+              <el-select v-model="createForm.unit" placeholder="请选择单位" :style="{ width: '90%' }">
+                <el-option
+                  v-for="item in commodityUnitList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="商品品种" prop="variety">
+              <el-select v-model="createForm.variety" placeholder="请选择品类" :style="{ width: '90%' }">
+                <el-option
+                  v-for="item in goodsTypeList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="商品售价" prop="sell">
+              <el-input v-model="createForm.sell" placeholder="请输入商品售价" :style="{ width: '90%' }">
+                <template slot="append">元</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="商品成本" prop="cost">
+              <el-input v-model="createForm.cost" placeholder="请输入商品成本" :style="{ width: '90%' }">
+                <template slot="append">元</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="父商品编号">
+              <el-input
+                v-model="createForm.parentNo"
+                placeholder="请输入子商品编号"
+                :style="{ width: '90%' }"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="关系比例">
+              <el-input-number
+                v-model="createForm.ratio"
+                placeholder="请输入关系比例"
+                :style="{ width: '90%' }"
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="onClose" size="small">取 消</el-button>
         <el-button type="primary" @click="onSubmit" size="small">确 定</el-button>
@@ -97,9 +159,22 @@ export default {
       pageSize: 10,
       layout: 'total, sizes, prev, pager, next, jumper',
       dialogFormVisible: false,
-      createForm: {
-        name: '',
-        id: ''
+      createForm: {},
+      rules: {
+        no: [
+          { required: true, message: '请输入商品编号', trigger: 'blur' },
+          { min: 13, max: 13, message: '长度13个字符', trigger: 'blur' }
+        ],
+        name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
+        specification: [
+          { required: true, message: '请输入商品规格', trigger: 'blur' }
+        ],
+        unit: [
+          { required: true, message: '请选择活动资源', trigger: 'change' }
+        ],
+        variety: [
+          { required: true, message: '请选择活动资源', trigger: 'change' }
+        ]
       }
     }
   },
@@ -131,8 +206,7 @@ export default {
     },
     handleEdit(index, row) {
       this.dialogFormVisible = true
-      this.createForm.id = row.id
-      this.createForm.name = row.name
+      this.createForm = row
     },
     handleDelete(index, row) {
       this.$confirm('此操作将删除该商品, 是否继续?', '提示', {
@@ -175,14 +249,27 @@ export default {
     },
     onAdd() {
       this.dialogFormVisible = true
-      this.createForm.id = ''
-      this.createForm.name = ''
+      this.createForm = this.initCreateForm()
     },
     onSubmit() {
       if (this.createForm.id === '') {
-        this.add({ name: this.createForm.name })
+        this.$refs['commodityCreateForm'].validate(valid => {
+          if (valid) {
+            this.add(this.createForm)
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
       } else {
-        this.update({ id: this.createForm.id, name: this.createForm.name })
+        this.$refs['commodityCreateForm'].validate(valid => {
+          if (valid) {
+            this.update(this.createForm.id, this.createForm)
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
       }
       this.onClose()
     },
@@ -197,7 +284,22 @@ export default {
     onClose() {
       this.dialogFormVisible = false
       this.$refs['commodityCreateForm'].resetFields()
-      this.createForm.id = ''
+      this.createForm = this.initCreateForm()
+    },
+    initCreateForm() {
+      return {
+        name: '',
+        id: '',
+        no: '',
+        specification: '',
+        unit: '',
+        variety: '',
+        sell: 0.0,
+        cost: 0.0,
+        parentId: '',
+        parentNo: '',
+        radio: 0
+      }
     }
   },
   mounted() {

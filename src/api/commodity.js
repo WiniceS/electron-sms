@@ -3,8 +3,8 @@ import service from '../service'
 // console.log(ipc)
 
 const commodityApi = {
-  async add(name, userId) {
-    let res = await service.commodityService.add(name, userId)
+  async add(commodity, userId) {
+    let res = await service.commodityService.add(commodity, userId)
     return res
   },
   async getAll() {
@@ -19,8 +19,8 @@ const commodityApi = {
     let res = await service.commodityService.delete(id, userId)
     return res
   },
-  async update(id, name, userId) {
-    let res = await service.commodityService.update(id, name, userId)
+  async update(id, commodity, userId) {
+    let res = await service.commodityService.update(id, commodity, userId)
     return res
   }
 }

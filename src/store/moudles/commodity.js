@@ -30,16 +30,16 @@ const commodity = {
       let res = await commodityApi.getAllExtant()
       return commit('setCommodityList', res)
     },
-    async add({ dispatch, rootState }, { name }) {
-      await commodityApi.add(name, rootState.user.userId)
+    async add({ dispatch, rootState }, commodity) {
+      await commodityApi.add(commodity, rootState.user.userId)
       return dispatch('getAllExtant')
     },
     async delete({ commit, rootState }, { id }) {
       await commodityApi.delete(id, rootState.user.userId)
       return commit('deleteCommodityList')
     },
-    async update({ commit, rootState }, { id, name }) {
-      await commodityApi.update(id, name, rootState.user.userId)
+    async update({ commit, rootState }, id, commodity) {
+      await commodityApi.update(id, commodity, rootState.user.userId)
       return commit('modifyCommodityList')
     }
   }
