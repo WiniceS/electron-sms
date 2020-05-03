@@ -63,11 +63,15 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import _ from 'lodash'
 export default {
   name: 'goodsType',
   data() {
     return {
       formFilter: {
+        name: ''
+      },
+      filterValue: {
         name: ''
       },
       currentPage: 1,
@@ -87,16 +91,27 @@ export default {
     ...mapState(['winHeight']),
     dialogTitle() {
       return this.createForm.id === '' ? '新建商品类型' : '编辑商品类型'
+    },
+    goodsTypeFilterList() {
+      if (this.filterValue.name === '') {
+        return _.slice(
+          this.goodsTypeList,
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        )
+      } else {
+        return _.slice(
+          this.goodsTypeList.filter(
+            f => f.name.indexOf(this.filterValue.name) >= 0
+          ),
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        )
+      }
     }
   },
   methods: {
-    ...mapActions('goodsType', [
-      'getAllExtant',
-      'add',
-      'update',
-      'delete',
-      'search'
-    ]),
+    ...mapActions('goodsType', ['getAllExtant', 'add', 'update', 'delete']),
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
@@ -115,7 +130,7 @@ export default {
     onSearch() {
       if (this.formFilter.name != null) {
         if (this.goodsTypeList.length > 0) {
-          this.search({ name: this.formFilter.name })
+          this.filterValue.name = this.formFilter.name
         }
       }
     },

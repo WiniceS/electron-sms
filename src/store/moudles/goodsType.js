@@ -3,15 +3,9 @@ import goodsTypeApi from '@/api/goodsType'
 const goodsType = {
   namespaced: true,
   state: {
-    goodsTypeList: [],
-    filterNmae: ''
+    goodsTypeList: []
   },
   getters: {
-    filterGoodsTypeList(state) {
-      return state.goodsTypeList.filter(
-        f => f.name.indexOf(state.filterName) > 0
-      )
-    }
   },
   mutations: {
     setGoodsTypeList(state, list) {
@@ -26,9 +20,6 @@ const goodsType = {
     },
     deleteGoodsTypeList(state, { id }) {
       state.goodsTypeList = state.goodsTypeList.filter(f => f.id === id)
-    },
-    setFilterName(state, { name }) {
-      state.filterName = name
     }
   },
   actions: {
@@ -51,9 +42,6 @@ const goodsType = {
     async update({ commit, rootState }, { id, name }) {
       await goodsTypeApi.update(id, name, rootState.user.userId)
       return commit('modifyGoodsTypeList')
-    },
-    async search({ commit }, { name }) {
-      return commit('setFilterName', { name })
     }
   }
 }

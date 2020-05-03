@@ -3,15 +3,9 @@ import commodityUnitApi from '@/api/commodityUnit'
 const commodityUnit = {
   namespaced: true,
   state: {
-    commodityUnitList: [],
-    filterNmae: ''
+    commodityUnitList: []
   },
   getters: {
-    filterCommodityUnitList(state) {
-      return state.commodityUnitList.filter(
-        f => f.name.indexOf(state.filterName) > 0
-      )
-    }
   },
   mutations: {
     setCommodityUnitList(state, list) {
@@ -26,9 +20,6 @@ const commodityUnit = {
     },
     deleteCommodityUnitList(state, { id }) {
       state.commodityUnitList = state.commodityUnitList.filter(f => f.id === id)
-    },
-    setFilterName(state, { name }) {
-      state.filterName = name
     }
   },
   actions: {
@@ -51,9 +42,6 @@ const commodityUnit = {
     async update({ commit, rootState }, { id, name }) {
       await commodityUnitApi.update(id, name, rootState.user.userId)
       return commit('modifyCommodityUnitList')
-    },
-    async search({ commit }, { name }) {
-      return commit('setFilterName', { name })
     }
   }
 }

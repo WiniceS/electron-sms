@@ -21,7 +21,7 @@
       <el-button size="small" type="primary" @click="onAdd">新建</el-button>
     </el-row>
     <el-row class="commodity-unit-table">
-      <el-table :data="commodityUnitList" stripe border :height="winHeight-150">
+      <el-table :data="commodityUnitFilterList" stripe border :height="winHeight-150">
         >
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column label="单位名称" width="180" prop="name"></el-table-column>
@@ -63,6 +63,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import _ from 'lodash'
 export default {
   name: 'commodityUnit',
   data() {
@@ -70,6 +71,7 @@ export default {
       formFilter: {
         name: ''
       },
+      filterValue: {},
       currentPage: 1,
       total: 0,
       pageSizes: [10, 20, 50],
@@ -87,16 +89,32 @@ export default {
     ...mapState(['winHeight']),
     dialogTitle() {
       return this.createForm.id === '' ? '新建商品单位' : '编辑商品单位'
+    },
+    commodityUnitFilterList() {
+      if (this.filterValue.name === '') {
+        return _.slice(
+          this.commodityUnitList,
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        )
+      } else {
+        return _.slice(
+          this.commodityUnitList.filter(
+            f => f.name.indexOf(this.filterValue.name) >= 0
+          ),
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        )
+      }
     }
   },
   methods: {
-    ...mapActions('commodityUnit', [
-      'getAllExtant',
-      'add',
-      'update',
-      'delete',
-      'search'
-    ]),
+    ...mapActions('commodityUnit', ['getAllExtant', 'add', 'update', 'delete']),
+    createSearch() {
+      this.filterValue = {
+        name: ''
+      }
+    },
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
@@ -115,7 +133,7 @@ export default {
     onSearch() {
       if (this.formFilter.name != null) {
         if (this.commodityUnitList.length > 0) {
-          this.search({ name: this.formFilter.name })
+          this.filterValue.name = this.formFilter.name
         }
       }
     },
@@ -136,7 +154,8 @@ export default {
       this.onClose()
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields()
+      this.filterValue = this.$refs[formName].resetFields()
+      this.createSearch()
     },
     onClose() {
       this.dialogFormVisible = false
@@ -148,6 +167,7 @@ export default {
     if (this.commodityUnitList.length <= 0) {
       this.getAllExtant()
     }
+    this.createSearch()
   }
 }
 </script>
