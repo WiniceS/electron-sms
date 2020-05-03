@@ -2,7 +2,7 @@ import db from '../db/index'
 import moment from 'moment'
 const uuid = require('node-uuid')
 
-const commodityUnitService = {
+const commodityService = {
   async getAll() {
     let _sql = 'select * from c_goods_t'
     let res = await db.query(_sql)
@@ -30,4 +30,4 @@ const commodityUnitService = {
   }
 }
 
-export default commodityUnitService
+export default commodityService

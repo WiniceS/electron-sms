@@ -1,7 +1,7 @@
 import commodityUnitService from './commodityUnitService'
 import goodsTypeService from './goodsTypeService'
-import goodsService from './goodsService'
+import commodityService from './commodityService'
 
-const services = { commodityUnitService, goodsTypeService, goodsService }
+const services = { commodityUnitService, goodsTypeService, commodityService }
 
 export default services

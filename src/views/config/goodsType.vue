@@ -71,9 +71,7 @@ export default {
       formFilter: {
         name: ''
       },
-      filterValue: {
-        name: ''
-      },
+      filterValue: {},
       currentPage: 1,
       total: 0,
       pageSizes: [10, 20, 50],
@@ -112,6 +110,11 @@ export default {
   },
   methods: {
     ...mapActions('goodsType', ['getAllExtant', 'add', 'update', 'delete']),
+    createSearch() {
+      this.filterValue = {
+        name: ''
+      }
+    },
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
@@ -125,7 +128,25 @@ export default {
       this.createForm.name = row.name
     },
     handleDelete(index, row) {
-      this.delete({ id: row.id })
+      this.$confirm('此操作将删除该类型, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.delete({ id: row.id })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
+          })
+      })
     },
     onSearch() {
       if (this.formFilter.name != null) {
@@ -152,6 +173,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+      this.createSearch()
     },
     onClose() {
       this.dialogFormVisible = false

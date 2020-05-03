@@ -128,7 +128,25 @@ export default {
       this.createForm.name = row.name
     },
     handleDelete(index, row) {
-      this.delete({ id: row.id })
+      this.$confirm('此操作将删除该单位, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.delete({ id: row.id })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
+          })
+      })
     },
     onSearch() {
       if (this.formFilter.name != null) {
