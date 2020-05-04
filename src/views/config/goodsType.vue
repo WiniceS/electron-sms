@@ -210,7 +210,7 @@ export default {
   margin: 5px 10px;
 }
 .goods-type-dialog {
-  .el-table__body {
+  .el-dialog__body {
     padding: 5px 10px;
   }
 }

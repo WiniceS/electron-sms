@@ -10,10 +10,10 @@ const commodity = {
     setCommodityList(state, list) {
       state.commodityList = list
     },
-    modifyCommodityList(state, { id, name }) {
+    modifyCommodityList(state, commodity) {
       state.commodityList.forEach(e => {
-        if (e.id === id) {
-          e.name = name
+        if (e.id === commodity.id) {
+          e = commodity
         }
       })
     },
@@ -26,8 +26,16 @@ const commodity = {
       let res = await commodityApi.getAll()
       return commit('setCommodityList', res)
     },
-    async getAllExtant({ commit }) {
+    async getAllExtant({ commit, rootState }) {
       let res = await commodityApi.getAllExtant()
+
+      res = res.map(m => {
+        let nameList = rootState.goodsType.goodsTypeList.filter(
+          f => f.id === m.variety
+        )
+        m.varietyName = nameList.length > 0 ? nameList[0].name : ''
+        return m
+      })
       return commit('setCommodityList', res)
     },
     async add({ dispatch, rootState }, commodity) {
@@ -38,9 +46,13 @@ const commodity = {
       await commodityApi.delete(id, rootState.user.userId)
       return commit('deleteCommodityList')
     },
-    async update({ commit, rootState }, id, commodity) {
+    async update({ commit, rootState }, {id, commodity}) {
       await commodityApi.update(id, commodity, rootState.user.userId)
-      return commit('modifyCommodityList')
+      let nameList = rootState.goodsType.goodsTypeList.filter(
+        f => f.id === commodity.variety
+      )
+      commodity.varietyName = nameList.length > 0 ? nameList[0].name : ''
+      return commit('modifyCommodityList', commodity)
     }
   }
 }

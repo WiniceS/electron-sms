@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'App',
   data() {
@@ -14,9 +14,17 @@ export default {
     window.addEventListener('resize', this.getResize)
   },
   computed: {
-    ...mapState(['winHeight', 'winWidth'])
+    ...mapState(['winHeight', 'winWidth']),
+    ...mapState('goodsType', ['goodsTypeList']),
+    ...mapState('commodityUnit', ['commodityUnitList'])
   },
   methods: {
+    ...mapActions('goodsType', {
+      getGoodsType: 'getAllExtant'
+    }),
+    ...mapActions('commodityUnit', {
+      getCommodityUnit: 'getAllExtant'
+    }),
     ...mapMutations({
       setWindowWidth: 'SET_WINWIDTH',
       setWindowHeight: 'SET_WINHEIGHT'
@@ -24,6 +32,14 @@ export default {
     getResize() {
       this.setWindowWidth(window.innerWidth)
       this.setWindowHeight(window.innerHeight)
+    }
+  },
+  mounted() {
+    if (this.goodsTypeList.length <= 0) {
+      this.getGoodsType()
+    }
+    if (this.commodityUnitList.length <= 0) {
+      this.getCommodityUnit()
     }
   }
 }

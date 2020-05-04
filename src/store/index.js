@@ -7,7 +7,7 @@ import getters from './getters'
 import mutations from './mutations'
 import { initState } from './initState'
 import deal from './moudles/deal'
-import input from './moudles/input'
+import warehousing from './moudles/warehousing'
 import gearning from './moudles/earning'
 import expend from './moudles/expend'
 import statistics from './moudles/statistics'
@@ -28,7 +28,7 @@ const store = new Vuex.Store({
   mutations,
   modules: {
     deal,
-    input,
+    warehousing,
     gearning,
     expend,
     statistics,

@@ -40,18 +40,18 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/input',
+    path: '/warehousing',
     component: Layout,
-    redirect: '/input/input',
-    name: 'InputCompilations',
-    meta: { title: 'InputCompilations', icon: 'input' },
+    redirect: '/warehousing/warehousing',
+    name: 'WarehousingCompilations',
+    meta: { title: 'WarehousingCompilations', icon: 'warehousing' },
     hidden: false,
     children: [
       {
-        name: 'Input',
-        path: 'input',
-        component: () => import('@/views/input/index'),
-        meta: { title: 'Input', icon: 'input' }
+        name: 'Warehousing',
+        path: 'warehousing',
+        component: () => import('@/views/warehousing/index'),
+        meta: { title: 'Warehousing', icon: 'warehousing' }
       }
     ]
   },
@@ -71,15 +71,6 @@ export const constantRouterMap = [
         },
         component: () => import('@/views/statistics/index'),
         meta: { title: 'Statistics', icon: 'statistics' }
-      },
-      {
-        name: 'Test',
-        path: 'test',
-        child: {
-          hidden: false
-        },
-        component: () => import('@/views/input/index'),
-        meta: { title: 'Test', icon: 'config' }
       }
     ]
   },

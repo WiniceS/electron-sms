@@ -1,11 +1,11 @@
 <template>
-  <div class="commodity">
-    <el-row class="commodity-filter">
+  <div class="goods-warehousing">
+    <el-row class="goods-warehousing-filter">
       <el-form
-        ref="commodityForm"
+        ref="goods-warehousingForm"
         :inline="true"
         :model="formFilter"
-        class="commodity-filter-form"
+        class="goods-warehousing-filter-form"
         size="small"
       >
         <el-form-item label="商品编号" prop="no">
@@ -26,22 +26,21 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSearch">查询</el-button>
-          <el-button @click="resetForm('commodityForm')">重置</el-button>
+          <el-button @click="resetForm('goods-warehousingForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-row>
-    <el-row justify="start" class="commodity-action">
+    <el-row justify="start" class="goods-warehousing-action">
       <el-button size="small" type="primary" @click="onAdd">新建</el-button>
     </el-row>
-    <el-row class="commodity-table">
-      <el-table :data="commodityFilterList" stripe border :height="winHeight-150">
-        >
+    <el-row class="goods-warehousing-table">
+      <el-table :data="warehousingFilterList" stripe border :height="winHeight-150">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column label="商品编号" width="180" prop="no"></el-table-column>
         <el-table-column label="商品名称" width="180" prop="name"></el-table-column>
         <el-table-column label="商品描述" min-width="180" prop="specification"></el-table-column>
         <el-table-column label="商品类型" width="180" prop="varietyName"></el-table-column>
-        <el-table-column label="商品售价" width="180" prop="sell"></el-table-column>
+        <el-table-column label="库存数量" width="180" prop="quantity"></el-table-column>
         <el-table-column label="操作" min-width="150">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -62,79 +61,25 @@
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogFormVisible"
-      class="commodity-dialog"
+      class="goods-warehousing-dialog"
       @close="onClose"
-      width="70%"
+      width="50%"
     >
-      <el-form
-        :model="createForm"
-        :rules="rules"
-        ref="commodityCreateForm"
-        label-width="120px"
-        size="small"
-      >
-        <el-row class="commodity--dialog-form">
-          <el-col :span="12">
-            <el-form-item label="商品编号" prop="no">
-              <el-input v-model="createForm.no" placeholder="请输入商品编号" :style="{ width: '90%' }"></el-input>
-            </el-form-item>
-            <el-form-item label="商品名称" prop="name">
-              <el-input v-model="createForm.name" placeholder="请输入商品名称" :style="{ width: '90%' }"></el-input>
-            </el-form-item>
-            <el-form-item label="商品规格" prop="specification">
-              <el-input
-                v-model="createForm.specification"
-                placeholder="请输入商品规格"
-                :style="{ width: '90%' }"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="商品单位" prop="unit">
-              <el-select v-model="createForm.unit" placeholder="请选择单位" :style="{ width: '90%' }">
-                <el-option
-                  v-for="item in commodityUnitList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="商品品种" prop="variety">
-              <el-select v-model="createForm.variety" placeholder="请选择品类" :style="{ width: '90%' }">
-                <el-option
-                  v-for="item in goodsTypeList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="商品售价" prop="sell">
-              <el-input v-model="createForm.sell" placeholder="请输入商品售价" :style="{ width: '90%' }">
-                <template slot="append">元</template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="商品成本" prop="cost">
-              <el-input v-model="createForm.cost" placeholder="请输入商品成本" :style="{ width: '90%' }">
-                <template slot="append">元</template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="父商品编号">
-              <el-input
-                v-model="createForm.parentNo"
-                placeholder="请输入父商品编号"
-                :style="{ width: '90%' }"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="关系比例">
-              <el-input-number
-                v-model="createForm.radio"
-                placeholder="请输入关系比例"
-                :style="{ width: '90%' }"
-              ></el-input-number>
-            </el-form-item>
-          </el-col>
+      <el-form :model="createForm" ref="warehousingCreateForm" label-width="120px" size="small">
+        <el-row class="goods-warehousing--dialog-form">
+          <el-form-item label="商品编号" prop="no">
+            <el-input v-model="createForm.no" placeholder="请输入商品编号" :style="{ width: '90%' }"></el-input>
+          </el-form-item>
+          <el-form-item label="商品名称" prop="name">
+            <span>{{createForm.name}}</span>
+          </el-form-item>
+          <el-form-item label="关系比例">
+            <el-input-number
+              v-model="createForm.radio"
+              placeholder="请输入关系比例"
+              :style="{ width: '90%' }"
+            ></el-input-number>
+          </el-form-item>
         </el-row>
       </el-form>
 
@@ -150,7 +95,7 @@
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 export default {
-  name: 'commodity',
+  name: 'warehousing',
   data() {
     return {
       formFilter: {
@@ -158,43 +103,26 @@ export default {
         name: '',
         variety: ''
       },
-      commodityFilterList: [],
+      warehousingFilterList: [],
       currentPage: 1,
       total: 0,
       pageSizes: [10, 20, 50],
       pageSize: 10,
       layout: 'total, sizes, prev, pager, next, jumper',
       dialogFormVisible: false,
-      createForm: {},
-      rules: {
-        no: [
-          { required: true, message: '请输入商品编号', trigger: 'blur' },
-          { min: 13, max: 13, message: '长度13个字符', trigger: 'blur' }
-        ],
-        name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
-        specification: [
-          { required: true, message: '请输入商品规格', trigger: 'blur' }
-        ],
-        unit: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
-        ],
-        variety: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
-        ]
-      }
+      createForm: {}
     }
   },
   computed: {
-    ...mapState('commodity', ['commodityList']),
-    ...mapState('goodsType', ['goodsTypeList']),
-    ...mapState('commodityUnit', ['commodityUnitList']),
     ...mapState(['winHeight']),
+    ...mapState('warehousing', ['warehousingList']),
+    ...mapState('goodsType', ['goodsTypeList']),
     dialogTitle() {
-      return this.createForm.id === '' ? '新建商品' : '编辑商品'
+      return this.createForm.id === '' ? '新建商品库存' : '修改商品库存'
     }
   },
   methods: {
-    ...mapActions('commodity', ['getAllExtant', 'add', 'update', 'delete']),
+    ...mapActions('warehousing', ['getAllExtant', 'add', 'update', 'delete']),
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
@@ -230,8 +158,8 @@ export default {
       })
     },
     onSearch() {
-      this.commodityFilterList = _.slice(
-        this.commodityList.filter(
+      this.warehousingFilterList = _.slice(
+        this.warehousingList.filter(
           f =>
             (this.formFilter.name === ''
               ? true
@@ -253,7 +181,7 @@ export default {
     },
     onSubmit() {
       if (this.createForm.id === '') {
-        this.$refs['commodityCreateForm'].validate(valid => {
+        this.$refs['warehousingCreateForm'].validate(valid => {
           if (valid) {
             this.add(this.createForm)
           } else {
@@ -262,9 +190,12 @@ export default {
           }
         })
       } else {
-        this.$refs['commodityCreateForm'].validate(valid => {
+        this.$refs['warehousingCreateForm'].validate(valid => {
           if (valid) {
-            this.update({ id: this.createForm.id, commodity: this.createForm })
+            this.update({
+              id: this.createForm.id,
+              warehousing: this.createForm
+            })
           } else {
             console.log('error submit!!')
             return false
@@ -275,15 +206,15 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-      this.commodityFilterList = _.slice(
-        this.commodityList,
+      this.warehousingFilterList = _.slice(
+        this.warehousingList,
         (this.currentPage - 1) * this.pageSize,
         this.currentPage * this.pageSize
       )
     },
     onClose() {
       this.dialogFormVisible = false
-      this.$refs['commodityCreateForm'].resetFields()
+      this.$refs['warehousingCreateForm'].resetFields()
       this.createForm = this.initCreateForm()
     },
     initCreateForm() {
@@ -291,34 +222,17 @@ export default {
         name: '',
         id: '',
         no: '',
-        specification: '',
-        unit: '',
-        variety: '',
-        sell: 0.0,
-        cost: 0.0,
-        parentId: '',
-        parentNo: '',
-        radio: 0
+        quantity: 0
       }
     }
-  },
-  mounted() {
-    if (this.commodityList.length <= 0) {
-      this.getAllExtant()
-    }
-    this.commodityFilterList = _.slice(
-      this.commodityList,
-      (this.currentPage - 1) * this.pageSize,
-      this.currentPage * this.pageSize
-    )
   }
 }
 </script>
 
 <style lang="scss">
-.commodity-filter {
+.goods-warehousing-filter {
   padding: 5px 10px;
-  .commodity-filter-form {
+  .goods-warehousing-filter-form {
     display: flex;
     justify-self: start;
     .el-form-item {
@@ -326,16 +240,16 @@ export default {
     }
   }
 }
-.commodity-action {
+.goods-warehousing-action {
   padding: 5px 10px;
   display: flex;
   justify-self: start;
 }
-.commodity-table {
+.goods-warehousing-table {
   width: calc(100% - 20px);
   margin: 5px 10px;
 }
-.commodity-dialog {
+.goods-warehousing-dialog {
   .el-dialog__body {
     padding: 5px 10px;
   }

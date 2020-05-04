@@ -13,6 +13,11 @@ const commodityService = {
     let res = await db.query(_sql)
     return res
   },
+  async getByNo(no) {
+    let _sql = `select * from c_goods_t where deleted = '0' and no ='${no}'`
+    let res = await db.query(_sql)
+    return res
+  },
   async add(commodity, userId) {
     if (commodity.parentNo !== '') {
       let _sqlParent = `select * from c_goods_t where deleted = '0' and id = '${commodity.parentId}'`
@@ -33,19 +38,19 @@ const commodityService = {
   },
   async update(id, commodity, userId) {
     if (commodity.parentNo !== '') {
-      let _sqlParent = `select * from c_goods_t where deleted = '0' and id = '${commodity.parentId}'`
+      let _sqlParent = `select * from c_goods_t where deleted = '0' and no = '${commodity.parentNo}'`
       let parent = await db.query(_sqlParent)
       if (!(parent === null || parent === '' || parent.length === 0)) {
-        commodity.parentId = parent.id
+        commodity.parentId = parent[0].id
       }
     }
     let _sql = `update c_goods_t set no='${commodity.no}',name='${
       commodity.name
-    }',name='${commodity.specification}',name='${commodity.unit}',name='${
-      commodity.variety
-    }',name='${commodity.sell}',name='${commodity.cost}',name='${
-      commodity.parentId
-    }',name='${
+    }',specification='${commodity.specification}',unit='${
+      commodity.unit
+    }',variety='${commodity.variety}',sell='${commodity.sell}',cost='${
+      commodity.cost
+    }',parentId='${commodity.parentId}',radio='${
       commodity.radio
     }',modifier='${userId}',modifyTime='${moment().format(
       'YYYY/MM/DD hh:mm:ss'
