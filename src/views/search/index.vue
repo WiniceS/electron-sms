@@ -5,6 +5,14 @@
     </el-row>
     <el-row class="search-table">
       <el-col :span="12">
+        <el-image :src="src">
+          <div slot="placeholder" class="image-slot">
+            加载中
+            <span class="dot">...</span>
+          </div>
+        </el-image>
+      </el-col>
+      <el-col :span="12">
         <el-form :model="showForm" ref="searchCreateForm" label-width="120px" size="small">
           <el-row class="search-show-form">
             <el-form-item label="商品名称" prop="name">
@@ -36,7 +44,9 @@ export default {
   data() {
     return {
       number: '',
-      showForm: {}
+      showForm: {},
+      src:
+        'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
     }
   },
   computed: {

@@ -1,112 +1,53 @@
 <template>
-  <div class="goods-deal">
-    <div class="goods-deal-input">
-      <div class="goods-deal-input-id">
-        <el-input class="goods-deal-input-goodid" v-model="goodId" placeholder="请输入商品编号"></el-input>
-        <el-button class="goods-deal-input-add" type="primary" @click="addGoodInSell">添加</el-button>
-      </div>
-    </div>
-    <el-table
-      class="goods-deal-tabel"
-      :data="computedDealList"
-      :summary-method="getSummaries"
-      show-summary
-      stripe
-      :height="400"
-      :style="{ width: '100%;' }"
-      border
-    >
-      <el-table-column
-        prop="good_id"
-        label="商品编号"
-        header-align="center"
-        show-overflow-tooltip
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="good_name"
-        label="商品名称"
-        header-align="center"
-        show-overflow-tooltip
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="good_specification"
-        label="商品规格"
-        header-align="center"
-        show-overflow-tooltip
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="good_sell"
-        label="商品售价"
-        header-align="center"
-        show-overflow-tooltip
-        align="center"
-        width="80"
-      ></el-table-column>
-      <el-table-column
-        prop="good_sell_number"
-        label="商品数量"
-        header-align="center"
-        show-overflow-tooltip
-        width="80"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="discounts"
-        label="优惠金额"
-        header-align="center"
-        show-overflow-tooltip
-        width="160"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-input-number
-            size="mini"
-            :value="sale"
-            :min="0"
-            :max="scope.row.good_sell"
-            :precision="2"
-            :controls="false"
-            placeholder="请输入优惠金额"
-            @input="changeDiscounts($event, scope.row.good_id)"
-          ></el-input-number>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="subtotal"
-        label="小计"
-        header-align="center"
-        show-overflow-tooltip
-        width="100"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        label="操作"
-        header-align="center"
-        show-overflow-tooltip
-        width="180"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-button size="mini" title="数量减1" @click="minusDealList(scope.row.good_id)">-</el-button>
-          <el-button size="mini" title="数量加1" @click="plusDealList(scope.row.good_id)">+</el-button>
-          <el-button size="mini" type="danger" @click="delDealList(scope.row.good_id)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="goods-deal-button">
+  <div class="deal">
+    <el-row class="deal-input">
+      <el-input class="deal-input-goodid" v-model="goodId" placeholder="请输入商品编号"></el-input>
+      <el-button class="deal-input-add" type="primary" @click="addGoodInSell">添加</el-button>
+    </el-row>
+    <el-row>
+      <span>合计:{{sale}}</span>
+    </el-row>
+    <el-row class="commodity-table">
+      <el-table :data="commodityFilterList" stripe border :height="winHeight-150">
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column label="商品编号" width="180" prop="no"></el-table-column>
+        <el-table-column label="商品名称" width="180" prop="name"></el-table-column>
+        <el-table-column label="商品描述" min-width="180" prop="specification"></el-table-column>
+        <el-table-column label="商品类型" width="180" prop="varietyName"></el-table-column>
+        <el-table-column label="商品售价" width="180" prop="sell"></el-table-column>
+        <el-table-column label="商品数量" width="180" prop="quantity">
+          <template slot-scope="scope">
+            <el-input-number v-model="scope.row.quantity" @change="handleChange" :min="0"></el-input-number>
+          </template>
+        </el-table-column>
+        <el-table-column label="优惠" width="180" prop="discounts">
+          <template slot-scope="scope">
+            <el-input-number
+              v-model="scope.row.discounts"
+              @change="handleChange"
+              :min="0"
+              :controls="false"
+            ></el-input-number>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" min-width="60">
+          <template slot-scope="scope">
+            <el-button size="mini" type="danger" @click="delDealList(scope.row.good_id)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-row>
+    <el-row class="deal-button">
       <el-button type="warning" @click="clearDeal">清空</el-button>
       <el-button type="primary" :style="{ width: '150px' }" @click="settleAccounts">确认</el-button>
-    </div>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 export default {
-  name: 'Deal',
+  name: 'deal',
   data() {
     return {
       goodId: '',
@@ -119,45 +60,8 @@ export default {
     ...mapGetters('deal', ['computedDealList'])
   },
   methods: {
-    ...mapActions('deal', ['onSale', 'getGoodInfoById', 'sell']),
-    ...mapMutations('deal', {
-      clearDealList: 'CLEAR_DEAL_LIST',
-      delDealList: 'DEL_DEAL_LIST',
-      plusDealList: 'PLUS_DEAL_LIST',
-      minusDealList: 'MINUS_DEAL_LIST',
-      modifyDiscounts: 'MODIFY_DISCOUNTS'
-    }),
-    // 自定义合计栏样式
-    getSummaries(param) {
-      const { columns, data } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '合计'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return prev + curr
-            } else {
-              return prev
-            }
-          }, 0)
-        } else {
-          sums[index] = ''
-        }
-        if (column.property === 'goodsSell') {
-          sums[index] = ''
-        }
-        if (column.property === 'subtotal') {
-          sums[index] += ' 元'
-        }
-      })
-      return sums
-    },
+    ...mapActions('deal', ['sell']),
+    ...mapActions('commodity', ['getByNo']),
     // 查询商品后添加到销售列表中
     addGoodInSell() {
       if (this.goodId.length > 0) {
@@ -179,19 +83,9 @@ export default {
         })
       }
     },
-    changeDiscounts(value, id) {
-      this.$nextTick(() => {
-        this.modifyDiscounts({ value, id })
-      })
-    },
     // 删除一行销售商品
     handleDelete(id) {
       this.delDealList(id)
-    },
-    onSaleNumber() {
-      if (this.sale > 0) {
-        this.onSale(this.sale)
-      }
     },
     // 清空销售列表
     clearDeal() {
@@ -225,37 +119,37 @@ export default {
 </script>
 
 <style lang="scss">
-.goods-deal {
+.deal {
   display: none;
-  .goods-deal-input {
+  .deal-input {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .goods-deal-input-id {
+    .deal-input-id {
       width: 700px;
       display: flex;
       justify-content: space-between;
 
-      .goods-deal-input-goodid {
+      .deal-input-goodid {
         width: 500px;
       }
 
-      .goods-deal-input-add {
+      .deal-input-add {
         width: 150px;
       }
     }
   }
 
-  .goods-deal-button {
+  .deal-button {
     height: 50px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
   }
 
-  .goods-deal-sale {
+  .deal-sale {
     display: flex;
     justify-content: space-between;
     align-items: center;
