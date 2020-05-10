@@ -24,6 +24,22 @@ export const constantRouterMap = [
   },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
+    path: '/search',
+    component: Layout,
+    redirect: '/search/search',
+    name: 'SearchCompilations',
+    meta: { title: 'SearchCompilations', icon: 'search' },
+    hidden: false,
+    children: [
+      {
+        name: 'Search',
+        path: 'search',
+        component: () => import('@/views/search/index'),
+        meta: { title: 'Search', icon: 'search' }
+      }
+    ]
+  },
+  {
     path: '/deal',
     component: Layout,
     redirect: '/deal/deal',
