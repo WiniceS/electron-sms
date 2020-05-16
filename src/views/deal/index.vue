@@ -1,26 +1,30 @@
 <template>
   <div class="deal">
     <el-row class="deal-input">
-      <el-input
-        class="deal-input-goodid"
-        v-model="goodId"
-        placeholder="请输入商品编号"
-      ></el-input>
-      <el-button
-        class="deal-input-add"
-        type="primary"
-        @click="addGoodInSell"
-      >添加</el-button>
+      <el-col :span="12">
+        <el-input
+          class="deal-input-goodid"
+          v-model="goodNo"
+          placeholder="请输入商品编号"
+        ></el-input>
+      </el-col>
+      <el-col :span="4">
+        <el-button
+          class="deal-input-add"
+          type="primary"
+          @click="addGoodInSell"
+        >添加</el-button>
+      </el-col>
+      <el-col :span="7">
+        <span class="deal-sale">合计:{{sale}}元</span>
+      </el-col>
     </el-row>
-    <el-row>
-      <span>合计:{{sale}}</span>
-    </el-row>
-    <el-row class="commodity-table">
+    <el-row class="deal-table">
       <el-table
         :data="dealRecords"
         stripe
         border
-        :height="winHeight-150"
+        :height="winHeight-130"
       >
         <el-table-column
           type="index"
@@ -59,8 +63,9 @@
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.quantity"
-              @change="handleChange"
+              @change="handleChange(scope.row)"
               :min="0"
+              size="mini"
             ></el-input-number>
           </template>
         </el-table-column>
@@ -72,9 +77,9 @@
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.discounts"
-              @change="handleChange"
               :min="0"
               :controls="false"
+              size="mini"
             ></el-input-number>
           </template>
         </el-table-column>
@@ -86,7 +91,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="delDealList(scope.row.good_id)"
+              @click="delDealList(scope.row.id)"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -107,32 +112,42 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'deal',
   data() {
     return {
-      goodId: '',
-      sale: 0,
+      goodNo: '',
       dealRecords: []
     }
   },
   computed: {
-    ...mapState('deal', []),
     ...mapState(['winHeight']),
-    ...mapGetters('deal', ['computedDealList'])
+    sale() {
+      let tmp = 0
+      if (this.dealRecords.length > 0) {
+        this.dealRecords.forEach(f => {
+          tmp += f.sell * f.quantity - f.discounts
+        })
+      }
+      return tmp
+    }
   },
   methods: {
     ...mapActions('deal', ['sell']),
     ...mapActions('commodity', ['getByNo']),
     // 查询商品后添加到销售列表中
     addGoodInSell() {
-      if (this.goodId.length > 0) {
+      if (this.goodNo.length > 0) {
         const re = /^[0-9]{13}$/
-        let tmp = this.goodId.search(re)
+        let tmp = this.goodNo.search(re)
         if (tmp > -1) {
-          this.getGoodInfoById(this.goodId)
-          this.goodId = ''
+          this.getByNo({ no: this.goodNo }).then(res => {
+            res.quantity = 1
+            res.discounts = 0
+            this.dealRecords.push(res)
+          })
+          this.goodNo = ''
         } else {
           this.$message({
             type: 'warning',
@@ -146,9 +161,14 @@ export default {
         })
       }
     },
+    handleChange(row) {
+      if (Math.round(row.quantity) === 0) {
+        this.handleDelete(row.id)
+      }
+    },
     // 删除一行销售商品
     handleDelete(id) {
-      this.delDealList(id)
+      this.dealRecords = this.dealRecords.filter(f => f.id !== id)
     },
     // 清空销售列表
     clearDeal() {
@@ -158,7 +178,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.clearDealList()
+          this.dealRecords = []
         })
         .catch(() => {
           console.log('取消清空')
@@ -166,9 +186,9 @@ export default {
     },
     // 结算
     settleAccounts() {
-      this.sell()
+      this.sell({ record: this.dealRecords })
         .then(() => {
-          this.goodId = ''
+          this.goodNo = ''
         })
         .catch(e => {
           this.$message({
@@ -183,38 +203,25 @@ export default {
 
 <style lang="scss">
 .deal {
-  display: none;
   .deal-input {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    .deal-input-id {
-      width: 700px;
-      display: flex;
-      justify-content: space-between;
-
-      .deal-input-goodid {
-        width: 500px;
-      }
-
-      .deal-input-add {
-        width: 150px;
-      }
+    .deal-sale {
+      font-size: 160%;
+      font-weight: bold;
     }
   }
-
+  .deal-table {
+    width: calc(100% - 20px);
+    margin: 5px 10px;
+  }
   .deal-button {
-    height: 50px;
+    margin-top: 5px;
+    margin-right: 10px;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-  }
-
-  .deal-sale {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
   }
 }

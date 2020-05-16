@@ -1,11 +1,15 @@
-// import dealApi from '@/api/deal'
+import dealApi from '@/api/deal'
 
 const deal = {
   namespaced: true,
   state: {},
   getters: {},
   mutations: {},
-  actions: {}
+  actions: {
+    async sell({ rootState }, { record }) {
+      await dealApi.sell(record, rootState.user.userId)
+    }
+  }
 }
 
 export default deal
