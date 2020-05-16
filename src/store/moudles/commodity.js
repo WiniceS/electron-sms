@@ -46,13 +46,18 @@ const commodity = {
       await commodityApi.delete(id, rootState.user.userId)
       return commit('deleteCommodityList')
     },
-    async update({ commit, rootState }, {id, commodity}) {
+    async update({ commit, rootState }, { id, commodity }) {
       await commodityApi.update(id, commodity, rootState.user.userId)
       let nameList = rootState.goodsType.goodsTypeList.filter(
         f => f.id === commodity.variety
       )
       commodity.varietyName = nameList.length > 0 ? nameList[0].name : ''
       return commit('modifyCommodityList', commodity)
+    },
+    async getByNo({ commit }, { no }) {
+      let res = await commodityApi.getByNo(no)
+      res = res.length > 0 ? res[0] : {}
+      return res
     }
   }
 }

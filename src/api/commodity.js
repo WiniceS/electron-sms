@@ -22,6 +22,10 @@ const commodityApi = {
   async update(id, commodity, userId) {
     let res = await service.commodityService.update(id, commodity, userId)
     return res
+  },
+  async getByNo(no) {
+    let res = await service.commodityService.getByNo(no)
+    return res
   }
 }
 

@@ -14,7 +14,24 @@ const commodityService = {
     return res
   },
   async getByNo(no) {
-    let _sql = `select * from c_goods_t where deleted = '0' and no ='${no}'`
+    let _sql = `SELECT
+    g.id,
+    g.no,
+    g.name,
+    g.specification,
+    g.unit,
+    g.variety,
+    g.sell,
+    v.name AS varietyName,
+    g.cost,
+    g.parentId,
+    g.radio 
+  FROM
+    c_goods_t AS g
+    INNER JOIN c_variety_t AS v ON g.variety = v.id 
+  WHERE
+    g.deleted = '0' 
+    AND g.no = '${no}'`
     let res = await db.query(_sql)
     return res
   },
