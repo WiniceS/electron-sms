@@ -26,16 +26,8 @@ const warehousing = {
       let res = await warehousingApi.getAll()
       return commit('setWarehousingList', res)
     },
-    async getAllExtant({ commit, rootState }) {
+    async getAllExtant({ commit }) {
       let res = await warehousingApi.getAllExtant()
-
-      res = res.map(m => {
-        let nameList = rootState.goodsType.goodsTypeList.filter(
-          f => f.id === m.variety
-        )
-        m.varietyName = nameList.length > 0 ? nameList[0].name : ''
-        return m
-      })
       return commit('setWarehousingList', res)
     },
     async add({ dispatch, rootState }, warehousing) {
