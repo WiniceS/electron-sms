@@ -37,11 +37,11 @@ const goodsType = {
     },
     async delete({ commit, rootState }, { id }) {
       await goodsTypeApi.delete(id, rootState.user.userId)
-      return commit('deleteGoodsTypeList')
+      return commit('deleteGoodsTypeList', { id })
     },
     async update({ commit, rootState }, { id, name }) {
       await goodsTypeApi.update(id, name, rootState.user.userId)
-      return commit('modifyGoodsTypeList')
+      return commit('modifyGoodsTypeList', { id, name })
     }
   }
 }

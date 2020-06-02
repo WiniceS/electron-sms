@@ -37,11 +37,11 @@ const commodityUnit = {
     },
     async delete({ commit, rootState }, { id }) {
       await commodityUnitApi.delete(id, rootState.user.userId)
-      return commit('deleteCommodityUnitList')
+      return commit('deleteCommodityUnitList', { id })
     },
     async update({ commit, rootState }, { id, name }) {
       await commodityUnitApi.update(id, name, rootState.user.userId)
-      return commit('modifyCommodityUnitList')
+      return commit('modifyCommodityUnitList', { id, name })
     }
   }
 }

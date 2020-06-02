@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "ali-rds": "^3.3.0",
     "axios": "^0.19.2",
     "core-js": "^3.4.4",
     "echarts": "^4.6.0",
