@@ -40,10 +40,6 @@ const warehousing = {
     },
     async update({ commit, rootState }, { id, warehousing }) {
       await warehousingApi.update(id, warehousing, rootState.user.userId)
-      // let nameList = rootState.goodsType.goodsTypeList.filter(
-      //   f => f.id === warehousing.variety
-      // )
-      // warehousing.varietyName = nameList.length > 0 ? nameList[0].name : ''
       return commit('modifyWarehousingList', warehousing)
     }
   }

@@ -33,14 +33,6 @@ export default {
       this.setWindowWidth(window.innerWidth)
       this.setWindowHeight(window.innerHeight)
     }
-  },
-  mounted() {
-    if (this.goodsTypeList.length <= 0) {
-      this.getGoodsType()
-    }
-    if (this.commodityUnitList.length <= 0) {
-      this.getCommodityUnit()
-    }
   }
 }
 </script>

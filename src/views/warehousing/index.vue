@@ -80,22 +80,24 @@
         ></el-table-column>
         <el-table-column
           label="商品名称"
-          width="180"
+          min-width="180"
           prop="name"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品描述"
           min-width="180"
           prop="specification"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品类型"
-          width="180"
+          width="140"
           prop="varietyName"
         ></el-table-column>
         <el-table-column
           label="库存数量"
-          width="180"
+          width="100"
           prop="quantity"
         ></el-table-column>
         <el-table-column
@@ -253,7 +255,6 @@ export default {
       })
     },
     onSearch() {
-      console.log(this.warehousingList)
       this.warehousingFilterList = _.slice(
         this.warehousingList.filter(
           f =>
@@ -291,7 +292,7 @@ export default {
       if (this.createForm.id === '') {
         this.$refs['warehousingCreateForm'].validate(valid => {
           if (valid) {
-            this.add(this.createForm)
+            this.add(this.createForm).then(() => { this.onSearch() })
           } else {
             console.log('error submit!!')
             return false
@@ -303,7 +304,7 @@ export default {
             this.update({
               id: this.createForm.id,
               warehousing: this.createForm
-            })
+            }).then(() => { this.onSearch() })
           } else {
             console.log('error submit!!')
             return false
@@ -336,9 +337,7 @@ export default {
     }
   },
   created() {
-    this.getAllExtant().then(() => {
-      this.onSearch()
-    })
+    this.getAllExtant().then(() => { this.onSearch() })
   }
 }
 </script>

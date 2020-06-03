@@ -8,27 +8,62 @@
         class="goods-type-filter-form"
         size="small"
       >
-        <el-form-item label="类型名称" prop="name">
-          <el-input v-model="formFilter.name" placeholder="请输入类型名称"></el-input>
+        <el-form-item
+          label="类型名称"
+          prop="name"
+        >
+          <el-input
+            v-model="formFilter.name"
+            placeholder="请输入类型名称"
+          ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSearch">查询</el-button>
+          <el-button
+            type="primary"
+            @click="onSearch"
+          >查询</el-button>
           <el-button @click="resetForm('goodsTypeForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-row>
-    <el-row justify="start" class="goods-type-action">
-      <el-button size="small" type="primary" @click="onAdd">新建</el-button>
+    <el-row
+      justify="start"
+      class="goods-type-action"
+    >
+      <el-button
+        size="small"
+        type="primary"
+        @click="onAdd"
+      >新建</el-button>
     </el-row>
     <el-row class="goods-type-table">
-      <el-table :data="goodsTypeList" stripe border :height="winHeight-150">
+      <el-table
+        :data="goodsTypeList"
+        stripe
+        border
+        :height="winHeight-150"
+      >
         >
-        <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column label="类型名称" width="180" prop="name"></el-table-column>
+        <el-table-column
+          type="index"
+          width="50"
+        ></el-table-column>
+        <el-table-column
+          label="类型名称"
+          width="180"
+          prop="name"
+        ></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -48,14 +83,36 @@
       class="goods-type-dialog"
       @close="onClose"
     >
-      <el-form label-position="left" :model="createForm" ref="goodsTypeCreateForm" size="small">
-        <el-form-item label="类型" prop="name">
-          <el-input v-model="createForm.name" autocomplete="off" style="width:70%"></el-input>
+      <el-form
+        label-position="left"
+        :model="createForm"
+        ref="goodsTypeCreateForm"
+        size="small"
+      >
+        <el-form-item
+          label="类型"
+          prop="name"
+        >
+          <el-input
+            v-model="createForm.name"
+            autocomplete="off"
+            style="width:70%"
+          ></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="onClose" size="small">取 消</el-button>
-        <el-button type="primary" @click="onSubmit" size="small">确 定</el-button>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          @click="onClose"
+          size="small"
+        >取 消</el-button>
+        <el-button
+          type="primary"
+          @click="onSubmit"
+          size="small"
+        >确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -73,7 +130,6 @@ export default {
       },
       filterValue: {},
       currentPage: 1,
-      total: 0,
       pageSizes: [10, 20, 50],
       pageSize: 10,
       layout: 'total, sizes, prev, pager, next, jumper',
@@ -87,6 +143,9 @@ export default {
   computed: {
     ...mapState('goodsType', ['goodsTypeList']),
     ...mapState(['winHeight']),
+    total() {
+      return this.goodsTypeList.length
+    },
     dialogTitle() {
       return this.createForm.id === '' ? '新建商品类型' : '编辑商品类型'
     },
@@ -140,13 +199,7 @@ export default {
               message: '删除成功!'
             })
           })
-          .catch(() => {
-            this.$message({
-              type: 'error',
-              message: '删除失败'
-            })
-          })
-      })
+      }).catch(() => { })
     },
     onSearch() {
       if (this.formFilter.name != null) {

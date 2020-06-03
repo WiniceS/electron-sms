@@ -32,32 +32,35 @@
         ></el-table-column>
         <el-table-column
           label="商品编号"
-          width="180"
+          width="140"
           prop="no"
         ></el-table-column>
         <el-table-column
           label="商品名称"
-          width="180"
+          min-width="180"
           prop="name"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品描述"
           min-width="180"
           prop="specification"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品类型"
-          width="180"
+          width="120"
           prop="varietyName"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品售价"
-          width="180"
+          width="80"
           prop="sell"
         ></el-table-column>
         <el-table-column
           label="商品数量"
-          width="180"
+          width="120"
           prop="quantity"
         >
           <template slot-scope="scope">
@@ -66,12 +69,13 @@
               @change="handleChange(scope.row)"
               :min="0"
               size="mini"
+              :style="{width:'100px'}"
             ></el-input-number>
           </template>
         </el-table-column>
         <el-table-column
           label="优惠"
-          width="180"
+          width="100"
           prop="discounts"
         >
           <template slot-scope="scope">
@@ -80,12 +84,19 @@
               :min="0"
               :controls="false"
               size="mini"
+              :style="{width:'80px'}"
+              @change="handleChange(scope.row)"
             ></el-input-number>
           </template>
         </el-table-column>
         <el-table-column
+          label="小计"
+          width="60"
+          prop="subtotal"
+        ></el-table-column>
+        <el-table-column
           label="操作"
-          min-width="60"
+          min-width="80"
         >
           <template slot-scope="scope">
             <el-button
@@ -145,6 +156,7 @@ export default {
           this.getByNo({ no: this.goodNo }).then(res => {
             res.quantity = 1
             res.discounts = 0
+            res.subtotal = res.quantity * res.sell - res.discounts
             this.dealRecords.push(res)
           })
           this.goodNo = ''
@@ -164,6 +176,8 @@ export default {
     handleChange(row) {
       if (Math.round(row.quantity) === 0) {
         this.handleDelete(row.id)
+      } else {
+        row.subtotal = row.quantity * row.sell - row.discounts
       }
     },
     // 删除一行销售商品
@@ -191,6 +205,7 @@ export default {
           this.goodNo = ''
         })
         .catch(e => {
+          console.log(e)
           this.$message({
             type: 'error',
             message: '结算失败'

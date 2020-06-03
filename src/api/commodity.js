@@ -26,6 +26,10 @@ const commodityApi = {
   async getByNo(no) {
     let res = await service.commodityService.getByNo(no)
     return res
+  },
+  async getById(Id) {
+    let res = await service.commodityService.getById(Id)
+    return res
   }
 }
 

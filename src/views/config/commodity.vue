@@ -76,27 +76,29 @@
         ></el-table-column>
         <el-table-column
           label="商品编号"
-          width="180"
+          width="140"
           prop="no"
         ></el-table-column>
         <el-table-column
           label="商品名称"
-          width="180"
+          min-width="180"
           prop="name"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品描述"
           min-width="180"
           prop="specification"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="商品类型"
-          width="180"
+          width="140"
           prop="varietyName"
         ></el-table-column>
         <el-table-column
           label="商品售价"
-          width="180"
+          width="100"
           prop="sell"
         ></el-table-column>
         <el-table-column
@@ -237,6 +239,7 @@
                 v-model="createForm.parentNo"
                 placeholder="请输入父商品编号"
                 :style="{ width: '90%' }"
+                @change="getNumberExist"
               ></el-input>
             </el-form-item>
             <el-form-item label="关系比例">
@@ -271,6 +274,8 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
+import commodityApi from '@/api/commodity'
+
 export default {
   name: 'commodity',
   data() {
@@ -282,12 +287,12 @@ export default {
       },
       commodityFilterList: [],
       currentPage: 1,
-      total: 0,
       pageSizes: [10, 20, 50],
       pageSize: 10,
       layout: 'total, sizes, prev, pager, next, jumper',
       dialogFormVisible: false,
       createForm: {},
+      options: [],
       rules: {
         no: [
           { required: true, message: '请输入商品编号', trigger: 'blur' },
@@ -313,10 +318,13 @@ export default {
     ...mapState(['winHeight']),
     dialogTitle() {
       return this.createForm.id === '' ? '新建商品' : '编辑商品'
-    }
+    },
+    total() { return this.commodityList.length }
   },
   methods: {
-    ...mapActions('commodity', ['getAllExtant', 'add', 'update', 'delete']),
+    ...mapActions('commodity', ['getAllExtant', 'add', 'update', 'delete', 'getByNo']),
+    ...mapActions('goodsType', { 'getVariety': 'getAllExtant' }),
+    ...mapActions('commodityUnit', { 'getUnit': 'getAllExtant' }),
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
@@ -328,7 +336,9 @@ export default {
     },
     handleEdit(index, row) {
       this.dialogFormVisible = true
-      this.createForm = row
+      commodityApi.getById(row.id).then(res => {
+        this.createForm = res[0]
+      })
     },
     handleDelete(index, row) {
       this.$confirm('此操作将删除该商品, 是否继续?', '提示', {
@@ -352,26 +362,40 @@ export default {
       })
     },
     onSearch() {
-      this.commodityFilterList = _.slice(
-        this.commodityList.filter(
-          f =>
-            (this.formFilter.name === ''
-              ? true
-              : f.name.indexOf(this.formFilter.name) >= 0) &&
-            (this.formFilter.no === ''
-              ? true
-              : f.no.indexOf(this.formFilter.no) >= 0) &&
-            (this.formFilter.variety === ''
-              ? true
-              : f.variety === this.formFilter.variety)
-        ),
-        (this.currentPage - 1) * this.pageSize,
-        this.currentPage * this.pageSize
-      )
+      this.getAllExtant().then(() => {
+        this.commodityFilterList = _.slice(
+          this.commodityList.filter(
+            f =>
+              (this.formFilter.name === ''
+                ? true
+                : f.name.indexOf(this.formFilter.name) >= 0) &&
+              (this.formFilter.no === ''
+                ? true
+                : f.no.indexOf(this.formFilter.no) >= 0) &&
+              (this.formFilter.variety === ''
+                ? true
+                : f.variety === this.formFilter.variety)
+          ),
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        )
+      })
     },
     onAdd() {
       this.dialogFormVisible = true
       this.createForm = this.initCreateForm()
+    },
+    getNumberExist(number) {
+      this.getByNo({ no: number }).then(res => {
+        if (res.id) {
+          this.createForm.parentId = res.id
+        } else {
+          this.$message({
+            type: 'error',
+            message: '请先导入该商品'
+          })
+        }
+      })
     },
     onSubmit() {
       if (this.createForm.id === '') {
@@ -429,9 +453,8 @@ export default {
     }
   },
   mounted() {
-    if (this.commodityList.length <= 0) {
-      this.getAllExtant()
-    }
+    this.getUnit()
+    this.getVariety()
     this.onSearch()
   }
 
