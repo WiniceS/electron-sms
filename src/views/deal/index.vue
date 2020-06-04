@@ -202,10 +202,14 @@ export default {
     settleAccounts() {
       this.sell({ record: this.dealRecords })
         .then(() => {
+          this.$message({
+            type: 'success',
+            message: '结算成功'
+          })
           this.goodNo = ''
+          this.dealRecords = []
         })
         .catch(e => {
-          console.log(e)
           this.$message({
             type: 'error',
             message: '结算失败'
