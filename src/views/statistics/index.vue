@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <el-row>
+  <div class="statistics">
+    <el-row class="statistics-form">
       <el-col :span="6">
-        <el-select v-model="value" placeholder="请选择" size="small">
+        <el-select v-model="type" size="small">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -14,26 +14,26 @@
       <el-col :span="8">
         <el-date-picker
           size="small"
-          v-model="value2"
+          v-model="time"
           type="daterange"
           align="right"
           unlink-panels
           range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          start-placeholder="开始good"
+          end-placeholder="结束good"
           :picker-options="pickerOptions"
         ></el-date-picker>
       </el-col>
       <el-col :span="4">
         <el-button size="small" type="primary" @click="onSearch">查询</el-button>
-        <el-button size="small" @click="resetForm('warehousingForm')">重置</el-button>
+        <el-button size="small">重置</el-button>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="12">
+    <el-row class="statistics-charts">
+      <el-col :span="12" class="statistics-charts-top">
         <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="12" class="statistics-charts-minimum">
         <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
       </el-col>
     </el-row>
@@ -45,47 +45,43 @@ export default {
   name: 'statistics',
   data() {
     this.chartSettings = {
-      metrics: ['访问用户'],
+      metrics: ['sales'],
       dataOrder: {
-        label: '访问用户',
+        label: 'sales',
         order: 'desc'
+      },
+      legendName: {
+        good: '商品',
+        sales: '商品销售数'
+      },
+      labelMap: {
+        good: '商品',
+        sales: '商品销售数'
       }
     }
     return {
       chartData: {
-        columns: ['日期', '访问用户', '下单用户', '下单率'],
+        columns: ['good', 'sales'],
         rows: [
-          { 日期: '1/1', 访问用户: 1393, 下单用户: 1093, 下单率: 0.32 },
-          { 日期: '1/2', 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
-          { 日期: '1/3', 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
-          { 日期: '1/4', 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
-          { 日期: '1/5', 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
-          { 日期: '1/6', 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 }
+          { good: '1/1', sales: 13 },
+          { good: '1/2', sales: 30 },
+          { good: '1/3', sales: 23 },
+          { good: '1/4', sales: 13 },
+          { good: '1/5', sales: 32 },
+          { good: '1/6', sales: 43 }
         ]
       },
       options: [
         {
-          value: '选项1',
-          label: '黄金糕'
+          value: 'sale',
+          label: '商品销售'
         },
         {
-          value: '选项2',
-          label: '双皮奶'
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎'
-        },
-        {
-          value: '选项4',
-          label: '龙须面'
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭'
+          value: 'inventory',
+          label: '库存'
         }
       ],
-      value: '',
+      type: 'sale',
       pickerOptions: {
         shortcuts: [
           {
@@ -117,14 +113,34 @@ export default {
           }
         ]
       },
-      value2: ''
+      time: [
+        new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 7),
+        new Date()
+      ]
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+    onSearch() {}
+  },
   mounted() {},
   components: {}
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.statistics {
+  &-form {
+    padding: 10px 0;
+  }
+  &-charts {
+    padding: 10px;
+    &-top {
+      padding: 0 10px;
+    }
+    &-minimum {
+      padding: 0 10px;
+    }
+  }
+}
+</style>

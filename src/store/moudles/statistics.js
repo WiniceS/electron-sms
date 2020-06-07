@@ -1,442 +1,110 @@
-import request from './../../framework/network/request.js'
+import warehousingApi from '@/api/warehousing'
+import salesApi from '@/api/sales'
+
 // initial state
 const state = {
-  topInventoryOption: {
-    title: {
-      text: '库存数量前五',
-      textAlign: 'auto'
+  chartSettingsSale: {
+    metrics: ['sales'],
+    dataOrder: {
+      label: 'sales',
+      order: 'desc'
     },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
+    legendName: {
+      good: '商品',
+      sales: '商品销售数'
     },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: {
-          show: false
-        },
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-      }
-    ],
-    series: [
-      {
-        name: '库存',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        }
-      }
-    ]
+    labelMap: {
+      good: '商品',
+      sales: '商品销售数'
+    }
   },
-  bottomInventoryOption: {
-    title: {
-      text: '库存数量后五',
-      textAlign: 'auto'
+  chartSettingsInventory: {
+    metrics: ['inventory'],
+    dataOrder: {
+      label: 'inventory',
+      order: 'desc'
     },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
+    legendName: {
+      good: '商品',
+      inventory: '库存数'
     },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: {
-          show: false
-        },
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-      }
-    ],
-    series: [
-      {
-        name: '库存',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        }
-      }
-    ]
+    labelMap: {
+      good: '商品',
+      inventory: '库存数'
+    }
   },
-  topSellOption: {
-    title: {
-      text: '销售数量前五',
-      textAlign: 'auto'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: {
-          show: false
-        },
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-      }
-    ],
-    series: [
-      {
-        name: '销售量',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        },
-        data: [200, 170, 240, 244, 200, 220, 210]
-      }
-    ]
-  },
-  bottomSellOption: {
-    title: {
-      text: '销售数量后五',
-      textAlign: 'auto'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: {
-          show: false
-        },
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-      }
-    ],
-    series: [
-      {
-        name: '销售量',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        },
-        data: [200, 170, 240, 244, 200, 220, 210]
-      }
-    ]
-  },
-  sellOption: {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow',
-        label: {
-          show: true
-        }
-      }
-    },
-    toolbox: {
-      show: true,
-      feature: {
-        mark: {
-          show: true
-        },
-        dataView: {
-          show: true,
-          readOnly: false
-        },
-        magicType: {
-          show: true,
-          type: ['line', 'bar']
-        },
-        restore: {
-          show: true
-        },
-        saveAsImage: {
-          show: true
-        }
-      }
-    },
-    calculable: true,
-    legend: {
-      data: ['Growth', 'Budget 2011', 'Budget 2012'],
-      itemGap: 5
-    },
-    grid: {
-      top: '12%',
-      left: '1%',
-      right: '10%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: [
-          'Securities',
-          'Other',
-          'Office',
-          'Departmental',
-          'United',
-          'Public',
-          'Christopher',
-          'Morris'
-        ]
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        name: 'Budget (million USD)'
-      }
-    ],
-    dataZoom: [
-      {
-        show: true,
-        start: 94,
-        end: 100
-      },
-      {
-        type: 'inside',
-        start: 94,
-        end: 100
-      },
-      {
-        show: true,
-        yAxisIndex: 0,
-        filterMode: 'empty',
-        width: 30,
-        height: '80%',
-        showDataShadow: false,
-        left: '93%'
-      }
-    ],
-    series: [
-      {
-        name: 'Budget 2011',
-        type: 'bar',
-        data: [300, 1000, 1200, 1300, 2000, 2000, 1000, 3000]
-      },
-      {
-        name: 'Budget 2012',
-        type: 'bar',
-        data: [300, 1000, 1200, 1300, 2000, 2000, 1000, 3000]
-      }
-    ]
-  },
-  inventoryOption: {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow',
-        label: {
-          show: true
-        }
-      }
-    },
-    toolbox: {
-      show: true,
-      feature: {
-        mark: {
-          show: true
-        },
-        dataView: {
-          show: true,
-          readOnly: false
-        },
-        magicType: {
-          show: true,
-          type: ['line', 'bar']
-        },
-        restore: {
-          show: true
-        },
-        saveAsImage: {
-          show: true
-        }
-      }
-    },
-    calculable: true,
-    legend: {
-      data: ['Growth', 'Budget 2011', 'Budget 2012'],
-      itemGap: 5
-    },
-    grid: {
-      top: '12%',
-      left: '1%',
-      right: '10%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: [
-          'Securities',
-          'Other',
-          'Office',
-          'Departmental',
-          'United',
-          'Public',
-          'Christopher',
-          'Morris'
-        ]
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        name: 'Budget (million USD)'
-      }
-    ],
-    dataZoom: [
-      {
-        show: true,
-        start: 94,
-        end: 100
-      },
-      {
-        type: 'inside',
-        start: 94,
-        end: 100
-      },
-      {
-        show: true,
-        yAxisIndex: 0,
-        filterMode: 'empty',
-        width: 30,
-        height: '80%',
-        showDataShadow: false,
-        left: '93%'
-      }
-    ],
-    series: [
-      {
-        name: 'Budget 2011',
-        type: 'bar',
-        data: [300, 1000, 1200, 1300, 2000, 2000, 1000, 3000]
-      },
-      {
-        name: 'Budget 2012',
-        type: 'bar',
-        data: [300, 1000, 1200, 1300, 2000, 2000, 1000, 3000]
-      }
-    ]
-  },
-  sellRecord: []
+  chartDataSaleTop: {},
+  chartDataSaleMinimum: {},
+  chartDataInventoryTop: {},
+  chartDataInventoryMinimum: {}
 }
 
 // getters
-const getters = {
-  cartProducts: (state, getters, rootState) => {
-    return state.items.map(({ id, quantity }) => {
-      const product = rootState.products.all.find(product => product.id === id)
-      return {
-        title: product.title,
-        price: product.price,
-        quantity
-      }
-    })
-  }
-}
+const getters = {}
 
 // actions
 const actions = {
   // 获取销售记录
-  getSellRecode(store, { condition }) {
+  getSales(store, { startTime, endTime }) {
     const { commit } = store
-    return request
-      .post(
-        '/sell/api/getSellRecord',
-        {
-          condition
-        },
-        store
-      )
-      .then(res => {
-        commit('setSellRecord', res.data)
-      })
+    const amount = 6
+    salesApi.getSalesTop(amount).then(res => {
+      let tmp = {
+        columns: ['good', 'sales'],
+        row: res.map(m => {
+          return { good: m.name, sales: m.sales }
+        })
+      }
+      commit('setSalesTop', tmp)
+    })
+    salesApi.getSalesMinimum(amount).then(res => {
+      let tmp = {
+        columns: ['good', 'sales'],
+        row: res.map(m => {
+          return { good: m.name, sales: m.sales }
+        })
+      }
+      commit('setSalesMinimum', tmp)
+    })
   },
   // 获取商品库存
-  getGoodInventory(store, { condition }) {
+  getInventory(store, { condition }) {
     const { commit } = store
-    return request
-      .post(
-        '/goods/api/goods/getGoodInventory',
-        {
-          condition
-        },
-        store
-      )
-      .then(res => {
-        commit('setGoodInventory', res.data)
-      })
+    const amount = 6
+    warehousingApi.getInventoryTop(amount).then(res => {
+      let tmp = {
+        columns: ['good', 'inventory'],
+        row: res.map(m => {
+          return { good: m.name, inventory: m.inventory }
+        })
+      }
+      commit('setInventoryTop', tmp)
+    })
+    warehousingApi.getInventoryMinimum(amount).then(res => {
+      let tmp = {
+        columns: ['good', 'inventory'],
+        row: res.map(m => {
+          return { good: m.name, inventory: m.inventory }
+        })
+      }
+      commit('setInventoryMinimum', tmp)
+    })
   }
 }
 
 // mutations
 const mutations = {
-  setSellRecord(state, { data }) {
-    state.sellRecord = data
+  setSalesTop(state, { top }) {
+    state.chartDataSaleTop = top
   },
-  setGoodInventory(state, { data }) {
-    state.goodInventory = data
+  setSalesMinimum(state, { minimum }) {
+    state.chartDataSaleMinimum = minimum
+  },
+  setInventoryTop(state, { top }) {
+    state.chartDataInventoryTop = top
+  },
+  setInventoryMinimum(state, { minimum }) {
+    state.chartDataInventoryMinimum = minimum
   }
 }
 

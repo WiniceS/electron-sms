@@ -16,7 +16,7 @@
       </el-col>
       <el-col :span="4">
         <el-button size="small" type="primary" @click="onSearch">查询</el-button>
-        <el-button size="small" @click="resetForm('warehousingForm')">重置</el-button>
+        <el-button size="small">重置</el-button>
       </el-col>
       <el-col :span="4">
         <el-button size="small" type="primary" @click="onSearch">新增</el-button>
@@ -33,21 +33,69 @@ export default {
   name: 'earning',
   data() {
     this.chartSettings = {
-      showLine: ['下单率']
+      showLine: ['user', 'user2'],
+      yAxisName: ['收入'],
+      legendName: {
+        user: '用户',
+        user2: '永固',
+        down: '啥率'
+      },
+      labelMap: {
+        user: '用户',
+        user2: '永固',
+        down: '啥率'
+      },
+      label: { show: true, position: 'top' }
     }
     return {
       chartData: {
-        columns: ['日期', '访问用户', '下单用户', '下单率'],
+        columns: ['date', 'user', 'user2', 'down'],
         rows: [
-          { 日期: '1/1', 访问用户: 1393, 下单用户: 1093, 下单率: 0.32 },
-          { 日期: '1/2', 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
-          { 日期: '1/3', 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
-          { 日期: '1/4', 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
-          { 日期: '1/5', 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
-          { 日期: '1/6', 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 }
+          { date: '1/1', user: 13, user2: 10, down: 0.32 },
+          { date: '1/2', user: 35, user2: 32, down: 0.26 },
+          { date: '1/3', user: 29, user2: 26, down: 0.76 },
+          { date: '1/4', user: 17, user2: 14, down: 0.49 },
+          { date: '1/5', user: 37, user2: 34, down: 0.323 },
+          { date: '1/6', user: 45, user2: 42, down: 0.78 }
         ]
-      }
+      },
+      value: '',
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          },
+          {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          },
+          {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }
+        ]
+      },
+      value2: ''
     }
+  },
+  methods: {
+    onSearch() {}
   },
   components: {}
 }
