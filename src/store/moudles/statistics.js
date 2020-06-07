@@ -45,46 +45,46 @@ const getters = {}
 // actions
 const actions = {
   // 获取销售记录
-  getSales(store, { startTime, endTime }) {
+  async getSales(store, { startTime, endTime }) {
     const { commit } = store
     const amount = 6
-    salesApi.getSalesTop(amount).then(res => {
+    await salesApi.getSalesTop({ startTime, endTime, amount }).then(res => {
       let tmp = {
         columns: ['good', 'sales'],
         row: res.map(m => {
-          return { good: m.name, sales: m.sales }
+          return { good: m.name, sales: m.amount }
         })
       }
       commit('setSalesTop', tmp)
     })
-    salesApi.getSalesMinimum(amount).then(res => {
+    await salesApi.getSalesMinimum({ startTime, endTime, amount }).then(res => {
       let tmp = {
         columns: ['good', 'sales'],
         row: res.map(m => {
-          return { good: m.name, sales: m.sales }
+          return { good: m.name, sales: m.amount }
         })
       }
       commit('setSalesMinimum', tmp)
     })
   },
   // 获取商品库存
-  getInventory(store, { condition }) {
+  async getInventory(store) {
     const { commit } = store
     const amount = 6
-    warehousingApi.getInventoryTop(amount).then(res => {
+    await warehousingApi.getInventoryTop({ amount }).then(res => {
       let tmp = {
         columns: ['good', 'inventory'],
         row: res.map(m => {
-          return { good: m.name, inventory: m.inventory }
+          return { good: m.name, inventory: m.quantity }
         })
       }
       commit('setInventoryTop', tmp)
     })
-    warehousingApi.getInventoryMinimum(amount).then(res => {
+    await warehousingApi.getInventoryMinimum({ amount }).then(res => {
       let tmp = {
         columns: ['good', 'inventory'],
         row: res.map(m => {
-          return { good: m.name, inventory: m.inventory }
+          return { good: m.name, inventory: m.quantity }
         })
       }
       commit('setInventoryMinimum', tmp)

@@ -72,6 +72,36 @@ const warehousingService = {
     }
     let res = await db.update('r_inventory_t', row)
     return res
+  },
+  async getTop(amount) {
+    let _sql = `SELECT
+    r.id,
+    r.goodId,
+    r.quantity,
+    g.name
+    FROM
+    r_inventory_t AS r
+    INNER JOIN c_goods_t AS g ON r.goodId = g.id
+    ORDER BY
+    r.quantity DESC
+    LIMIT ?`
+    let res = await db.query(_sql, [amount])
+    return res
+  },
+  async getMinimum(amount) {
+    let _sql = `SELECT
+    r.id,
+    r.goodId,
+    r.quantity,
+    g.name
+    FROM
+    r_inventory_t AS r
+    INNER JOIN c_goods_t AS g ON r.goodId = g.id
+    ORDER BY
+    r.quantity ASC
+    LIMIT ?`
+    let res = await db.query(_sql, [amount])
+    return res
   }
 }
 

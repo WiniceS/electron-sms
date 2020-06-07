@@ -8,8 +8,8 @@ import mutations from './mutations'
 import { initState } from './initState'
 import deal from './moudles/deal'
 import warehousing from './moudles/warehousing'
-import gearning from './moudles/earning'
 import expend from './moudles/expend'
+import earning from './moudles/earning'
 import statistics from './moudles/statistics'
 import personal from './moudles/personal'
 import app from './moudles/app'
@@ -29,8 +29,8 @@ const store = new Vuex.Store({
   modules: {
     deal,
     warehousing,
-    gearning,
     expend,
+    earning,
     statistics,
     personal,
     app,

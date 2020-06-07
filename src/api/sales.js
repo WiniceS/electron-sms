@@ -1,8 +1,12 @@
 import service from '../service'
 
 const salesApi = {
-  async getSalesTop(amount) {
-    let res = await service.salesService.getTop(amount)
+  async getSalesTop({ startTime, endTime, amount }) {
+    let res = await service.salesService.getTop(startTime, endTime, amount)
+    return res
+  },
+  async getSalesMinimum({ startTime, endTime, amount }) {
+    let res = await service.salesService.getMinimum(startTime, endTime, amount)
     return res
   }
 }

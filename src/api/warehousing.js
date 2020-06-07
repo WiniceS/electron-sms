@@ -22,6 +22,14 @@ const warehousingApi = {
   async update(id, warehousing, userId) {
     let res = await service.warehousingService.update(id, warehousing, userId)
     return res
+  },
+  async getInventoryTop({ amount }) {
+    let res = await service.warehousingService.getTop(amount)
+    return res
+  },
+  async getInventoryMinimum({ amount }) {
+    let res = await service.warehousingService.getMinimum(amount)
+    return res
   }
 }
 
