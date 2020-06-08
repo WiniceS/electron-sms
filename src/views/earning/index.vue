@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <el-row type="flex">
+  <div class="earning">
+    <el-row
+      class="earning-from"
+      type="flex"
+    >
       <el-date-picker
+        class="earning-date"
         size="small"
         v-model="time"
         type="daterange"
@@ -11,6 +15,7 @@
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         :picker-options="pickerOptions"
+        format="yyyy/MM/dd"
       ></el-date-picker>
       <el-button
         size="small"
@@ -21,7 +26,7 @@
       <el-button
         size="small"
         type="primary"
-        @click="onSearch"
+        @click="onAdd"
       >新增</el-button>
     </el-row>
     <el-row>
@@ -30,11 +35,18 @@
         :settings="chartSettings"
       ></ve-histogram>
     </el-row>
+    <add-form-dialog
+      ref="addFormDialog"
+      :options="dialogOptions"
+      title="新增收入"
+      @submit="addNewEarning(form)"
+    ></add-form-dialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import addFormDialog from '../components/addFormDialog'
 export default {
   name: 'earning',
   data() {
@@ -70,18 +82,47 @@ export default {
           }
         ]
       },
-      time: ''
+      time: [new Date(new Date().getTime() - 86400000 * 7).toLocaleDateString(), new Date().toLocaleDateString()],
+      dialogOptions: [{
+        label: '麻将',
+        value: '1'
+      }, {
+        label: '其他收入',
+        value: '2'
+      }]
     }
   },
   computed: {
     ...mapState('earning', ['chartSettings', 'chartData'])
   },
   methods: {
-    ...mapActions('earning', ['getEarning']),
-    onSearch() { }
+    ...mapActions('earning', ['getEarning', 'addEarning']),
+    onSearch() {
+      this.getEarning({ startTime: this.time[0], endTime: this.time[1] })
+    },
+    onAdd() {
+      if (this.$refs.addFormDialog) this.$refs.addFormDialog.handleDialogOpen();
+    },
+    addNewEarning(form) {
+      this.addEarning({ type: form.select, grossMargin: form.input, netProfit: form.input }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '添加成功'
+        })
+      })
+    }
   },
-  components: {}
+  components: { addFormDialog }
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.earning {
+  &-from {
+    padding: 10px;
+  }
+  &-date {
+    margin-right: 10px;
+  }
+}
+</style>

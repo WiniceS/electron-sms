@@ -1,40 +1,58 @@
 <template>
   <div class="statistics">
-    <el-row class="statistics-form">
-      <el-col :span="6">
-        <el-select v-model="type" size="small">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="8">
-        <el-date-picker
-          size="small"
-          v-model="time"
-          type="daterange"
-          align="right"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始good"
-          end-placeholder="结束good"
-          :picker-options="pickerOptions"
-        ></el-date-picker>
-      </el-col>
-      <el-col :span="4">
-        <el-button size="small" type="primary" @click="onSearch">查询</el-button>
-        <el-button size="small">重置</el-button>
-      </el-col>
+    <el-row
+      class="statistics-form"
+      type="flex"
+    >
+      <el-select
+        class="statistics-form-select"
+        v-model="type"
+        size="small"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-date-picker
+        size="small"
+        v-model="time"
+        type="daterange"
+        align="right"
+        unlink-panels
+        range-separator="至"
+        start-placeholder="开始good"
+        end-placeholder="结束good"
+        :picker-options="pickerOptions"
+      ></el-date-picker>
+      <el-button
+        class="statistics-form-button"
+        size="small"
+        type="primary"
+        @click="onSearch"
+      >查询</el-button>
+      <el-button size="small">重置</el-button>
     </el-row>
     <el-row class="statistics-charts">
-      <el-col :span="12" class="statistics-charts-top">
-        <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
+      <el-col
+        :span="12"
+        class="statistics-charts-top"
+      >
+        <ve-bar
+          :data="chartData"
+          :settings="chartSettings"
+        ></ve-bar>
       </el-col>
-      <el-col :span="12" class="statistics-charts-minimum">
-        <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
+      <el-col
+        :span="12"
+        class="statistics-charts-minimum"
+      >
+        <ve-bar
+          :data="chartData"
+          :settings="chartSettings"
+        ></ve-bar>
       </el-col>
     </el-row>
   </div>
@@ -121,9 +139,9 @@ export default {
   },
   computed: {},
   methods: {
-    onSearch() {}
+    onSearch() { }
   },
-  mounted() {},
+  mounted() { },
   components: {}
 }
 </script>
@@ -131,7 +149,13 @@ export default {
 <style lang="scss">
 .statistics {
   &-form {
-    padding: 10px 0;
+    padding: 10px 10px;
+    &-select {
+      padding-right: 10px;
+    }
+    &-button {
+      margin-left: 10px;
+    }
   }
   &-charts {
     padding: 10px;

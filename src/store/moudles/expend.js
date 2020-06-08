@@ -53,6 +53,9 @@ const actions = {
       }
       commit('setExpend', { data: tmp })
     })
+  },
+  async addNew(rootState, { type, amount }) {
+    await expendApi.addNew({ type, amount, userId: rootState.user.userId })
   }
 }
 

@@ -1,4 +1,5 @@
 import db from '../db/index'
+const uuid = require('node-uuid')
 
 const expendService = {
   async getExpend(startTime, endTime) {
@@ -18,6 +19,18 @@ const expendService = {
     s.amount DESC
     LIMIT ?`
     let res = await db.query(_sql, [startTime, endTime])
+    return res
+  },
+  async add(type, amount, userId) {
+    let row = {
+      id: uuid.v1(),
+      amount: amount,
+      time: db.literals.now,
+      type: type,
+      creator: userId,
+      createTime: db.literals.now
+    };
+    let res = await db.insert('r_expend_t', row)
     return res
   }
 }

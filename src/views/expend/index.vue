@@ -30,6 +30,12 @@
         :settings="chartSettings"
       ></ve-histogram>
     </el-row>
+    <add-form-dialog
+      ref="addFormDialog"
+      :options="dialogOptions"
+      title="新增支出"
+      @submit="addNewExpend(form)"
+    ></add-form-dialog>
   </div>
 </template>
 
@@ -70,18 +76,35 @@ export default {
           }
         ]
       },
-      time: [
-        new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 7),
-        new Date()
-      ]
+      time: [new Date(new Date().getTime() - 86400000 * 7).toLocaleDateString(), new Date().toLocaleDateString()],
+      dialogOptions: [{
+        label: '麻将',
+        value: '1'
+      }, {
+        label: '其他收入',
+        value: '2'
+      }]
     }
   },
   computed: {
     ...mapState('expend', ['chartSettings', 'chartData'])
   },
   methods: {
-    ...mapActions('expend', ['getExpend']),
-    onSearch() { }
+    ...mapActions('expend', ['getExpend', 'addExpend']),
+    onSearch() {
+      this.getExpend({ startTime: this.time[0], endTime: this.time[1] })
+    },
+    onAdd() {
+      if (this.$refs.addFormDialog) this.$refs.addFormDialog.handleDialogOpen();
+    },
+    addNewExpend(form) {
+      this.addExpend({ type: form.select, amount: form.input }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '添加成功'
+        })
+      })
+    }
   }
 }
 </script>

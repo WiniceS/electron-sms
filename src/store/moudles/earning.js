@@ -48,6 +48,9 @@ const actions = {
       }
       commit('setExpend', { data: tmp })
     })
+  },
+  async addNew(rootState, { type, grossMargin, netProfit }) {
+    await earningApi.addNew({ type, grossMargin, netProfit, userId: rootState.user.userId })
   }
 }
 
