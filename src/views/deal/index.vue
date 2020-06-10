@@ -210,6 +210,7 @@ export default {
           this.dealRecords = []
         })
         .catch(e => {
+          console.error(e)
           this.$message({
             type: 'error',
             message: '结算失败'

@@ -23,9 +23,10 @@
         align="right"
         unlink-panels
         range-separator="至"
-        start-placeholder="开始good"
-        end-placeholder="结束good"
+        start-placeholder="开始时间"
+        end-placeholder="开始时间"
         :picker-options="pickerOptions"
+        format="yyyy/MM/dd"
       ></el-date-picker>
       <el-button
         class="statistics-form-button"
@@ -41,7 +42,7 @@
         class="statistics-charts-top"
       >
         <ve-bar
-          :data="chartData"
+          :data="chartDataTop"
           :settings="chartSettings"
         ></ve-bar>
       </el-col>
@@ -50,7 +51,7 @@
         class="statistics-charts-minimum"
       >
         <ve-bar
-          :data="chartData"
+          :data="chartDataMinimum"
           :settings="chartSettings"
         ></ve-bar>
       </el-col>
@@ -59,36 +60,14 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'statistics',
   data() {
-    this.chartSettings = {
-      metrics: ['sales'],
-      dataOrder: {
-        label: 'sales',
-        order: 'desc'
-      },
-      legendName: {
-        good: '商品',
-        sales: '商品销售数'
-      },
-      labelMap: {
-        good: '商品',
-        sales: '商品销售数'
-      }
-    }
     return {
-      chartData: {
-        columns: ['good', 'sales'],
-        rows: [
-          { good: '1/1', sales: 13 },
-          { good: '1/2', sales: 30 },
-          { good: '1/3', sales: 23 },
-          { good: '1/4', sales: 13 },
-          { good: '1/5', sales: 32 },
-          { good: '1/6', sales: 43 }
-        ]
-      },
+      chartSettings: {},
+      chartDataTop: {},
+      chartDataMinimum: {},
       options: [
         {
           value: 'sale',
@@ -132,16 +111,37 @@ export default {
         ]
       },
       time: [
-        new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 7),
-        new Date()
+        new Date(new Date().getTime() - 3600 * 1000 * 24 * 7).toLocaleDateString(),
+        new Date(new Date().getTime() + 3600 * 1000 * 24 * 1).toLocaleDateString()
       ]
     }
   },
-  computed: {},
-  methods: {
-    onSearch() { }
+  computed: {
+    ...mapState('statistics', ['chartSettingsSale', 'chartSettingsInventory', 'chartDataSaleTop', 'chartDataSaleMinimum', 'chartDataInventoryTop', 'chartDataInventoryMinimum'])
   },
-  mounted() { },
+  methods: {
+    ...mapActions('statistics', ['getSales', 'getInventory']),
+    onSearch() {
+      if (this.type === 'sale') {
+        this.getSales({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
+          this.chartSettings = this.chartSettingsSale
+          this.chartDataTop = this.chartDataSaleTop
+          this.chartDataMinimum = this.chartDataSaleMinimum
+        })
+      } else {
+        this.getInventory({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
+          this.chartSettings = this.chartSettingsInventory
+          this.chartDataTop = this.chartDataInventoryTop
+          this.chartDataMinimum = this.chartDataInventoryMinimum
+        })
+      }
+    }
+  },
+  mounted() {
+    this.chartSettings = this.chartSettingsSale
+    this.chartDataTop = this.chartDataSaleTop
+    this.chartDataMinimum = this.chartDataSaleMinimum
+  },
   components: {}
 }
 </script>

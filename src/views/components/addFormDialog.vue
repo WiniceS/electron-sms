@@ -83,6 +83,7 @@ export default {
     handleSubmit() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          console.log(this.form)
           this.$emit('submit', { ...this.form })
           this.dialogFormVisible = false
         } else {

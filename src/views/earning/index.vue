@@ -39,7 +39,7 @@
       ref="addFormDialog"
       :options="dialogOptions"
       title="新增收入"
-      @submit="addNewEarning(form)"
+      @submit="addNewEarning"
     ></add-form-dialog>
   </div>
 </template>
@@ -82,7 +82,7 @@ export default {
           }
         ]
       },
-      time: [new Date(new Date().getTime() - 86400000 * 7).toLocaleDateString(), new Date().toLocaleDateString()],
+      time: [new Date(new Date().getTime() - 86400000 * 7).toLocaleDateString(), new Date(new Date().getTime() + 3600 * 1000 * 24 * 1).toLocaleDateString()],
       dialogOptions: [{
         label: '麻将',
         value: '1'

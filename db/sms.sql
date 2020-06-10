@@ -3,15 +3,15 @@
 
  Source Server         : sms
  Source Server Type    : MySQL
- Source Server Version : 80016
+ Source Server Version : 80020
  Source Host           : localhost:3306
  Source Schema         : sms
 
  Target Server Type    : MySQL
- Target Server Version : 80016
+ Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 06/06/2020 17:13:51
+ Date: 10/06/2020 22:01:50
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `c_goods_t`  (
   `sell` decimal(10, 2) NOT NULL COMMENT '商品售价',
   `cost` decimal(10, 2) NOT NULL COMMENT '商品成本价',
   `parentId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '父包装Id',
-  `radio` int(11) NULL DEFAULT NULL COMMENT '与父包装的关系',
+  `radio` int(0) NULL DEFAULT NULL COMMENT '与父包装的关系',
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人',
   `createTime` datetime(0) NULL DEFAULT NULL,
   `modifier` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE `c_login_t`  (
   `userId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `token` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `loginTime` datetime(0) NULL DEFAULT NULL,
-  `validity` int(11) NULL DEFAULT NULL COMMENT '有效时间单位s',
+  `validity` int(0) NULL DEFAULT NULL COMMENT '有效时间单位s',
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` datetime(0) NULL DEFAULT NULL,
   `modifier` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -122,7 +122,7 @@ DROP TABLE IF EXISTS `r_expend_t`;
 CREATE TABLE `r_expend_t`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `time` datetime(0) NULL DEFAULT NULL,
-  `amount` int(11) NOT NULL,
+  `amount` decimal(10, 2) NOT NULL,
   `type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '支出类型',
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` datetime(0) NULL DEFAULT NULL,
@@ -138,8 +138,8 @@ DROP TABLE IF EXISTS `r_income_t`;
 CREATE TABLE `r_income_t`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `time` datetime(0) NULL DEFAULT NULL,
-  `netProfit` int(11) NOT NULL,
-  `grossMargin` int(11) NOT NULL,
+  `netProfit` int(0) NOT NULL,
+  `grossMargin` int(0) NOT NULL,
   `type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收入类型',
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` datetime(0) NULL DEFAULT NULL,
@@ -155,7 +155,7 @@ DROP TABLE IF EXISTS `r_inventory_t`;
 CREATE TABLE `r_inventory_t`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `goodId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `quantity` int(0) NOT NULL,
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` datetime(0) NULL DEFAULT NULL,
   `modifier` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -173,7 +173,7 @@ DROP TABLE IF EXISTS `r_sales_t`;
 CREATE TABLE `r_sales_t`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `time` datetime(0) NULL DEFAULT NULL,
-  `amount` int(11) NOT NULL,
+  `amount` int(0) NOT NULL,
   `goodId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` datetime(0) NULL DEFAULT NULL,
@@ -189,7 +189,7 @@ DROP TABLE IF EXISTS `r_sell_t`;
 CREATE TABLE `r_sell_t`  (
   `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `goodId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `sellNumber` int(11) NOT NULL DEFAULT 0 COMMENT '销售数量',
+  `sellNumber` int(0) NOT NULL DEFAULT 0 COMMENT '销售数量',
   `unitPrice` decimal(10, 2) NOT NULL COMMENT '单价',
   `totalPrice` decimal(10, 2) NOT NULL COMMENT '总价',
   `sellDate` datetime(0) NULL DEFAULT NULL COMMENT '销售时间',
@@ -214,7 +214,7 @@ CREATE TABLE `r_shelf_life_t`  (
   `goodId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `productionDate` datetime(0) NULL DEFAULT NULL COMMENT '生产日期',
   `expirationDate` datetime(0) NULL DEFAULT NULL COMMENT '截止日期',
-  `validTime` int(11) NULL DEFAULT 0 COMMENT '保质期,默认天数',
+  `validTime` int(0) NULL DEFAULT 0 COMMENT '保质期,默认天数',
   `validUnit` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '保质期的单位--d:天，m:月，y:年',
   `creator` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` datetime(0) NULL DEFAULT NULL,

@@ -11,6 +11,7 @@
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         :picker-options="pickerOptions"
+        format="yyyy/MM/dd"
       ></el-date-picker>
       <el-button
         size="small"
@@ -41,6 +42,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import addFormDialog from '../components/addFormDialog'
 export default {
   name: 'expend',
   data() {
@@ -76,12 +78,12 @@ export default {
           }
         ]
       },
-      time: [new Date(new Date().getTime() - 86400000 * 7).toLocaleDateString(), new Date().toLocaleDateString()],
+      time: [new Date(new Date().getTime() - 86400000 * 7).toLocaleDateString(), new Date(new Date().getTime() + 3600 * 1000 * 24 * 1).toLocaleDateString()],
       dialogOptions: [{
-        label: '麻将',
+        label: '水电费',
         value: '1'
       }, {
-        label: '其他收入',
+        label: '生活费用',
         value: '2'
       }]
     }
@@ -98,6 +100,7 @@ export default {
       if (this.$refs.addFormDialog) this.$refs.addFormDialog.handleDialogOpen();
     },
     addNewExpend(form) {
+      console.log(form)
       this.addExpend({ type: form.select, amount: form.input }).then(() => {
         this.$message({
           type: 'success',
@@ -105,6 +108,9 @@ export default {
         })
       })
     }
+  },
+  components: {
+    addFormDialog
   }
 }
 </script>

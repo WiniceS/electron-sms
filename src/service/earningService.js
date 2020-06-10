@@ -2,22 +2,20 @@ import db from '../db/index'
 const uuid = require('node-uuid')
 
 const earningService = {
-  async getEarning(startTime, endTime) {
+  async getEarning(startTime, endTime, limit) {
     let _sql = `SELECT
-    s.id,
-    s.time,
-    s.amount,
-    s.goodId,
-    g.name
+    i.id,
+    i.time,
+    i.netProfit,
+    i.grossMargin,
+    i.type
     FROM
-    r_expend_t AS s
-    INNER JOIN c_goods_t AS g ON s.goodId = g.id
+    r_income_t AS i
     WHERE
-    s.time >= ? AND
-    s.time <= ?
+    i.time >= ? AND
+    i.time < ?
     ORDER BY
-    s.amount DESC
-    LIMIT ?`
+    i.time ASC`
     let res = await db.query(_sql, [startTime, endTime])
     return res
   },

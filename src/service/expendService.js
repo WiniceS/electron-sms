@@ -4,20 +4,17 @@ const uuid = require('node-uuid')
 const expendService = {
   async getExpend(startTime, endTime) {
     let _sql = `SELECT
-    s.id,
-    s.time,
-    s.amount,
-    s.goodId,
-    g.name
+    e.id,
+    e.time,
+    e.amount,
+    e.type
     FROM
-    r_expend_t AS s
-    INNER JOIN c_goods_t AS g ON s.goodId = g.id
+    r_expend_t AS e
     WHERE
-    s.time >= ? AND
-    s.time <= ?
+    e.time >= ? AND
+    e.time < ?
     ORDER BY
-    s.amount DESC
-    LIMIT ?`
+    e.time ASC`
     let res = await db.query(_sql, [startTime, endTime])
     return res
   },
