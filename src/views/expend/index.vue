@@ -1,12 +1,17 @@
 <template>
-  <div>
-    <el-row type="flex">
+  <div class="expend">
+    <el-row
+      type="flex"
+      class="expend-from"
+    >
       <el-date-picker
+        class="expend-date"
         size="small"
         v-model="time"
         type="daterange"
         align="right"
         unlink-panels
+        :clearable="false"
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
@@ -27,6 +32,7 @@
     </el-row>
     <el-row>
       <ve-histogram
+        ref="chart"
         :data="chartData"
         :settings="chartSettings"
       ></ve-histogram>
@@ -85,16 +91,22 @@ export default {
       }, {
         label: '生活费用',
         value: '2'
-      }]
+      }],
+      chartData: {
+        columns: ['date', 'utilitiesExpense', 'purchaseExpense', 'livingExpenses', 'utilitiesExpenseLine', 'purchaseExpenseLine', 'livingExpensesLine'],
+        rows: []
+      }
     }
   },
   computed: {
-    ...mapState('expend', ['chartSettings', 'chartData'])
+    ...mapState('expend', ['chartSettings', 'rowData'])
   },
   methods: {
     ...mapActions('expend', ['getExpend', 'addExpend']),
     onSearch() {
-      this.getExpend({ startTime: this.time[0], endTime: this.time[1] })
+      this.getExpend({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
+        this.chartData.rows = this.rowData
+      })
     },
     onAdd() {
       if (this.$refs.addFormDialog) this.$refs.addFormDialog.handleDialogOpen();
@@ -109,10 +121,22 @@ export default {
       })
     }
   },
+  mounted() {
+    this.onSearch()
+  },
   components: {
     addFormDialog
   }
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.expend {
+  &-from {
+    padding: 10px;
+  }
+  &-date {
+    margin-right: 10px;
+  }
+}
+</style>

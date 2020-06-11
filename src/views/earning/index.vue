@@ -11,6 +11,7 @@
         type="daterange"
         align="right"
         unlink-panels
+        :clearable="false"
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
@@ -31,6 +32,7 @@
     </el-row>
     <el-row>
       <ve-histogram
+        ref="chart"
         :data="chartData"
         :settings="chartSettings"
       ></ve-histogram>
@@ -98,7 +100,9 @@ export default {
   methods: {
     ...mapActions('earning', ['getEarning', 'addEarning']),
     onSearch() {
-      this.getEarning({ startTime: this.time[0], endTime: this.time[1] })
+      this.getEarning({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
+        console.log(this.$refs.chart)
+      })
     },
     onAdd() {
       if (this.$refs.addFormDialog) this.$refs.addFormDialog.handleDialogOpen();
@@ -111,6 +115,9 @@ export default {
         })
       })
     }
+  },
+  mounted() {
+    this.onSearch()
   },
   components: { addFormDialog }
 }

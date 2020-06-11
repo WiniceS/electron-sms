@@ -9,16 +9,31 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown
+        class="avatar-container"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
-          <img class="user-avatar" :src="avatar + '?imageView2/1/w/80/h/80'" />
+          <img
+            class="user-avatar"
+            :src="avatar + '?imageView2/1/w/80/h/80'"
+          />
         </div>
-        <el-dropdown-menu class="user-dropdown" slot="dropdown">
-          <router-link class="inlineBlock" to="/">
+        <el-dropdown-menu
+          class="user-dropdown"
+          slot="dropdown"
+        >
+          <router-link
+            class="inlineBlock"
+            to="/deal"
+          >
             <el-dropdown-item>Home</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display: block;">LogOut</span>
+            <span
+              style="display: block;"
+              @click="handleLogOut"
+            >LogOut</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -42,6 +57,11 @@ export default {
     },
     isCollapse() {
       return !this.sidebar.opened
+    }
+  },
+  methods: {
+    handleLogOut() {
+      // this.$router.push('login')
     }
   }
 }

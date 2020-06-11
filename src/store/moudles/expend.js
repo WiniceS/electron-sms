@@ -1,4 +1,6 @@
 import expendApi from '@/api/expend'
+import _ from 'lodash'
+import moment from 'moment'
 
 // initial state
 const state = {
@@ -22,17 +24,7 @@ const state = {
     },
     label: { show: true, position: 'top' }
   },
-  chartData: {
-    columns: ['date', 'utilitiesExpense', 'purchaseExpense', 'livingExpenses', 'utilitiesExpenseLine', 'purchaseExpenseLine', 'livingExpensesLine'],
-    rows: [
-      { date: '1/1', utilitiesExpense: 13, purchaseExpense: 10, livingExpenses: 32, utilitiesExpenseLine: 13, purchaseExpenseLine: 10, livingExpensesLine: 32 },
-      { date: '1/2', utilitiesExpense: 35, purchaseExpense: 32, livingExpenses: 26, utilitiesExpenseLine: 35, purchaseExpenseLine: 32, livingExpensesLine: 26 },
-      { date: '1/3', utilitiesExpense: 29, purchaseExpense: 26, livingExpenses: 76, utilitiesExpenseLine: 29, purchaseExpenseLine: 26, livingExpensesLine: 76 },
-      { date: '1/4', utilitiesExpense: 17, purchaseExpense: 14, livingExpenses: 49, utilitiesExpenseLine: 17, purchaseExpenseLine: 14, livingExpensesLine: 49 },
-      { date: '1/5', utilitiesExpense: 37, purchaseExpense: 34, livingExpenses: 23, utilitiesExpenseLine: 37, purchaseExpenseLine: 34, livingExpensesLine: 23 },
-      { date: '1/6', utilitiesExpense: 45, purchaseExpense: 42, livingExpenses: 78, utilitiesExpenseLine: 45, purchaseExpenseLine: 42, livingExpensesLine: 78 }
-    ]
-  }
+  rowData: []
 }
 
 // getters
@@ -45,13 +37,24 @@ const actions = {
   async getExpend(store, { startTime, endTime }) {
     const { commit } = store
     await expendApi.getExpend({ startTime, endTime }).then(res => {
-      let tmp = {
-        columns: ['date', 'utilitiesExpense', 'purchaseExpense', 'livingExpenses', 'utilitiesExpenseLine', 'purchaseExpenseLine', 'livingExpensesLine'],
-        row: res.map(m => {
-          return { good: m.name, sales: m.amount }
-        })
-      }
-      commit('setExpend', { data: tmp })
+      let group = _.groupBy(res, (g) => moment(g.time).format('L'))
+      let row = []
+      _.forIn(group, (value, key) => {
+        let utilities = value.find(f => f.type === '1')
+        let purchase = value.find(f => f.type === '0')
+        let living = value.find(f => f.type === '3')
+        let record = {
+          date: moment(key).format('L'),
+          utilitiesExpense: utilities ? utilities.amount : 0,
+          purchaseExpense: purchase ? purchase.amount : 0,
+          livingExpenses: living ? living.amount : 0,
+          utilitiesExpenseLine: utilities ? utilities.amount : 0,
+          purchaseExpenseLine: purchase ? purchase.amount : 0,
+          livingExpensesLine: living ? living.amount : 0
+        }
+        row.push(record)
+      })
+      commit('setExpend', { data: row })
     })
   },
   async addNew(rootState, { type, amount }) {
@@ -62,7 +65,7 @@ const actions = {
 // mutations
 const mutations = {
   setExpend(state, { data }) {
-    state.chartData = data
+    state.rowData = data
   }
 }
 

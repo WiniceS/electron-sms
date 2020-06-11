@@ -1,32 +1,29 @@
 import earningApi from '@/api/earning'
+import _ from 'lodash'
+import moment from 'moment'
 
 // initial state
 const state = {
   chartSettings: {
-    showLine: ['user', 'user2'],
+    showLine: ['saleLine'],
     yAxisName: ['收入'],
     legendName: {
-      user: '用户',
-      user2: '永固',
-      down: '啥率'
+      sale: '商品销售额',
+      saleLine: '商品利润',
+      majiang: '麻将',
+      other: '其他'
     },
     labelMap: {
-      user: '用户',
-      user2: '永固',
-      down: '啥率'
+      sale: '商品销售额',
+      saleLine: '商品利润',
+      majiang: '麻将',
+      other: '其他'
     },
     label: { show: true, position: 'top' }
   },
   chartData: {
-    columns: ['date', 'user', 'user2', 'down'],
-    rows: [
-      { date: '1/1', user: 13, user2: 10, down: 0.32 },
-      { date: '1/2', user: 35, user2: 32, down: 0.26 },
-      { date: '1/3', user: 29, user2: 26, down: 0.76 },
-      { date: '1/4', user: 17, user2: 14, down: 0.49 },
-      { date: '1/5', user: 37, user2: 34, down: 0.323 },
-      { date: '1/6', user: 45, user2: 42, down: 0.78 }
-    ]
+    columns: ['date', 'sale', 'majiang', 'other', 'saleLine'],
+    rows: []
   }
 }
 
@@ -40,13 +37,27 @@ const actions = {
   async getEarning(store, { startTime, endTime }) {
     const { commit } = store
     await earningApi.getEarning({ startTime, endTime }).then(res => {
+      let group = _.groupBy(res, (g) => moment(g.time).format('L'))
+      let row = []
+      _.forIn(group, (value, key) => {
+        let majiang = value.find(f => f.type === '1')
+        let sale = value.find(f => f.type === '0')
+        let other = value.find(f => f.type === '3')
+        let saleLine = value.find(f => f.type === '0')
+        let record = {
+          date: moment(key).format('L'),
+          sale: sale ? sale.grossMargin : 0,
+          majiang: majiang ? majiang.grossMargin : 0,
+          other: other ? other.grossMargin : 0,
+          saleLine: saleLine ? saleLine.netProfit : 0
+        }
+        row.push(record)
+      })
       let tmp = {
-        columns: ['date', 'utilitiesExpense', 'purchaseExpense', 'livingExpenses', 'utilitiesExpenseLine', 'purchaseExpenseLine', 'livingExpensesLine'],
-        row: res.map(m => {
-          return { good: m.name, sales: m.amount }
-        })
+        columns: ['date', 'sale', 'majiang', 'other', 'saleLine'],
+        rows: row
       }
-      commit('setExpend', { data: tmp })
+      commit('setEarning', { data: tmp })
     })
   },
   async addEarning({ rootState }, { type, grossMargin, netProfit }) {

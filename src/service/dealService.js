@@ -55,7 +55,6 @@ const dealService = {
     // 新增货修改销售统计数据
     let saleSql = 'SELECT * FROM `r_sales_t` WHERE time BETWEEN curdate() AND curdate() + 1'
     let saleRecord = await db.query(saleSql)
-    debugger
 
     let addSales = []
     let updateSales = []
@@ -89,7 +88,6 @@ const dealService = {
     // 新增每天收入数据
     let incomeSql = "SELECT * FROM `r_income_t` WHERE type = '0' AND time BETWEEN curdate() AND curdate() + 1"
     let incomeRecord = await db.query(incomeSql)
-    debugger
     let addIncome = {}
     let updateIncome = {}
     if (incomeRecord.length > 0) {
@@ -111,7 +109,6 @@ const dealService = {
     // 新增每天支出数据
     let expendSql = "SELECT * FROM `r_expend_t` WHERE type = '0' AND time BETWEEN curdate() AND curdate() + 1"
     let expendRecord = await db.query(expendSql)
-    debugger
     let addExpend = {}
     let updateExpend = {}
     if (expendRecord.length > 0) {

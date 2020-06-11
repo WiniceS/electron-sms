@@ -3,7 +3,7 @@ import salesApi from '@/api/sales'
 
 // initial state
 const state = {
-  chartSettingsSale: {
+  chartSettingsSaleTop: {
     metrics: ['sales'],
     dataOrder: {
       label: 'sales',
@@ -18,11 +18,41 @@ const state = {
       sales: '商品销售数'
     }
   },
-  chartSettingsInventory: {
+  chartSettingsSaleMinimum: {
+    metrics: ['sales'],
+    dataOrder: {
+      label: 'sales',
+      order: 'asc'
+    },
+    legendName: {
+      good: '商品',
+      sales: '商品销售数'
+    },
+    labelMap: {
+      good: '商品',
+      sales: '商品销售数'
+    }
+  },
+  chartSettingsInventoryTop: {
     metrics: ['inventory'],
     dataOrder: {
       label: 'inventory',
       order: 'desc'
+    },
+    legendName: {
+      good: '商品',
+      inventory: '库存数'
+    },
+    labelMap: {
+      good: '商品',
+      inventory: '库存数'
+    }
+  },
+  chartSettingsInventoryMinimum: {
+    metrics: ['inventory'],
+    dataOrder: {
+      label: 'inventory',
+      order: 'asc'
     },
     legendName: {
       good: '商品',
@@ -51,20 +81,20 @@ const actions = {
     await salesApi.getSalesTop({ startTime, endTime, amount }).then(res => {
       let tmp = {
         columns: ['good', 'sales'],
-        row: res.map(m => {
+        rows: res.map(m => {
           return { good: m.name, sales: m.amount }
         })
       }
-      commit('setSalesTop', tmp)
+      commit('setSalesTop', { top: tmp })
     })
     await salesApi.getSalesMinimum({ startTime, endTime, amount }).then(res => {
       let tmp = {
         columns: ['good', 'sales'],
-        row: res.map(m => {
+        rows: res.map(m => {
           return { good: m.name, sales: m.amount }
         })
       }
-      commit('setSalesMinimum', tmp)
+      commit('setSalesMinimum', { minimum: tmp })
     })
   },
   // 获取商品库存
@@ -74,20 +104,20 @@ const actions = {
     await warehousingApi.getInventoryTop({ amount }).then(res => {
       let tmp = {
         columns: ['good', 'inventory'],
-        row: res.map(m => {
+        rows: res.map(m => {
           return { good: m.name, inventory: m.quantity }
         })
       }
-      commit('setInventoryTop', tmp)
+      commit('setInventoryTop', { top: tmp })
     })
     await warehousingApi.getInventoryMinimum({ amount }).then(res => {
       let tmp = {
         columns: ['good', 'inventory'],
-        row: res.map(m => {
+        rows: res.map(m => {
           return { good: m.name, inventory: m.quantity }
         })
       }
-      commit('setInventoryMinimum', tmp)
+      commit('setInventoryMinimum', { minimum: tmp })
     })
   }
 }

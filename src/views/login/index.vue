@@ -8,7 +8,7 @@
       ref="loginForm"
       label-position="left"
     >
-      <h3 class="title">vue-element-admin</h3>
+      <h3 class="title">Supermarket System</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
@@ -45,10 +45,10 @@
           @click.native.prevent="handleLogin"
         >Sign in</el-button>
       </el-form-item>
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right: 20px;">username: admin</span>
         <span>password: admin</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    其他支出
+    建设中
   </div>
 </template>
 

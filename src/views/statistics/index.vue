@@ -22,6 +22,7 @@
         type="daterange"
         align="right"
         unlink-panels
+        :clearable="false"
         range-separator="至"
         start-placeholder="开始时间"
         end-placeholder="开始时间"
@@ -43,7 +44,7 @@
       >
         <ve-bar
           :data="chartDataTop"
-          :settings="chartSettings"
+          :settings="chartSettingsTop"
         ></ve-bar>
       </el-col>
       <el-col
@@ -52,7 +53,7 @@
       >
         <ve-bar
           :data="chartDataMinimum"
-          :settings="chartSettings"
+          :settings="chartSettingsMinimum"
         ></ve-bar>
       </el-col>
     </el-row>
@@ -65,7 +66,8 @@ export default {
   name: 'statistics',
   data() {
     return {
-      chartSettings: {},
+      chartSettingsTop: {},
+      chartSettingsMinimum: {},
       chartDataTop: {},
       chartDataMinimum: {},
       options: [
@@ -117,20 +119,22 @@ export default {
     }
   },
   computed: {
-    ...mapState('statistics', ['chartSettingsSale', 'chartSettingsInventory', 'chartDataSaleTop', 'chartDataSaleMinimum', 'chartDataInventoryTop', 'chartDataInventoryMinimum'])
+    ...mapState('statistics', ['chartSettingsSaleTop', 'chartSettingsSaleMinimum', 'chartSettingsInventoryTop', 'chartSettingsInventoryMinimum', 'chartDataSaleTop', 'chartDataSaleMinimum', 'chartDataInventoryTop', 'chartDataInventoryMinimum'])
   },
   methods: {
     ...mapActions('statistics', ['getSales', 'getInventory']),
     onSearch() {
       if (this.type === 'sale') {
         this.getSales({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
-          this.chartSettings = this.chartSettingsSale
+          this.chartSettingsTop = this.chartSettingsSaleTop
+          this.chartSettingsMinimum = this.chartSettingsSaleMinimum
           this.chartDataTop = this.chartDataSaleTop
           this.chartDataMinimum = this.chartDataSaleMinimum
         })
       } else {
         this.getInventory({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
-          this.chartSettings = this.chartSettingsInventory
+          this.chartSettingsTop = this.chartSettingsInventoryTop
+          this.chartSettingsMinimum = this.chartSettingsInventoryMinimum
           this.chartDataTop = this.chartDataInventoryTop
           this.chartDataMinimum = this.chartDataInventoryMinimum
         })
@@ -138,9 +142,7 @@ export default {
     }
   },
   mounted() {
-    this.chartSettings = this.chartSettingsSale
-    this.chartDataTop = this.chartDataSaleTop
-    this.chartDataMinimum = this.chartDataSaleMinimum
+    this.onSearch()
   },
   components: {}
 }
