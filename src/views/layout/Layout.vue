@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <sidebar class="sidebar-container"></sidebar>
-    <div class="main-container" :style="{height:appHeight}">
+    <div class="main-container" :style="{height:appHeight,width:appWidth}">
       <app-main></app-main>
     </div>
   </div>
@@ -19,7 +19,7 @@ export default {
   },
   mixins: [ResizeMixin],
   computed: {
-    ...mapState(['winHeight']),
+    ...mapState(['winHeight', 'winWidth']),
     sidebar() {
       return this.$store.state.app.sidebar
     },
@@ -28,6 +28,9 @@ export default {
     },
     appHeight() {
       return this.winHeight + 'px'
+    },
+    appWidth() {
+      return this.winWidth - 50 + 'px'
     }
   }
 }

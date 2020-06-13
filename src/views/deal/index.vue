@@ -24,7 +24,7 @@
         :data="dealRecords"
         stripe
         border
-        :height="winHeight-130"
+        :max-height="winHeight-130"
       >
         <el-table-column
           type="index"

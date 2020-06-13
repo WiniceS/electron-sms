@@ -35,7 +35,7 @@ export const constantRouterMap = [
         name: 'Search',
         path: 'search',
         component: () => import('@/views/search/index'),
-        meta: { title: 'Search', icon: 'search' }
+        meta: { title: '查找', icon: 'search' }
       }
     ]
   },

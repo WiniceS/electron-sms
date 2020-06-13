@@ -11,7 +11,8 @@ export default {
     return {}
   },
   created() {
-    window.addEventListener('resize', this.getResize)
+    this.getResize()
+    this.CloseSideBar({ withoutAnimation: true })
   },
   computed: {
     ...mapState(['winHeight', 'winWidth']),
@@ -19,6 +20,7 @@ export default {
     ...mapState('commodityUnit', ['commodityUnitList'])
   },
   methods: {
+    ...mapActions(['CloseSideBar']),
     ...mapActions('goodsType', {
       getGoodsType: 'getAllExtant'
     }),
