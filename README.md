@@ -1,4 +1,4 @@
-# electron-sms
+# electron-supermarket system
 
 ## Project setup
 ```
