@@ -5,7 +5,7 @@
         v-model="number"
         placeholder="请输入商品编号"
         size="small"
-        @change="onSearch"
+        @keyup.native.enter="onSearch"
       ></el-input>
     </el-row>
     <el-row
