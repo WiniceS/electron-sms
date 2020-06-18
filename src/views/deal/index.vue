@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="deal"
-    @keyup="onSell"
-  >
+  <div class="deal">
     <el-row class="deal-input">
       <el-col :span="12">
         <el-input
@@ -13,60 +10,21 @@
         ></el-input>
       </el-col>
       <el-col :span="4">
-        <el-button
-          class="deal-input-add"
-          type="primary"
-          @click="addGoodInSell"
-        >添加</el-button>
+        <el-button class="deal-input-add" type="primary" @click="addGoodInSell">添加</el-button>
       </el-col>
       <el-col :span="7">
         <span class="deal-sale">合计:{{sale}}元</span>
       </el-col>
     </el-row>
     <el-row class="deal-table">
-      <el-table
-        :data="dealRecords"
-        stripe
-        border
-        :max-height="winHeight-130"
-      >
-        <el-table-column
-          type="index"
-          width="50"
-        ></el-table-column>
-        <el-table-column
-          label="商品编号"
-          width="140"
-          prop="no"
-        ></el-table-column>
-        <el-table-column
-          label="商品名称"
-          min-width="180"
-          prop="name"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          label="商品描述"
-          min-width="180"
-          prop="specification"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          label="商品类型"
-          width="120"
-          prop="varietyName"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          label="商品售价"
-          width="80"
-          prop="sell"
-        ></el-table-column>
-        <el-table-column
-          label="商品数量"
-          width="120"
-          prop="quantity"
-        >
+      <el-table :data="dealRecords" stripe border :max-height="winHeight-130">
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column label="商品编号" width="140" prop="no"></el-table-column>
+        <el-table-column label="商品名称" min-width="180" prop="name" show-overflow-tooltip></el-table-column>
+        <el-table-column label="商品描述" min-width="180" prop="specification" show-overflow-tooltip></el-table-column>
+        <el-table-column label="商品类型" width="120" prop="varietyName" show-overflow-tooltip></el-table-column>
+        <el-table-column label="商品售价" width="80" prop="sell"></el-table-column>
+        <el-table-column label="商品数量" width="120" prop="quantity">
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.quantity"
@@ -77,11 +35,7 @@
             ></el-input-number>
           </template>
         </el-table-column>
-        <el-table-column
-          label="优惠"
-          width="100"
-          prop="discounts"
-        >
+        <el-table-column label="优惠" width="100" prop="discounts">
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.discounts"
@@ -93,35 +47,17 @@
             ></el-input-number>
           </template>
         </el-table-column>
-        <el-table-column
-          label="小计"
-          width="60"
-          prop="subtotal"
-        ></el-table-column>
-        <el-table-column
-          label="操作"
-          min-width="80"
-        >
+        <el-table-column label="小计" width="60" prop="subtotal"></el-table-column>
+        <el-table-column label="操作" min-width="80">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="delDealList(scope.row.id)"
-            >删除</el-button>
+            <el-button size="mini" type="danger" @click="delDealList(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-row>
     <el-row class="deal-button">
-      <el-button
-        type="warning"
-        @click="clearDeal"
-      >清空</el-button>
-      <el-button
-        type="primary"
-        :style="{ width: '150px' }"
-        @click="settleAccounts"
-      >确认</el-button>
+      <el-button type="warning" @click="clearDeal">清空</el-button>
+      <el-button type="primary" :style="{ width: '150px' }" @click="settleAccounts">确认</el-button>
     </el-row>
   </div>
 </template>
@@ -133,7 +69,8 @@ export default {
   data() {
     return {
       goodNo: '',
-      dealRecords: []
+      dealRecords: [],
+      timer: null
     }
   },
   computed: {
@@ -244,7 +181,17 @@ export default {
             })
         }
       }
+    },
+    keySale(e) {
+      this.timer && clearTimeout(this.timer)
+      this.timer = setTimeout(this.onSell(e), 500)
     }
+  },
+  created() {
+    document.addEventListener('keyup', this.keySale)
+  },
+  beforeDestroy() {
+    document.removeEventListener('keyup',this.keySale)
   }
 }
 </script>

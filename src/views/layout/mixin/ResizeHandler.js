@@ -7,6 +7,11 @@ const WIDTH = 1024
 const RATIO = 3
 
 export default {
+  data() {
+    return {
+      timer: null
+    }
+  },
   watch: {
     $route(route) {
       if (this.device === 'mobile' && this.sidebar.opened) {
@@ -34,17 +39,20 @@ export default {
       return rect.width - RATIO < WIDTH
     },
     resizeHandler() {
-      if (!document.hidden) {
-        const isMobile = this.isMobile()
-        store.dispatch('ToggleDevice', isMobile ? 'mobile' : 'desktop')
-        store.commit('SET_WINWIDTH', window.innerWidth)
-        store.commit('SET_WINHEIGHT', window.innerHeight)
-        if (isMobile) {
-          store.dispatch('CloseSideBar', {
-            withoutAnimation: true
-          })
+      this.timer && clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        if (!document.hidden) {
+          const isMobile = this.isMobile()
+          store.dispatch('ToggleDevice', isMobile ? 'mobile' : 'desktop')
+          store.commit('SET_WINWIDTH', window.innerWidth)
+          store.commit('SET_WINHEIGHT', window.innerHeight)
+          if (isMobile) {
+            store.dispatch('CloseSideBar', {
+              withoutAnimation: true
+            })
+          }
         }
-      }
+      }, 500);
     }
   }
 }
