@@ -27,7 +27,7 @@
       <el-button
         size="small"
         type="primary"
-        @click="onSearch"
+        @click="onAdd"
       >新增</el-button>
     </el-row>
     <el-row>

@@ -191,7 +191,7 @@ export default {
     document.addEventListener('keyup', this.keySale)
   },
   beforeDestroy() {
-    document.removeEventListener('keyup',this.keySale)
+    document.removeEventListener('keyup', this.keySale)
   }
 }
 </script>

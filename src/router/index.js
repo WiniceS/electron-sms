@@ -51,7 +51,7 @@ export const constantRouterMap = [
         name: 'Deal',
         path: 'deal',
         component: () => import('@/views/deal/index'),
-        meta: { title: 'Deal', icon: 'deal' }
+        meta: { title: '销售', icon: 'deal' }
       }
     ]
   },
@@ -67,7 +67,7 @@ export const constantRouterMap = [
         name: 'Warehousing',
         path: 'warehousing',
         component: () => import('@/views/warehousing/index'),
-        meta: { title: 'Warehousing', icon: 'warehousing' }
+        meta: { title: '库存', icon: 'warehousing' }
       }
     ]
   },
@@ -86,7 +86,7 @@ export const constantRouterMap = [
           hidden: false
         },
         component: () => import('@/views/statistics/index'),
-        meta: { title: 'Statistics', icon: 'statistics' }
+        meta: { title: '统计', icon: 'statistics' }
       }
     ]
   },
@@ -102,7 +102,7 @@ export const constantRouterMap = [
         name: 'Earning',
         path: 'earning',
         component: () => import('@/views/earning/index'),
-        meta: { title: 'Earning', icon: 'earning' }
+        meta: { title: '收入', icon: 'earning' }
       }
     ]
   },
@@ -118,7 +118,7 @@ export const constantRouterMap = [
         name: 'Expend',
         path: 'expend',
         component: () => import('@/views/expend/index'),
-        meta: { title: 'Expend', icon: 'expend' }
+        meta: { title: '支出', icon: 'expend' }
       }
     ]
   },
@@ -137,7 +137,7 @@ export const constantRouterMap = [
           hidden: false
         },
         component: () => import('@/views/config/commodity.vue'),
-        meta: { title: 'Commodity', icon: 'commodity' }
+        meta: { title: '商品', icon: 'commodity' }
       },
       {
         name: 'CommodityUnit',
@@ -146,7 +146,7 @@ export const constantRouterMap = [
           hidden: false
         },
         component: () => import('@/views/config/commodityUnit.vue'),
-        meta: { title: 'CommodityUnit', icon: 'commodityUnit' }
+        meta: { title: '商品单位', icon: 'commodityUnit' }
       },
       {
         name: 'GoodsType',
@@ -155,7 +155,7 @@ export const constantRouterMap = [
           hidden: false
         },
         component: () => import('@/views/config/goodsType.vue'),
-        meta: { title: 'GoodsType', icon: 'goodsType' }
+        meta: { title: '商品类别', icon: 'goodsType' }
       }
     ]
   },
@@ -171,7 +171,7 @@ export const constantRouterMap = [
         name: 'Personal',
         path: 'personal',
         component: () => import('@/views/personal/index'),
-        meta: { title: 'Personal', icon: 'personal' }
+        meta: { title: '个人', icon: 'personal' }
       }
     ]
   },
