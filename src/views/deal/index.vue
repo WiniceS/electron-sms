@@ -192,6 +192,7 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener('keyup', this.keySale)
+    this.timer = null
   }
 }
 </script>
