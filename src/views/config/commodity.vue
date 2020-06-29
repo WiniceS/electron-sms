@@ -8,33 +8,14 @@
         class="commodity-filter-form"
         size="small"
       >
-        <el-form-item
-          label="商品编号"
-          prop="no"
-        >
-          <el-input
-            v-model="formFilter.no"
-            placeholder="请输入商品编号"
-          ></el-input>
+        <el-form-item label="商品编号" prop="no">
+          <el-input v-model="formFilter.no" placeholder="请输入商品编号"></el-input>
         </el-form-item>
-        <el-form-item
-          label="商品名称"
-          prop="name"
-        >
-          <el-input
-            v-model="formFilter.name"
-            placeholder="请输入商品名称"
-          ></el-input>
+        <el-form-item label="商品名称" prop="name">
+          <el-input v-model="formFilter.name" placeholder="请输入商品名称"></el-input>
         </el-form-item>
-        <el-form-item
-          label="商品种类"
-          prop="variety"
-        >
-          <el-select
-            v-model="formFilter.variety"
-            placeholder="请选择"
-            :clearable="true"
-          >
+        <el-form-item label="商品种类" prop="variety">
+          <el-select v-model="formFilter.variety" placeholder="请选择" :clearable="true">
             <el-option
               v-for="item in goodsTypeList"
               :key="item.id"
@@ -44,77 +25,27 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            @click="onSearch"
-          >查询</el-button>
+          <el-button type="primary" @click="onSearch">查询</el-button>
           <el-button @click="resetForm('commodityForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-row>
-    <el-row
-      justify="start"
-      class="commodity-action"
-    >
-      <el-button
-        size="small"
-        type="primary"
-        @click="onAdd"
-      >新建</el-button>
+    <el-row justify="start" class="commodity-action">
+      <el-button size="small" type="primary" @click="onAdd">新建</el-button>
     </el-row>
     <el-row class="commodity-table">
-      <el-table
-        :data="commodityFilterList"
-        stripe
-        border
-        :height="winHeight-150"
-      >
+      <el-table :data="commodityFilterList" stripe border :height="winHeight-150">
         >
-        <el-table-column
-          type="index"
-          width="50"
-        ></el-table-column>
-        <el-table-column
-          label="商品编号"
-          width="140"
-          prop="no"
-        ></el-table-column>
-        <el-table-column
-          label="商品名称"
-          min-width="180"
-          prop="name"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          label="商品描述"
-          min-width="180"
-          prop="specification"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          label="商品类型"
-          width="140"
-          prop="varietyName"
-        ></el-table-column>
-        <el-table-column
-          label="商品售价"
-          width="100"
-          prop="sell"
-        ></el-table-column>
-        <el-table-column
-          label="操作"
-          min-width="150"
-        >
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column label="商品编号" width="140" prop="no"></el-table-column>
+        <el-table-column label="商品名称" min-width="180" prop="name" show-overflow-tooltip></el-table-column>
+        <el-table-column label="商品描述" min-width="180" prop="specification" show-overflow-tooltip></el-table-column>
+        <el-table-column label="商品类型" width="140" prop="varietyName"></el-table-column>
+        <el-table-column label="商品售价" width="100" prop="sell"></el-table-column>
+        <el-table-column label="操作" min-width="150">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -144,45 +75,21 @@
       >
         <el-row class="commodity--dialog-form">
           <el-col :span="12">
-            <el-form-item
-              label="商品编号"
-              prop="no"
-            >
-              <el-input
-                v-model="createForm.no"
-                placeholder="请输入商品编号"
-                :style="{ width: '90%' }"
-              ></el-input>
+            <el-form-item label="商品编号" prop="no">
+              <el-input v-model="createForm.no" placeholder="请输入商品编号" :style="{ width: '90%' }"></el-input>
             </el-form-item>
-            <el-form-item
-              label="商品名称"
-              prop="name"
-            >
-              <el-input
-                v-model="createForm.name"
-                placeholder="请输入商品名称"
-                :style="{ width: '90%' }"
-              ></el-input>
+            <el-form-item label="商品名称" prop="name">
+              <el-input v-model="createForm.name" placeholder="请输入商品名称" :style="{ width: '90%' }"></el-input>
             </el-form-item>
-            <el-form-item
-              label="商品规格"
-              prop="specification"
-            >
+            <el-form-item label="商品规格" prop="specification">
               <el-input
                 v-model="createForm.specification"
                 placeholder="请输入商品规格"
                 :style="{ width: '90%' }"
               ></el-input>
             </el-form-item>
-            <el-form-item
-              label="商品单位"
-              prop="unit"
-            >
-              <el-select
-                v-model="createForm.unit"
-                placeholder="请选择单位"
-                :style="{ width: '90%' }"
-              >
+            <el-form-item label="商品单位" prop="unit">
+              <el-select v-model="createForm.unit" placeholder="请选择单位" :style="{ width: '90%' }">
                 <el-option
                   v-for="item in commodityUnitList"
                   :key="item.id"
@@ -191,15 +98,8 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item
-              label="商品品种"
-              prop="variety"
-            >
-              <el-select
-                v-model="createForm.variety"
-                placeholder="请选择品类"
-                :style="{ width: '90%' }"
-              >
+            <el-form-item label="商品品种" prop="variety">
+              <el-select v-model="createForm.variety" placeholder="请选择品类" :style="{ width: '90%' }">
                 <el-option
                   v-for="item in goodsTypeList"
                   :key="item.id"
@@ -210,27 +110,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item
-              label="商品售价"
-              prop="sell"
-            >
-              <el-input
-                v-model="createForm.sell"
-                placeholder="请输入商品售价"
-                :style="{ width: '90%' }"
-              >
+            <el-form-item label="商品售价" prop="sell">
+              <el-input v-model="createForm.sell" placeholder="请输入商品售价" :style="{ width: '90%' }">
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
-            <el-form-item
-              label="商品成本"
-              prop="cost"
-            >
-              <el-input
-                v-model="createForm.cost"
-                placeholder="请输入商品成本"
-                :style="{ width: '90%' }"
-              >
+            <el-form-item label="商品成本" prop="cost">
+              <el-input v-model="createForm.cost" placeholder="请输入商品成本" :style="{ width: '90%' }">
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
@@ -253,19 +139,9 @@
         </el-row>
       </el-form>
 
-      <div
-        slot="footer"
-        class="dialog-footer"
-      >
-        <el-button
-          @click="onClose"
-          size="small"
-        >取 消</el-button>
-        <el-button
-          type="primary"
-          @click="onSubmit"
-          size="small"
-        >确 定</el-button>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="onClose" size="small">取 消</el-button>
+        <el-button type="primary" @click="onSubmit" size="small">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -275,6 +151,7 @@
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 import commodityApi from '@/api/commodity'
+import customTable from './../components/customTable'
 
 export default {
   name: 'commodity',
@@ -319,12 +196,20 @@ export default {
     dialogTitle() {
       return this.createForm.id === '' ? '新建商品' : '编辑商品'
     },
-    total() { return this.commodityList.length }
+    total() {
+      return this.commodityList.length
+    }
   },
   methods: {
-    ...mapActions('commodity', ['getAllExtant', 'add', 'update', 'delete', 'getByNo']),
-    ...mapActions('goodsType', { 'getVariety': 'getAllExtant' }),
-    ...mapActions('commodityUnit', { 'getUnit': 'getAllExtant' }),
+    ...mapActions('commodity', [
+      'getAllExtant',
+      'add',
+      'update',
+      'delete',
+      'getByNo'
+    ]),
+    ...mapActions('goodsType', { getVariety: 'getAllExtant' }),
+    ...mapActions('commodityUnit', { getUnit: 'getAllExtant' }),
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
@@ -402,6 +287,11 @@ export default {
         this.$refs['commodityCreateForm'].validate(valid => {
           if (valid) {
             this.add(this.createForm).then(() => {
+              this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+              this.onClose()
               this.onSearch()
             })
           } else {
@@ -412,7 +302,15 @@ export default {
       } else {
         this.$refs['commodityCreateForm'].validate(valid => {
           if (valid) {
-            this.update({ id: this.createForm.id, commodity: this.createForm }).then(() => {
+            this.update({
+              id: this.createForm.id,
+              commodity: this.createForm
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '更新成功'
+              })
+              this.onClose()
               this.onSearch()
             })
           } else {
@@ -421,7 +319,6 @@ export default {
           }
         })
       }
-      this.onClose()
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -456,8 +353,10 @@ export default {
     this.getUnit()
     this.getVariety()
     this.onSearch()
+  },
+  components:{
+    customTable
   }
-
 }
 </script>
 

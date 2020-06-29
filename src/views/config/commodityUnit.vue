@@ -218,9 +218,19 @@ export default {
         this.$message.error('商品单位名称不能为空')
       }
       if (this.createForm.id === '') {
-        this.add({ name: this.createForm.name })
+        this.add({ name: this.createForm.name }).then(()=>{
+          this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+        })
       } else {
-        this.update({ id: this.createForm.id, name: this.createForm.name })
+        this.update({ id: this.createForm.id, name: this.createForm.name }).then(()=>{
+          this.$message({
+                type: 'success',
+                message: '更新成功'
+              })
+        })
       }
       this.onClose()
     },
