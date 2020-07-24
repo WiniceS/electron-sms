@@ -151,7 +151,7 @@
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 import commodityApi from '@/api/commodity'
-import customTable from './../components/customTable'
+// import customTable from './../components/customTable'
 
 export default {
   name: 'commodity',
@@ -354,8 +354,8 @@ export default {
     this.getVariety()
     this.onSearch()
   },
-  components:{
-    customTable
+  components: {
+    // customTable
   }
 }
 </script>

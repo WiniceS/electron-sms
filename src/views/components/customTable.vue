@@ -1,3 +1,4 @@
+<script>
 import _ from 'lodash'
 export default {
   functional: true,
@@ -91,3 +92,4 @@ export default {
     )
   }
 }
+</script>
