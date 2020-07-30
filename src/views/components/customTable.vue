@@ -1,3 +1,6 @@
+<template>
+  <div></div>
+</template>
 <script>
 import _ from 'lodash'
 export default {
@@ -45,15 +48,15 @@ export default {
         nativeOn: context.props.nativeOn || {},
         ref: context.data.ref
       },
-      context.header.map(function(col) {
+      context.header.map(function (col) {
         // 操作栏和非操作栏区分开来
         if (col.isAction) {
-          const btn = function(props) {
-            return col.actions.map(action => {
+          const btn = function (props) {
+            return col.actions.map((action) => {
               const on = {}
               if (_.isObject(action.on)) {
                 for (let property in action.on) {
-                  on[property] = function() {
+                  on[property] = function () {
                     return action.on[property](props)
                   }
                 }
@@ -74,7 +77,7 @@ export default {
               ...col.props
             },
             scopedSlots: {
-              default: props => {
+              default: (props) => {
                 return h('span', {}, btn(props))
               }
             }
