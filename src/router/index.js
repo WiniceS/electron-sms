@@ -17,146 +17,187 @@ Vue.use(VueRouter)
   }
 **/
 export const constantRouterMap = [
+  // {
+  //   path: '/login',
+  //   component: () => import('@/views/login/index'),
+  //   hidden: true
+  // },
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
+    path: '/',
+    component: Layout,
+    redirect: '/deal',
+    hidden: true,
+    children: []
   },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
     path: '/search',
     component: Layout,
     redirect: '/search/search',
     name: 'SearchCompilations',
-    meta: { title: 'SearchCompilations', icon: 'search' },
+    meta: {
+      title: 'SearchCompilations',
+      icon: 'search'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Search',
-        path: 'search',
-        component: () => import('@/views/search/index'),
-        meta: { title: '查找', icon: 'search' }
+    children: [{
+      name: 'Search',
+      path: 'search',
+      component: () => import('@/views/search/index'),
+      meta: {
+        title: '查找',
+        icon: 'search'
       }
-    ]
+    }]
   },
   {
     path: '/deal',
     component: Layout,
     redirect: '/deal/deal',
     name: 'DealCompilations',
-    meta: { title: 'DealCompilations', icon: 'deal' },
+    meta: {
+      title: 'DealCompilations',
+      icon: 'deal'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Deal',
-        path: 'deal',
-        component: () => import('@/views/deal/index'),
-        meta: { title: '销售', icon: 'deal' }
+    children: [{
+      name: 'Deal',
+      path: 'deal',
+      component: () => import('@/views/deal/index'),
+      meta: {
+        title: '销售',
+        icon: 'deal'
       }
-    ]
+    }]
   },
   {
     path: '/warehousing',
     component: Layout,
     redirect: '/warehousing/warehousing',
     name: 'WarehousingCompilations',
-    meta: { title: 'WarehousingCompilations', icon: 'warehousing' },
+    meta: {
+      title: 'WarehousingCompilations',
+      icon: 'warehousing'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Warehousing',
-        path: 'warehousing',
-        component: () => import('@/views/warehousing/index'),
-        meta: { title: '库存', icon: 'warehousing' }
+    children: [{
+      name: 'Warehousing',
+      path: 'warehousing',
+      component: () => import('@/views/warehousing/index'),
+      meta: {
+        title: '库存',
+        icon: 'warehousing'
       }
-    ]
+    }]
   },
   {
     path: '/statistics',
     component: Layout,
     redirect: '/statistics/statistics',
     name: 'StatisticsCompilations',
-    meta: { title: 'StatisticsCompilations', icon: 'earning' },
+    meta: {
+      title: 'StatisticsCompilations',
+      icon: 'earning'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Statistics',
-        path: 'statistics',
-        child: {
-          hidden: false
-        },
-        component: () => import('@/views/statistics/index'),
-        meta: { title: '统计', icon: 'statistics' }
+    children: [{
+      name: 'Statistics',
+      path: 'statistics',
+      child: {
+        hidden: false
+      },
+      component: () => import('@/views/statistics/index'),
+      meta: {
+        title: '统计',
+        icon: 'statistics'
       }
-    ]
+    }]
   },
   {
     path: '/earning',
     component: Layout,
     redirect: '/earning/earning',
     name: 'EarningCompilations',
-    meta: { title: 'EarningCompilations', icon: 'earning' },
+    meta: {
+      title: 'EarningCompilations',
+      icon: 'earning'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Earning',
-        path: 'earning',
-        component: () => import('@/views/earning/index'),
-        meta: { title: '收入', icon: 'earning' }
+    children: [{
+      name: 'Earning',
+      path: 'earning',
+      component: () => import('@/views/earning/index'),
+      meta: {
+        title: '收入',
+        icon: 'earning'
       }
-    ]
+    }]
   },
   {
     path: '/expend',
     component: Layout,
     redirect: '/expend/expend',
     name: 'ExpendCompilations',
-    meta: { title: 'ExpendCompilations', icon: 'expendCompilations' },
+    meta: {
+      title: 'ExpendCompilations',
+      icon: 'expendCompilations'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Expend',
-        path: 'expend',
-        component: () => import('@/views/expend/index'),
-        meta: { title: '支出', icon: 'expend' }
+    children: [{
+      name: 'Expend',
+      path: 'expend',
+      component: () => import('@/views/expend/index'),
+      meta: {
+        title: '支出',
+        icon: 'expend'
       }
-    ]
+    }]
   },
   {
     path: '/config',
     component: Layout,
     redirect: '/config/commodity',
     name: 'ConfigCompilations',
-    meta: { title: 'ConfigCompilations', icon: 'config' },
+    meta: {
+      title: 'ConfigCompilations',
+      icon: 'config'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Commodity',
-        path: 'commodity',
-        child: {
-          hidden: false
-        },
-        component: () => import('@/views/config/commodity.vue'),
-        meta: { title: '商品', icon: 'commodity' }
+    children: [{
+      name: 'Commodity',
+      path: 'commodity',
+      child: {
+        hidden: false
       },
-      {
-        name: 'CommodityUnit',
-        path: 'commodityUnit',
-        child: {
-          hidden: false
-        },
-        component: () => import('@/views/config/commodityUnit.vue'),
-        meta: { title: '商品单位', icon: 'commodityUnit' }
-      },
-      {
-        name: 'GoodsType',
-        path: 'goodsType',
-        child: {
-          hidden: false
-        },
-        component: () => import('@/views/config/goodsType.vue'),
-        meta: { title: '商品类别', icon: 'goodsType' }
+      component: () => import('@/views/config/commodity.vue'),
+      meta: {
+        title: '商品',
+        icon: 'commodity'
       }
+    },
+    {
+      name: 'CommodityUnit',
+      path: 'commodityUnit',
+      child: {
+        hidden: false
+      },
+      component: () => import('@/views/config/commodityUnit.vue'),
+      meta: {
+        title: '商品单位',
+        icon: 'commodityUnit'
+      }
+    },
+    {
+      name: 'GoodsType',
+      path: 'goodsType',
+      child: {
+        hidden: false
+      },
+      component: () => import('@/views/config/goodsType.vue'),
+      meta: {
+        title: '商品类别',
+        icon: 'goodsType'
+      }
+    }
     ]
   },
   {
@@ -164,22 +205,37 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/personal/personal',
     name: 'PersonalCompilations',
-    meta: { title: 'PersonalCompilations', icon: 'personalCompilations' },
+    meta: {
+      title: 'PersonalCompilations',
+      icon: 'personalCompilations'
+    },
     hidden: false,
-    children: [
-      {
-        name: 'Personal',
-        path: 'personal',
-        component: () => import('@/views/personal/index'),
-        meta: { title: '个人', icon: 'personal' }
+    children: [{
+      name: 'Personal',
+      path: 'personal',
+      component: () => import('@/views/personal/index'),
+      meta: {
+        title: '个人',
+        icon: 'personal'
       }
-    ]
+    }]
   },
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 export default new VueRouter({
   // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRouterMap
 })

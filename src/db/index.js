@@ -3,7 +3,7 @@ const rds = require('ali-rds');
 const db = rds({
   host: 'localhost',
   user: 'root',
-  password: '123456',
+  password: 'Qaz10plm.29',
   port: '3306',
   database: 'sms'
 })
