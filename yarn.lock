@@ -3020,6 +3020,11 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
+countup.js@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npm.taobao.org/countup.js/download/countup.js-2.0.5.tgz#7f6b5a329c1bedea9bdb702e628e2bf7bef3c75c"
+  integrity sha1-f2taMpwb7eqb23AuYo4r977zx1w=
+
 crc32-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-2.0.0.tgz#e3cdd3b4df3168dd74e3de3fbbcb7b297fe908f4"
@@ -10370,6 +10375,11 @@ vue-cli-plugin-electron-builder@^1.4.6:
     webpack "^4.18.0"
     webpack-chain "^5.0.0"
     yargs "^14.0.0"
+
+vue-countup-v2@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/vue-countup-v2/download/vue-countup-v2-4.0.0.tgz#061a1ac8ee4aa207bb9d23d2bcc1d53a5f7c3675"
+  integrity sha1-BhoayO5Koge7nSPSvMHVOl98NnU=
 
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
