@@ -173,7 +173,7 @@ export default {
       rules: {
         no: [
           { required: true, message: '请输入商品编号', trigger: 'blur' },
-          { min: 13, max: 13, message: '长度13个字符', trigger: 'blur' }
+          { min: 1, max: 13, message: '长度13个字符', trigger: 'blur' }
         ],
         name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
         specification: [
