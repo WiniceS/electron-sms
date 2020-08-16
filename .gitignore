@@ -21,4 +21,8 @@ yarn-error.log*
 *.sw?
 
 #Electron-builder output
-/dist_electron
+/front-end/dist_electron
+
+#api
+/back-end/bin
+/back-end/obj
