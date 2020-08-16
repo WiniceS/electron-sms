@@ -5,6 +5,10 @@
         <RootNamespace>back_end</RootNamespace>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DocumentationFile>.\back-end\back-end.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     </ItemGroup>

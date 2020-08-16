@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>back-end</name>
+    </assembly>
+    <members>
+        <member name="T:back_end.Controllers.WeatherForecastController">
+            <summary>
+            测试用api
+            </summary>
+        </member>
+        <member name="M:back_end.Controllers.WeatherForecastController.Get">
+            <summary>
+            获取
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:back_end.WeatherForecast.Date">
+            <summary>
+            Date
+            </summary>
+        </member>
+        <member name="P:back_end.WeatherForecast.TemperatureC">
+            <summary>
+            TemperatureC
+            </summary>
+        </member>
+        <member name="P:back_end.WeatherForecast.TemperatureF">
+            <summary>
+            TemperatureF
+            </summary>
+        </member>
+        <member name="P:back_end.WeatherForecast.Summary">
+            <summary>
+            Summary
+            </summary>
+        </member>
+    </members>
+</doc>

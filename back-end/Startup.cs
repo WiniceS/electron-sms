@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using back_end.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +26,9 @@ namespace back_end
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //  注册swagger
+            services.AddSwaggerSetup();
+            
             services.AddControllers();
         }
 
@@ -36,6 +40,13 @@ namespace back_end
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/V1/swagger.json","SuperMarketSystemApi V1");
+                c.RoutePrefix = "apidoc";
+            });
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
