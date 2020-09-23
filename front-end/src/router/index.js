@@ -62,102 +62,94 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/example',
+    path: '/deal',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'example', icon: 'el-icon-s-help', role: 'example' },
+    redirect: '/deal/index',
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'table', icon: 'table', role: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'tree', icon: 'tree', role: 'tree' }
+        path: 'index',
+        name: 'Deal',
+        component: () => import('@/views/deal/index'),
+        meta: { title: 'deal', icon: 'deal', role: 'deal' }
       }
     ]
   },
-
   {
-    path: '/form',
+    path: '/inOut',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'form', icon: 'form' }
+        name: 'InOut',
+        component: () => import('@/views/incomeAndOutgoings/index'),
+        meta: { title: 'inOut', icon: 'inOut' }
       }
     ]
   },
-
   {
-    path: '/nested',
+    path: '/inventory',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'nested',
-      icon: 'nested',
-      role: 'nested'
-    },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'menu1', role: 'menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'menu1-1', role: 'menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'menu1-2', role: 'menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: {
-                  title: 'menu1-2-1', role: 'menu1-2-1'
-                }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'menu1-2-2', role: 'menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'menu1-3', role: 'menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2', role: 'menu2' }
+        path: 'index',
+        name: 'Inventory',
+        component: () => import('@/views/inventory/index'),
+        meta: { title: 'inventory', icon: 'inventory' }
       }
     ]
   },
-
+  {
+    path: '/config',
+    component: Layout,
+    redirect: '/config/goods',
+    name: 'Config',
+    children: [
+      {
+        path: 'goods',
+        component: () => import('@/views/config/goods'), // Parent router-view
+        name: 'Goods',
+        meta: { title: 'goods', role: 'goods' }
+      },
+      {
+        path: 'units',
+        component: () => import('@/views/conifg/units'),
+        name: 'Units',
+        meta: { title: 'units', role: 'units' }
+      },
+      {
+        path: 'types',
+        component: () => import('@/views/config/types'),
+        name: 'Types',
+        meta: { title: 'types', role: 'types' }
+      }
+    ]
+  },
+  {
+    path: '/statistics',
+    component: Layout,
+    redirect: '/statistics/sell',
+    name: 'Statistics',
+    children: [
+      {
+        path: 'sell',
+        component: () => import('@/views/statistics/sell'), // Parent router-view
+        name: 'Sell',
+        meta: { title: 'sell', role: 'sell' }
+      },
+      {
+        path: 'income',
+        component: () => import('@/views/statistics/income'),
+        name: 'Income',
+        meta: { title: 'income', role: 'income' }
+      },
+      {
+        path: 'outgoings',
+        component: () => import('@/views/statistics/outgoings'),
+        name: 'Outgoings',
+        meta: { title: 'outgoings', role: 'outgoings' }
+      }
+    ]
+  }
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
