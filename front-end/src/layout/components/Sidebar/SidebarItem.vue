@@ -107,7 +107,7 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      return path.resolve(this.basePath, routePath)
+      return path.posix.resolve(this.basePath, routePath)
     },
     generateTitle
   }

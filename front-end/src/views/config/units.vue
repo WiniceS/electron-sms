@@ -8,27 +8,62 @@
         class="commodity-unit-filter-form"
         size="small"
       >
-        <el-form-item label="单位名称" prop="name">
-          <el-input v-model="formFilter.name" placeholder="请输入单位名称"></el-input>
+        <el-form-item
+          label="单位名称"
+          prop="name"
+        >
+          <el-input
+            v-model="formFilter.name"
+            placeholder="请输入单位名称"
+          ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSearch">查询</el-button>
+          <el-button
+            type="primary"
+            @click="onSearch"
+          >查询</el-button>
           <el-button @click="resetForm('commodityUnitForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-row>
-    <el-row justify="start" class="commodity-unit-action">
-      <el-button size="small" type="primary" @click="onAdd">新建</el-button>
+    <el-row
+      justify="start"
+      class="commodity-unit-action"
+    >
+      <el-button
+        size="small"
+        type="primary"
+        @click="onAdd"
+      >新建</el-button>
     </el-row>
     <el-row class="commodity-unit-table">
-      <el-table :data="commodityUnitFilterList" stripe border :height="winHeight-150">
+      <el-table
+        :data="commodityUnitFilterList"
+        stripe
+        border
+        :height="winHeight-150"
+      >
         >
-        <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column label="单位名称" width="180" prop="name"></el-table-column>
+        <el-table-column
+          type="index"
+          width="50"
+        ></el-table-column>
+        <el-table-column
+          label="单位名称"
+          width="180"
+          prop="name"
+        ></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -48,14 +83,36 @@
       class="commodity-unit-dialog"
       @close="onClose"
     >
-      <el-form label-position="left" :model="createForm" ref="commodityUnitCreateForm" size="small">
-        <el-form-item label="单位" prop="name">
-          <el-input v-model="createForm.name" autocomplete="off" style="width:70%"></el-input>
+      <el-form
+        label-position="left"
+        :model="createForm"
+        ref="commodityUnitCreateForm"
+        size="small"
+      >
+        <el-form-item
+          label="单位"
+          prop="name"
+        >
+          <el-input
+            v-model="createForm.name"
+            autocomplete="off"
+            style="width:70%"
+          ></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="onClose" size="small">取 消</el-button>
-        <el-button type="primary" @click="onSubmit" size="small">确 定</el-button>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          @click="onClose"
+          size="small"
+        >取 消</el-button>
+        <el-button
+          type="primary"
+          @click="onSubmit"
+          size="small"
+        >确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -65,7 +122,7 @@
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 export default {
-  name: 'commodityUnit',
+  name: 'Units',
   data() {
     return {
       formFilter: {
@@ -143,7 +200,7 @@ export default {
             })
           })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
     onSearch() {
       if (this.formFilter.name != null) {

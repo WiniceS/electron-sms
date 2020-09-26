@@ -70,7 +70,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'Deal',
         component: () => import('@/views/deal/index'),
-        meta: { title: 'deal', icon: 'deal', role: 'deal' }
+        meta: { title: 'deal', icon: 'deal' }
       }
     ]
   },
@@ -103,24 +103,25 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/config/goods',
     name: 'Config',
+    meta: { title: 'config' },
     children: [
       {
         path: 'goods',
         component: () => import('@/views/config/goods'), // Parent router-view
         name: 'Goods',
-        meta: { title: 'goods', role: 'goods' }
+        meta: { title: 'goods' }
       },
       {
         path: 'units',
-        component: () => import('@/views/conifg/units'),
+        component: () => import('@/views/config/units'),
         name: 'Units',
-        meta: { title: 'units', role: 'units' }
+        meta: { title: 'units' }
       },
       {
         path: 'types',
         component: () => import('@/views/config/types'),
         name: 'Types',
-        meta: { title: 'types', role: 'types' }
+        meta: { title: 'types' }
       }
     ]
   },
@@ -129,27 +130,28 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/statistics/sell',
     name: 'Statistics',
+    meta: { title: 'statistics' },
     children: [
       {
         path: 'sell',
         component: () => import('@/views/statistics/sell'), // Parent router-view
         name: 'Sell',
-        meta: { title: 'sell', role: 'sell' }
+        meta: { title: 'sell' }
       },
       {
         path: 'income',
         component: () => import('@/views/statistics/income'),
         name: 'Income',
-        meta: { title: 'income', role: 'income' }
+        meta: { title: 'income' }
       },
       {
         path: 'outgoings',
         component: () => import('@/views/statistics/outgoings'),
         name: 'Outgoings',
-        meta: { title: 'outgoings', role: 'outgoings' }
+        meta: { title: 'outgoings' }
       }
     ]
-  }
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
