@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'system_name_token'
+const TokenKey = 'supermarket_token'
 
 export function getToken() {
   return Cookies.get(TokenKey)
