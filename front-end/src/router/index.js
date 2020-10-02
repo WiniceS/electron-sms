@@ -42,7 +42,6 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -94,7 +93,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'Inventory',
         component: () => import('@/views/inventory/index'),
-        meta: { title: 'inventory', icon: 'inventory' }
+        meta: { title: 'inventory', icon: 'warehousing' }
       }
     ]
   },
@@ -103,7 +102,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/config/goods',
     name: 'Config',
-    meta: { title: 'config' },
+    meta: { title: 'config', icon: 'config' },
     children: [
       {
         path: 'goods',
@@ -130,7 +129,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/statistics/sell',
     name: 'Statistics',
-    meta: { title: 'statistics' },
+    meta: { title: 'statistics', icon: 'statistics' },
     children: [
       {
         path: 'sell',
@@ -142,7 +141,7 @@ export const asyncRoutes = [
         path: 'income',
         component: () => import('@/views/statistics/income'),
         name: 'Income',
-        meta: { title: 'income' }
+        meta: { title: 'income', icon: 'earning' }
       },
       {
         path: 'outgoings',
