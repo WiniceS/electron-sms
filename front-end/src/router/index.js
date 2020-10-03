@@ -81,7 +81,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'InOut',
         component: () => import('@/views/incomeAndOutgoings/index'),
-        meta: { title: 'inOut', icon: 'inOut' }
+        meta: { title: 'inOut', icon: 'deal' }
       }
     ]
   },
