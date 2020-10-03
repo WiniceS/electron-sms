@@ -75,6 +75,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       :hide-on-single-page="true"
+      class="goods-type-pagination"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -147,6 +148,9 @@ export default {
     dialogTitle() {
       return this.type === 'create' ? '新建商品类型' : '编辑商品类型'
     }
+  },
+  created() {
+    this.handleSearch()
   },
   methods: {
     ...mapActions('config', ['setTypeOptions']),
@@ -281,6 +285,10 @@ export default {
   .el-dialog__body {
     padding: 5px 10px;
   }
+}
+
+.goods-type-pagination {
+  text-align: right;
 }
 .delete-button {
   color: #f56c6c;

@@ -69,6 +69,7 @@
       </el-table>
     </el-row>
     <el-pagination
+      class="goods-unit-pagination"
       :current-page="currentPage"
       :page-sizes="[10, 20, 50]"
       :page-size="pageSize"
@@ -132,6 +133,7 @@ export default {
       unitsList: [],
       currentPage: 1,
       pageSize: 10,
+      total: 0,
       type: 'create',
       dialogVisible: false,
       loading: false,
@@ -147,6 +149,9 @@ export default {
       return this.type === 'create' ? '新建商品单位' : '编辑商品单位'
     }
   },
+  created() {
+    this.handleSearch()
+  },
   methods: {
     ...mapActions('config', ['setUnitOptions']),
     query() {
@@ -157,7 +162,7 @@ export default {
       this.loading = true
       getUnits(request).then(res => {
         this.total = res.total
-        this.typesList = res.data
+        this.unitsList = res.data
         this.loading = false
       }).catch(() => {
         this.loading = false
@@ -279,6 +284,9 @@ export default {
   .el-dialog__body {
     padding: 5px 10px;
   }
+}
+.goods-unit-pagination {
+  text-align: right;
 }
 .delete-button {
   color: #f56c6c;
