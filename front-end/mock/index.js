@@ -1,11 +1,7 @@
 const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
 
-const table = require('./table')
-
-const mocks = [
-  ...table
-]
+const mocks = []
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,
