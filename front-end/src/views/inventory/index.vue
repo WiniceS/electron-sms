@@ -327,7 +327,7 @@ export default {
         this.$refs['inventoryForm'].validate(valid => {
           if (valid) {
             this.dialogLoading = true
-            updateInventory({ id: this.from.id, type: this.form }).then(() => {
+            updateInventory({ id: this.form.id, inventory: this.form }).then(() => {
               this.$message({
                 type: 'success',
                 message: '更新成功'

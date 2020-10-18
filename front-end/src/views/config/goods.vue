@@ -252,8 +252,8 @@ export default {
       this.dialogInfo = {}
     },
     handleDialogClose(refresh) {
-      console.log(refresh)
       this.dialogVisible = false
+      this.dialogInfo = {}
       if (refresh) {
         this.handleSearch()
       }

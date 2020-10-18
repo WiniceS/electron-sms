@@ -143,6 +143,7 @@
 <script>
 import { mapState } from 'vuex'
 import { addGood, updateGood, getGoodByNo } from '@/api/goods'
+import _ from 'lodash'
 export default {
   name: 'GoodsDialog',
   props: {
@@ -186,11 +187,13 @@ export default {
     },
     ...mapState('config', ['typeOptions', 'unitOption'])
   },
-  created() {
-    if (this.type === 'create') {
-      this.form = this.initCreateForm()
-    } else if (this.type === 'edit') {
-      this.form = this.info
+  watch: {
+    'type'(newValue, oldValue) {
+      if (newValue === 'create') {
+        this.form = this.initCreateForm()
+      } else if (newValue === 'edit') {
+        this.form = _.cloneDeep(this.info)
+      }
     }
   },
   methods: {
