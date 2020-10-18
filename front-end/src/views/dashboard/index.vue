@@ -1,27 +1,35 @@
 <template>
   <div class="dashboard-container">
     <el-row>
-      <el-col :span="12">
-        <block-card
-          icon="dashboard"
-          :number="364"
-        />
-      </el-col>
-      <el-col :span="12">
-        <block-card
-          icon="form"
-          :number="1364"
-        />
-      </el-col>
+      <good-serach />
     </el-row>
     <el-row>
-      <good-serach />
+      <el-col :span="8">
+        <block-card
+          :icon="todaySell.icon"
+          :label="todaySell.label"
+          :number="todaySell.number"
+        />
+      </el-col>
+      <el-col :span="8">
+        <block-card
+          :icon="todayIncome.icon"
+          :label="todayIncome.label"
+          :number="todayIncome.number"
+        />
+      </el-col>
+      <el-col :span="8">
+        <block-card
+          :icon="todayOutgoing.icon"
+          :label="todayOutgoing.label"
+          :number="todayOutgoing.number"
+        />
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import BlockCard from '@/components/BlockCard'
 import GoodSerach from './compontents/Search'
 
@@ -31,11 +39,26 @@ export default {
     BlockCard,
     GoodSerach
   },
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
-  }
+  data() {
+    return {
+      todaySell: {
+        icon: '',
+        label: '今日销售额（元）',
+        number: 333
+      },
+      todayIncome: {
+        icon: '',
+        label: '今日收入（元）',
+        number: 666
+      },
+      todayOutgoing: {
+        icon: '',
+        label: '今日支出（元）',
+        number: 666
+      }
+    }
+  },
+  computed: {}
 }
 </script>
 
