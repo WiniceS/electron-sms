@@ -56,12 +56,13 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
-              type="text"
+              type="primary"
+              size="mini"
               @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button>
             <el-button
-              type="text"
-              class="delete-button"
+              type="danger"
+              size="mini"
               @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button>
           </template>
