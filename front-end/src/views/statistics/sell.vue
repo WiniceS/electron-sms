@@ -1,172 +1,115 @@
 <template>
-  <div class="statistics">
-    <el-row
-      class="statistics-form"
-      type="flex"
-    >
-      <el-select
-        class="statistics-form-select"
-        v-model="type"
+  <div class="statistics-sell">
+    <el-row class="statistics-sell-form">
+      <el-form
+        ref="commodityForm"
+        :inline="true"
+        :model="search"
+        class="goods-filter-form"
         size="small"
       >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-      <el-date-picker
-        size="small"
-        v-model="time"
-        type="daterange"
-        align="right"
-        unlink-panels
-        :clearable="false"
-        range-separator="至"
-        start-placeholder="开始时间"
-        end-placeholder="开始时间"
-        :picker-options="pickerOptions"
-        format="yyyy/MM/dd"
-      ></el-date-picker>
-      <el-button
-        class="statistics-form-button"
-        size="small"
-        type="primary"
-        @click="onSearch"
-      >查询</el-button>
-      <el-button size="small">重置</el-button>
+        <el-form-item
+          label="时间"
+          prop="time"
+        >
+          <el-date-picker
+            v-model="search.time"
+            size="small"
+            type="daterange"
+            align="right"
+            unlink-panels
+            :clearable="false"
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="开始时间"
+            format="yyyy/MM/dd"
+          />
+        </el-form-item>
+        <el-form-item
+          label="商品种类"
+          prop="variety"
+        >
+          <el-select
+            v-model="search.variety"
+            placeholder="请选择"
+            :clearable="true"
+          >
+            <el-option
+              v-for="item in typeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="商品编号"
+          prop="no"
+        >
+          <el-input
+            v-model="search.no"
+            placeholder="请输入商品编号"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            @click="handleSearch"
+          >查询</el-button>
+          <el-button @click="resetForm('commodityForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
     </el-row>
-    <el-row class="statistics-charts">
+    <el-row class="statistics-sell-charts">
       <el-col
         :span="12"
-        class="statistics-charts-top"
+        class="statistics-sell-charts-top"
       >
-        <ve-bar
-          :data="chartDataTop"
-          :settings="chartSettingsTop"
-        ></ve-bar>
+        <ve-line :data="chartData" />
       </el-col>
       <el-col
         :span="12"
-        class="statistics-charts-minimum"
+        class="statistics-sell-charts-minimum"
       >
-        <ve-bar
-          :data="chartDataMinimum"
-          :settings="chartSettingsMinimum"
-        ></ve-bar>
+        <ve-bar :data="chartData" />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
 export default {
-  name: 'statistics',
+  name: 'StatisticsSell',
   data() {
     return {
-      chartSettingsTop: {},
-      chartSettingsMinimum: {},
-      chartDataTop: {},
-      chartDataMinimum: {},
-      options: [
-        {
-          value: 'sale',
-          label: '商品销售'
-        },
-        {
-          value: 'inventory',
-          label: '库存'
-        }
-      ],
-      type: 'sale',
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          },
-          {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          },
-          {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }
-        ]
+      search: {
+        time: [
+          new Date(new Date().getTime() - 3600 * 1000 * 24 * 7).toLocaleDateString(),
+          new Date(new Date().getTime() + 3600 * 1000 * 24 * 1).toLocaleDateString()
+        ],
+        no: '',
+        variety: ''
       },
-      time: [
-        new Date(new Date().getTime() - 3600 * 1000 * 24 * 7).toLocaleDateString(),
-        new Date(new Date().getTime() + 3600 * 1000 * 24 * 1).toLocaleDateString()
-      ]
-    }
-  },
-  computed: {
-    ...mapState('statistics', ['chartSettingsSaleTop', 'chartSettingsSaleMinimum', 'chartSettingsInventoryTop', 'chartSettingsInventoryMinimum', 'chartDataSaleTop', 'chartDataSaleMinimum', 'chartDataInventoryTop', 'chartDataInventoryMinimum'])
-  },
-  methods: {
-    ...mapActions('statistics', ['getSales', 'getInventory']),
-    onSearch() {
-      if (this.type === 'sale') {
-        this.getSales({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
-          this.chartSettingsTop = this.chartSettingsSaleTop
-          this.chartSettingsMinimum = this.chartSettingsSaleMinimum
-          this.chartDataTop = this.chartDataSaleTop
-          this.chartDataMinimum = this.chartDataSaleMinimum
-        })
-      } else {
-        this.getInventory({ startTime: this.time[0], endTime: this.time[1] }).then(() => {
-          this.chartSettingsTop = this.chartSettingsInventoryTop
-          this.chartSettingsMinimum = this.chartSettingsInventoryMinimum
-          this.chartDataTop = this.chartDataInventoryTop
-          this.chartDataMinimum = this.chartDataInventoryMinimum
-        })
+      chartData: {
+        columns: ['日期', '访问用户', '下单用户', '下单率'],
+        rows: [
+          { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
+          { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
+          { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
+          { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
+          { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
+          { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+        ]
       }
     }
   },
-  mounted() {
-    this.onSearch()
-  },
-  components: {}
+  methods: {
+    handleSearch() {
+
+    }
+  }
 }
 </script>
 
-<style lang="scss">
-.statistics {
-  &-form {
-    padding: 10px 10px;
-    &-select {
-      padding-right: 10px;
-    }
-    &-button {
-      margin-left: 10px;
-    }
-  }
-  &-charts {
-    padding: 10px;
-    &-top {
-      padding: 0 10px;
-    }
-    &-minimum {
-      padding: 0 10px;
-    }
-  }
-}
+<style lang="scss" scoped>
 </style>

@@ -141,7 +141,7 @@ export const asyncRoutes = [
         path: 'income',
         component: () => import('@/views/statistics/income'),
         name: 'Income',
-        meta: { title: 'income', icon: 'earning' }
+        meta: { title: 'income' }
       },
       {
         path: 'outgoings',

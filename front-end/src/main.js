@@ -11,6 +11,8 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import VCharts from 'v-charts'
+
 import i18n from './lang' // internationalization
 
 import '@/icons' // icon
@@ -35,6 +37,8 @@ import '@/permission' // permission control
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
+
+Vue.use(VCharts)
 
 Vue.config.productionTip = false
 
