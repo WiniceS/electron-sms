@@ -1,15 +1,29 @@
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 const TokenKey = 'supermarket_token'
 
+const storage = window.localStorage
+
 export function getToken() {
-  return Cookies.get(TokenKey)
+  if (storage) {
+    return storage.getItem(TokenKey)
+  } else {
+    return ''
+  }
 }
 
 export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+  if (storage) {
+    return storage.setItem(TokenKey, token)
+  } else {
+    return null
+  }
 }
 
 export function removeToken() {
-  return Cookies.remove(TokenKey)
+  if (storage) {
+    return storage.removeItem(TokenKey)
+  } else {
+    return null
+  }
 }
