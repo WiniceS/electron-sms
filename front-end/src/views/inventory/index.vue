@@ -66,14 +66,18 @@
     <el-row>
       <el-col :span="12">
         <ve-bar
-          :data="chartData"
+          :data="maxChartData"
+          :title="maxChart.title"
           :settings="chartSettings"
+          :legend-visible="false"
         />
       </el-col>
       <el-col :span="12">
         <ve-bar
-          :data="chartData"
+          :data="minChartData"
+          :title="minChart.title"
           :settings="chartSettings"
+          :legend-visible="false"
         />
       </el-col>
     </el-row>
@@ -205,8 +209,9 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { getInventories, deleteInventory, addInventory, updateInventory } from '@/api/inventories'
+import { getInventories, deleteInventory, addInventory, updateInventory, getInventoryStatistics } from '@/api/inventories'
 import { getGoodByNo } from '@/api/goods'
+import 'echarts/lib/component/title'
 export default {
   name: 'Inventory',
   data() {
@@ -225,20 +230,31 @@ export default {
       dialogLoading: false,
       dialogVisible: false,
       form: {},
-      chartData: {
-        columns: ['日期', '访问用户'],
-        rows: [
-          { '日期': '1/1', '访问用户': 1393 },
-          { '日期': '1/2', '访问用户': 3530 },
-          { '日期': '1/3', '访问用户': 2923 },
-          { '日期': '1/4', '访问用户': 1723 },
-          { '日期': '1/5', '访问用户': 3792 },
-          { '日期': '1/6', '访问用户': 4593 }
-        ]
+      maxChartData: {
+        columns: ['name', 'number'],
+        rows: []
+      },
+      maxChart: {
+        title: {
+          text: '最少库存TOP',
+          left: 'center'
+        }
+      },
+      minChartData: {
+        columns: ['name', 'number'],
+        rows: []
+      },
+      minChart: {
+        title: {
+          text: '最多库存TOP',
+          left: 'center'
+        }
       },
       chartSettings: {
-        dimension: ['日期'],
-        metrics: ['访问用户']
+        labelMap: {
+          name: '商品名称',
+          number: '库存数量'
+        }
       }
     }
   },
@@ -250,6 +266,7 @@ export default {
   },
   created() {
     this.handleSearch()
+    this.getInventoryTop()
     if (this.typeOptions.length < 1) {
       this.$nextTick(() => {
         this.setTypeOptions()
@@ -321,6 +338,15 @@ export default {
       this.dialogVisible = true
       this.type = 'create'
       this.form = this.initCreateForm()
+    },
+    getInventoryTop() {
+      const top = 10
+      getInventoryStatistics({ top }).then(res => {
+        this.minChartData.rows = res.minInventoryTop
+        this.maxChartData.rows = res.maxInventoryTop
+      }).catch(err => {
+        console.error(err)
+      })
     },
     getCommodityByNo() {
       getGoodByNo(this.form.no).then(res => {

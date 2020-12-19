@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row>
+    <el-row :gutter="20">
       <el-col :span="12">
         <block-card
           :icon="income.icon"
@@ -21,6 +21,7 @@
 
 <script>
 import BlockCard from '@/components/BlockCard'
+import { getIncomeAndOutgoingStatistics } from '@/api/statistice'
 export default {
   name: 'IncomeAndOutgoings',
   components: {
@@ -31,13 +32,26 @@ export default {
       income: {
         icon: '',
         label: '今日收入（元）',
-        number: 333
+        number: 0
       },
       outgoings: {
         icon: '',
         label: '今日支出（元）',
-        number: 333
+        number: 0
       }
+    }
+  },
+  created() {
+    this.getStatistics()
+  },
+  methods: {
+    getStatistics() {
+      getIncomeAndOutgoingStatistics().then(res => {
+        this.income.number = res.todayIncome
+        this.outgoings.number = res.todayOutgoing
+      }).catch(err => {
+        console.error(err)
+      })
     }
   }
 }

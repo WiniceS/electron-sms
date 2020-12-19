@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard-container">
-    <el-row>
+    <el-row
+      :gutter="20"
+      class="dashboard-container-block-card"
+    >
       <el-col :span="8">
         <block-card
           :icon="todaySell.icon"
@@ -28,21 +31,38 @@
     </el-row>
     <el-row>
       <el-col :span="12">
-        <ve-line :data="chartData" />
+        <ve-line
+          :data="saleChartData"
+          :legend-visible="false"
+          :settings="lineChartSettings"
+          :title="{text:'近7天销售额',left:'center'}"
+        />
       </el-col>
       <el-col :span="12">
         <ve-bar
-          :data="chartData"
-          :settings="chartSettings"
+          :data="saleTopChartData"
+          :settings="barChartSettings"
+          :legend-visible="false"
+          :title="{text:'近7天销售商品数top10',left:'center'}"
         />
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
-        <ve-line :data="chartData" />
+        <ve-line
+          :data="incomeChartData"
+          :settings="lineChartSettings"
+          :legend-visible="false"
+          :title="{text:'近7天收入',left:'center'}"
+        />
       </el-col>
       <el-col :span="12">
-        <ve-line :data="chartData" />
+        <ve-line
+          :data="outgoingChartData"
+          :settings="lineChartSettings"
+          :legend-visible="false"
+          :title="{text:'近7天支出',left:'center'}"
+        />
       </el-col>
     </el-row>
   </div>
@@ -51,6 +71,8 @@
 <script>
 import BlockCard from '@/components/BlockCard'
 import GoodSerach from './compontents/Search'
+import { getDashboardStatistics } from '@/api/statistice'
+import 'echarts/lib/component/title'
 
 export default {
   name: 'Dashboard',
@@ -63,36 +85,67 @@ export default {
       todaySell: {
         icon: '',
         label: '今日销售额（元）',
-        number: 333
+        number: 0
       },
       todayIncome: {
         icon: '',
         label: '今日收入（元）',
-        number: 666
+        number: 0
       },
       todayOutgoing: {
         icon: '',
         label: '今日支出（元）',
-        number: 666
+        number: 0
       },
-      chartData: {
-        columns: ['日期', '访问用户'],
-        rows: [
-          { '日期': '1/1', '访问用户': 1393 },
-          { '日期': '1/2', '访问用户': 3530 },
-          { '日期': '1/3', '访问用户': 2923 },
-          { '日期': '1/4', '访问用户': 1723 },
-          { '日期': '1/5', '访问用户': 3792 },
-          { '日期': '1/6', '访问用户': 4593 }
-        ]
+      saleChartData: {
+        columns: ['date', 'number'],
+        rows: []
       },
-      chartSettings: {
-        dimension: ['日期'],
-        metrics: ['访问用户']
+      saleTopChartData: {
+        columns: ['name', 'number'],
+        rows: []
+      },
+      incomeChartData: {
+        columns: ['date', 'number'],
+        rows: []
+      },
+      outgoingChartData: {
+        columns: ['date', 'number'],
+        rows: []
+      },
+      lineChartSettings: {
+        labelMap: {
+          date: '日期',
+          number: '金额'
+        }
+      },
+      barChartSettings: {
+        labelMap: {
+          date: '商品名称',
+          number: '销售数量'
+        }
       }
     }
   },
-  computed: {}
+  computed: {},
+  created() {
+    this.getStatistics()
+  },
+  methods: {
+    getStatistics() {
+      return getDashboardStatistics().then(res => {
+        this.todaySell.number = res.todaySale
+        this.todayIncome.number = res.todayIncome
+        this.todayOutgoing.number = res.todayOutgoing
+        this.saleChartData.rows = res.saleStatistics
+        this.saleTopChartData.rows = res.saleStatisticsTop
+        this.incomeChartData.rows = res.incomeStatistics
+        this.outgoingChartData.rows = res.outgoingStatistics
+      }).catch(err => {
+        console.error(err)
+      })
+    }
+  }
 }
 </script>
 
@@ -100,6 +153,9 @@ export default {
 .dashboard {
   &-container {
     margin: 30px;
+    &-block-card {
+      margin-bottom: 20px;
+    }
   }
   &-text {
     font-size: 30px;

@@ -31,3 +31,10 @@ export function updateInventory({ id, inventory }) {
   })
 }
 
+export function getInventoryStatistics(params) {
+  return request({
+    url: `/Statistics/Inventory`,
+    method: 'get',
+    params
+  })
+}
