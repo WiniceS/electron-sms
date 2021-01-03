@@ -26,12 +26,16 @@
         />
       </el-col>
     </el-row>
-    <el-row>
+    <el-row class="dashboard-container-search">
       <good-serach />
     </el-row>
-    <el-row>
+    <el-row
+      :gutter="10"
+      :style="{marginBottom:'10px'}"
+    >
       <el-col :span="12">
         <ve-line
+          class="dashboard-container-chart"
           :data="saleChartData"
           :legend-visible="false"
           :settings="lineChartSettings"
@@ -40,6 +44,7 @@
       </el-col>
       <el-col :span="12">
         <ve-bar
+          class="dashboard-container-chart"
           :data="saleTopChartData"
           :settings="barChartSettings"
           :legend-visible="false"
@@ -47,9 +52,10 @@
         />
       </el-col>
     </el-row>
-    <el-row>
+    <el-row :gutter="10">
       <el-col :span="12">
         <ve-line
+          class="dashboard-container-chart"
           :data="incomeChartData"
           :settings="lineChartSettings"
           :legend-visible="false"
@@ -58,6 +64,7 @@
       </el-col>
       <el-col :span="12">
         <ve-line
+          class="dashboard-container-chart"
           :data="outgoingChartData"
           :settings="lineChartSettings"
           :legend-visible="false"
@@ -155,6 +162,14 @@ export default {
     margin: 30px;
     &-block-card {
       margin-bottom: 20px;
+    }
+    &-search {
+      margin-bottom: 10px;
+    }
+    &-chart {
+      border: 1px solid #aaa;
+      border-radius: 20px;
+      padding: 10px;
     }
   }
   &-text {

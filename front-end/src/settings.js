@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'System Name',
+  title: '超市系统',
 
   /**
    * @type {boolean} true | false
