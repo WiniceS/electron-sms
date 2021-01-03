@@ -17,6 +17,7 @@
             <count-to
               :start-val="0"
               :end-val="number"
+              :decimals="2"
               :duration="3200"
               class="block-card-panel-num"
             />

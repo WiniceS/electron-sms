@@ -118,10 +118,12 @@
           label="小计"
           min-width="60"
           prop="subtotal"
+          fixed="right"
         />
         <el-table-column
           label="操作"
           min-width="80"
+          fixed="right"
         >
           <template slot-scope="scope">
             <el-button
