@@ -1,10 +1,9 @@
-import service from '../service'
+import request from '@/utils/request'
 
-const dealApi = {
-  async sell(record, userId) {
-    let res = await service.dealService.sell(record, userId)
-    return res
-  }
+export function deal(record) {
+  return request({
+    url: `/Deal/Deal`,
+    method: 'post',
+    data: record
+  })
 }
-
-export default dealApi

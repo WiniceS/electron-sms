@@ -5,7 +5,7 @@ import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
-const ipc = require('electron').ipcMain
+// const ipc = require('electron').ipcMain
 const isDevelopment = process.env.NODE_ENV !== 'production'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -41,7 +41,7 @@ function createWindow() {
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    win.loadURL('app://./index.html/#/login')
   }
 
   win.on('closed', () => {
@@ -89,7 +89,7 @@ app.on('ready', async () => {
     }
   }
   // 在开发环境和生产环境均可通过快捷键打开devTools
-  globalShortcut.register('CommandOrControl+Shift+i', function() {
+  globalShortcut.register('CommandOrControl+Shift+i', function () {
     win.webContents.openDevTools()
   })
 
@@ -111,25 +111,25 @@ if (isDevelopment) {
   }
 }
 
-let miniWindow = null
+// let miniWindow = null
 
-ipc.on('add', () => {
-  // Menu.setApplicationMenu(null) // 关闭子窗口菜单栏
-  const modalPath = 'http://localhost:8080/#/statistics/test'
-  // 使用hash对子页面跳转，这是vue的路由思想
-  miniWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
-    webPreferences: {
-      webSecurity: false,
-      nodeIntegration: true
-    },
-    parent: win // mainWindow是主窗口
-  })
+// ipc.on('add', () => {
+//   // Menu.setApplicationMenu(null) // 关闭子窗口菜单栏
+//   const modalPath = 'http://localhost:8080/#/statistics/test'
+//   // 使用hash对子页面跳转，这是vue的路由思想
+//   miniWindow = new BrowserWindow({
+//     width: 600,
+//     height: 400,
+//     webPreferences: {
+//       webSecurity: false,
+//       nodeIntegration: true
+//     },
+//     parent: win // mainWindow是主窗口
+//   })
 
-  miniWindow.loadURL(modalPath)
+//   miniWindow.loadURL(modalPath)
 
-  miniWindow.on('closed', () => {
-    miniWindow = null
-  })
-})
+//   miniWindow.on('closed', () => {
+//     miniWindow = null
+//   })
+// })

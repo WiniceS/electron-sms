@@ -1,41 +1,108 @@
 <template>
   <div class="deal">
     <el-row class="deal-input">
-      <el-col :span="12">
+      <el-col :span="24">
         <el-input
-          class="deal-input-goodid"
           v-model="goodNo"
           placeholder="请输入商品编号"
+          class="deal-input-goodid"
           @keyup.native.enter="addGoodInSell"
-        ></el-input>
+        >
+          <el-button
+            slot="append"
+            icon="el-icon-circle-plus"
+            type="primary"
+            @click="addGoodInSell"
+          >添加</el-button>
+        </el-input>
       </el-col>
-      <el-col :span="4">
-        <el-button class="deal-input-add" type="primary" @click="addGoodInSell">添加</el-button>
+    </el-row>
+    <el-row>
+      <el-col
+        :span="12"
+        class="deal-summation"
+      >
+        <span>合计：</span><span>{{ sale }}</span><span>元</span>
       </el-col>
-      <el-col :span="7">
-        <span class="deal-sale">合计:{{sale}}元</span>
+      <el-col :span="6">
+        <el-button
+          :style="{width:'100%'}"
+          type="primary"
+          size="small"
+          @click="settleAccounts"
+        >结算</el-button>
+      </el-col>
+      <el-col
+        :span="4"
+        :offset="2"
+      >
+        <el-button
+          :style="{width:'100%'}"
+          type="warning"
+          size="small"
+          @click="clearDeal"
+        >清空</el-button>
       </el-col>
     </el-row>
     <el-row class="deal-table">
-      <el-table :data="dealRecords" stripe border :max-height="winHeight-130">
-        <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column label="商品编号" width="140" prop="no"></el-table-column>
-        <el-table-column label="商品名称" min-width="180" prop="name" show-overflow-tooltip></el-table-column>
-        <el-table-column label="商品描述" min-width="180" prop="specification" show-overflow-tooltip></el-table-column>
-        <el-table-column label="商品类型" width="120" prop="varietyName" show-overflow-tooltip></el-table-column>
-        <el-table-column label="商品售价" width="80" prop="sell"></el-table-column>
-        <el-table-column label="商品数量" width="120" prop="quantity">
+      <el-table
+        :data="dealRecords"
+        stripe
+        border
+        :max-height="800"
+      >
+        <el-table-column
+          type="index"
+          width="50"
+        />
+        <el-table-column
+          label="商品编号"
+          min-width="140"
+          prop="no"
+        />
+        <el-table-column
+          label="商品名称"
+          min-width="180"
+          prop="name"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="商品描述"
+          min-width="180"
+          prop="specification"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="商品类型"
+          min-width="120"
+          prop="variety"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="商品售价"
+          min-width="80"
+          prop="sell"
+        />
+        <el-table-column
+          label="商品数量"
+          min-width="120"
+          prop="quantity"
+        >
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.quantity"
-              @change="handleChange(scope.row)"
               :min="0"
               size="mini"
               :style="{width:'100px'}"
-            ></el-input-number>
+              @change="handleChange(scope.row)"
+            />
           </template>
         </el-table-column>
-        <el-table-column label="优惠" width="100" prop="discounts">
+        <el-table-column
+          label="优惠"
+          min-width="100"
+          prop="discounts"
+        >
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.discounts"
@@ -44,28 +111,37 @@
               size="mini"
               :style="{width:'80px'}"
               @change="handleChange(scope.row)"
-            ></el-input-number>
+            />
           </template>
         </el-table-column>
-        <el-table-column label="小计" width="60" prop="subtotal"></el-table-column>
-        <el-table-column label="操作" min-width="80">
+        <el-table-column
+          label="小计"
+          min-width="60"
+          prop="subtotal"
+        />
+        <el-table-column
+          label="操作"
+          min-width="80"
+        >
           <template slot-scope="scope">
-            <el-button size="mini" type="danger" @click="delDealList(scope.row.id)">删除</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="delDealList(scope.row.id)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-    </el-row>
-    <el-row class="deal-button">
-      <el-button type="warning" @click="clearDeal">清空</el-button>
-      <el-button type="primary" :style="{ width: '150px' }" @click="settleAccounts">确认</el-button>
     </el-row>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { getGoodByNo } from '@/api/goods'
+import { deal } from '@/api/deal'
 export default {
-  name: 'deal',
+  name: 'Deal',
   data() {
     return {
       goodNo: '',
@@ -85,16 +161,23 @@ export default {
       return tmp
     }
   },
+  created() {
+    document.addEventListener('keyup', this.keySale)
+  },
+  beforeDestroy() {
+    document.removeEventListener('keyup', this.keySale)
+    this.timer = null
+  },
   methods: {
     ...mapActions('deal', ['sell']),
     ...mapActions('commodity', ['getByNo']),
     // 查询商品后添加到销售列表中
     addGoodInSell() {
       if (this.goodNo.length > 0) {
-        const re = /^[0-9]{13}$/
-        let tmp = this.goodNo.search(re)
+        const re = /^[0-9]{6,13}$/
+        const tmp = this.goodNo.search(re)
         if (tmp > -1) {
-          this.getByNo({ no: this.goodNo }).then(res => {
+          getGoodByNo(this.goodNo).then(res => {
             res.quantity = 1
             res.discounts = 0
             res.subtotal = res.quantity * res.sell - res.discounts
@@ -142,7 +225,7 @@ export default {
     // 结算
     settleAccounts() {
       if (this.dealRecords.length > 0) {
-        this.sell({ record: this.dealRecords })
+        deal(this.dealRecords)
           .then(() => {
             this.$message({
               type: 'success',
@@ -163,7 +246,7 @@ export default {
     onSell(e) {
       if (e.code === 'F9') {
         if (this.dealRecords.length > 0) {
-          this.sell({ record: this.dealRecords })
+          deal(this.dealRecords)
             .then(() => {
               this.$message({
                 type: 'success',
@@ -186,39 +269,29 @@ export default {
       this.timer && clearTimeout(this.timer)
       this.timer = setTimeout(this.onSell(e), 500)
     }
-  },
-  created() {
-    document.addEventListener('keyup', this.keySale)
-  },
-  beforeDestroy() {
-    document.removeEventListener('keyup', this.keySale)
-    this.timer = null
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .deal {
-  .deal-input {
+  &-input {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .deal-sale {
+    margin-bottom: 10px;
+  }
+  &-summation {
+    text-align: center;
+    span {
       font-size: 160%;
       font-weight: bold;
     }
   }
   .deal-table {
-    width: calc(100% - 20px);
-    margin: 5px 10px;
-  }
-  .deal-button {
-    margin-top: 5px;
-    margin-right: 10px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    margin-top: 10px;
+    height: 80vh;
   }
 }
 </style>

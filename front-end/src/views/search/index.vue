@@ -7,50 +7,77 @@
         placeholder="请输入商品编号"
         size="small"
         @keyup.native.enter="onSearch"
-      ></el-input>
+      />
     </el-row>
-    <el-row v-if="showForm.id" class="search-show" :style="{height:(winHeight-75)+'px'}">
-      <el-col :span="10" :offset="1" class="search-show-image">
-        <el-image :src="src" fit="contain">
-          <div slot="placeholder" class="search-show-image-slot">
+    <el-row
+      v-if="showForm.id"
+      class="search-show"
+      :style="{height:(winHeight-75)+'px'}"
+    >
+      <el-col
+        :span="10"
+        :offset="1"
+        class="search-show-image"
+      >
+        <el-image
+          :src="src"
+          fit="contain"
+        >
+          <div
+            slot="placeholder"
+            class="search-show-image-slot"
+          >
             加载中
             <span class="search-show-image-dot">...</span>
           </div>
-          <div slot="error" class="search-show-image-slot">
-            <i class="el-icon-picture-outline"></i>
+          <div
+            slot="error"
+            class="search-show-image-slot"
+          >
+            <i class="el-icon-picture-outline" />
           </div>
         </el-image>
       </el-col>
-      <el-col :span="12" :offset="1">
-        <el-form v-model="showForm" ref="searchCreateForm" label-width="120px">
+      <el-col
+        :span="12"
+        :offset="1"
+      >
+        <el-form
+          ref="searchCreateForm"
+          v-model="showForm"
+          label-width="120px"
+        >
           <el-row class="search-show-form">
             <el-form-item label="商品名称:">
-              <span>{{showForm.name}}</span>
+              <span>{{ showForm.name }}</span>
             </el-form-item>
             <el-form-item label="商品售价:">
-              <span>{{showForm.sell}}元</span>
+              <span>{{ showForm.sell }}元</span>
             </el-form-item>
             <el-form-item label="商品编号:">
-              <span>{{showForm.no}}</span>
+              <span>{{ showForm.no }}</span>
             </el-form-item>
             <el-form-item label="商品规格:">
-              <span>{{showForm.specification}}</span>
+              <span>{{ showForm.specification }}</span>
             </el-form-item>
             <el-form-item label="商品品种:">
-              <span>{{showForm.varietyName}}</span>
+              <span>{{ showForm.varietyName }}</span>
             </el-form-item>
           </el-row>
         </el-form>
       </el-col>
     </el-row>
-    <el-row v-else :style="{height:(winHeight-75)+'px'}"></el-row>
+    <el-row
+      v-else
+      :style="{height:(winHeight-75)+'px'}"
+    />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'search',
+  name: 'Search',
   data() {
     return {
       number: '',
@@ -68,6 +95,10 @@ export default {
   },
   computed: {
     ...mapState(['winHeight'])
+  },
+  mounted() {
+    this.showForm = this.initShowForm()
+    this.onFocus()
   },
   methods: {
     ...mapActions('commodity', ['getByNo']),
@@ -98,10 +129,6 @@ export default {
         this.$refs.searchInput.select()
       }
     }
-  },
-  mounted() {
-    this.showForm = this.initShowForm()
-    this.onFocus()
   }
 }
 </script>
