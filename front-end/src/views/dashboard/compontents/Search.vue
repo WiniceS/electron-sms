@@ -8,8 +8,9 @@
         <el-button
           slot="append"
           icon="el-icon-search"
-          @click="handelSearchGood"
-        >查询</el-button>
+          @click="handleSearchGood"
+        >查询
+        </el-button>
       </el-input>
     </el-col>
     <el-col :span="24">
@@ -18,34 +19,26 @@
           v-show="showContent"
           class="search-good-info"
         >
-          <el-col :span="12">
-            <el-image
-              :src="form.src"
-              lazy
-              fit="contain"
-            />
-          </el-col>
-          <el-col :span="12">
-            <el-form
-              ref="form"
-              :model="form"
-              class="good-search-form"
-              label-width="80px"
-            >
-              <el-form-item label="商品名称">{{ form.name }}</el-form-item>
-              <el-form-item label="商品编号">{{ form.no }}</el-form-item>
-              <el-form-item label="商品种类">{{ form.variety }}</el-form-item>
-              <el-form-item label="商品售价">{{ form.sell }}元</el-form-item>
-              <el-form-item>
-                <el-button
-                  type="primary"
-                  size="mini"
-                  :style="{width:'60%'}"
-                  @click="showContent=false"
-                >关闭</el-button>
-              </el-form-item>
-            </el-form>
-          </el-col>
+          <el-form
+            ref="form"
+            :model="form"
+            class="good-search-form"
+            label-width="180px"
+          >
+            <el-form-item label="商品名称">{{ form.name }}</el-form-item>
+            <el-form-item label="商品编号">{{ form.no }}</el-form-item>
+            <el-form-item label="商品种类">{{ form.variety }}</el-form-item>
+            <el-form-item label="商品售价">{{ form.sell }}元</el-form-item>
+            <el-form-item>
+              <el-button
+                type="primary"
+                size="mini"
+                :style="{width:'60%'}"
+                @click="showContent=false"
+              >关闭
+              </el-button>
+            </el-form-item>
+          </el-form>
         </el-row>
       </transition>
     </el-col>
@@ -54,25 +47,28 @@
 
 <script>
 import { getGoodByNo } from '@/api/goods'
+
 export default {
   name: 'GoodSearch',
-  props: {
-
-  },
+  props: {},
   data() {
     return {
       number: '',
-      showContent: false,
+      showContent: true,
       translateStyle: {
         height: '200px',
         overflow: 'hidden'
       },
       form: {
+        name: '',
+        no: '',
+        variety: '',
+        sell: 0
       }
     }
   },
   methods: {
-    handelSearchGood() {
+    handleSearchGood() {
       if (this.number.length > 0) {
         const re = /^[0-9]{6,13}$/
         const tmp = this.number.search(re)
@@ -102,19 +98,25 @@ export default {
 
 <style lang="scss" scoped>
 .good-search-form {
+  padding-left: 20px;
+  padding-right: 20px;
   .el-form-item {
     margin-bottom: 0;
   }
 }
+
 .search-good-info {
   overflow: hidden;
   height: 200px;
 }
+
 .show-content-enter-active,
 .show-content-leave-active {
   transition: all 1.5s;
 }
-.show-content-enter, .show-content-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.show-content-enter, .show-content-leave-to /* .fade-leave-active below version 2.1.8 */
+{
   height: 0px;
 }
 </style>
