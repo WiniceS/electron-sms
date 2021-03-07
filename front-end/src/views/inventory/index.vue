@@ -47,7 +47,8 @@
           <el-button
             type="primary"
             @click="handleSearch"
-          >查询</el-button>
+          >查询
+          </el-button>
           <el-button @click="resetForm('inventoryForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -60,8 +61,9 @@
         size="small"
         type="primary"
         :style="{width:'100%'}"
-        @click="handelAdd"
-      >新建</el-button>
+        @click="handleAdd"
+      >新建
+      </el-button>
     </el-row>
     <el-row>
       <el-col :span="12">
@@ -127,12 +129,14 @@
               type="primary"
               size="mini"
               @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button>
+            >编辑
+            </el-button>
             <el-button
               type="danger"
               size="mini"
               @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button>
+            >删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -196,12 +200,14 @@
         <el-button
           size="small"
           @click="onClose"
-        >取 消</el-button>
+        >取 消
+        </el-button>
         <el-button
           type="primary"
           size="small"
           @click="onSubmit"
-        >确 定</el-button>
+        >确 定
+        </el-button>
       </div>
     </el-dialog>
   </div>
@@ -209,34 +215,52 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { getInventories, deleteInventory, addInventory, updateInventory, getInventoryStatistics } from '@/api/inventories'
+import {
+  getInventories,
+  deleteInventory,
+  addInventory,
+  updateInventory,
+  getInventoryStatistics
+} from '@/api/inventories'
 import { getGoodByNo } from '@/api/goods'
 import 'echarts/lib/component/title'
+
 export default {
   name: 'Inventory',
   data() {
     return {
+      // 搜索栏
       search: {
         no: '',
         name: '',
         variety: ''
       },
+      // 库存数据
       inventoriesList: [],
+      // 当前页
       currentPage: 1,
+      // 总条数
       total: 0,
+      // 每页数
       pageSize: 10,
+      // 弹窗类型
       type: 'create',
       loading: false,
       dialogLoading: false,
       dialogVisible: false,
-      form: {},
+      // 弹窗表单内容
+      form: {
+        no: '',
+        name: '',
+        quantity: 0
+      },
       maxChartData: {
         columns: ['name', 'number'],
         rows: []
       },
       maxChart: {
         title: {
-          text: '最少库存TOP',
+          text: '最多库存TOP',
           left: 'center'
         }
       },
@@ -246,7 +270,7 @@ export default {
       },
       minChart: {
         title: {
-          text: '最多库存TOP',
+          text: '最少库存TOP',
           left: 'center'
         }
       },
@@ -275,6 +299,7 @@ export default {
   },
   methods: {
     ...mapActions('config', ['setTypeOptions']),
+    // 查询方法
     query() {
       const request = Object.assign({
         pageSize: this.pageSize,
@@ -295,20 +320,24 @@ export default {
         this.query()
       }
     },
+    // 改变每页数
     handleSizeChange(val) {
       this.currentPage = 1
       this.pageSize = val
       this.handleSearch()
     },
+    // 改变当前页
     handleCurrentChange(val) {
       this.currentPage = val
       this.handleSearch()
     },
+    // 编辑方法
     handleEdit(index, row) {
       this.dialogVisible = true
       this.type = 'edit'
       this.form = row
     },
+    // 删除方法
     handleDelete(index, row) {
       this.$confirm('此操作将删除该商品, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -334,26 +363,30 @@ export default {
           })
       })
     },
-    handelAdd() {
+    // 添加方法
+    handleAdd() {
       this.dialogVisible = true
       this.type = 'create'
       this.form = this.initCreateForm()
     },
+    // 获取表单数据
     getInventoryTop() {
       const top = 10
       getInventoryStatistics({ top }).then(res => {
-        this.minChartData.rows = res.minInventoryTop
-        this.maxChartData.rows = res.maxInventoryTop
+        this.minChartData.rows = res.minInventoryTop.reverse()
+        this.maxChartData.rows = res.maxInventoryTop.reverse()
       }).catch(err => {
         console.error(err)
       })
     },
+    // 根据商品编号获取商品信息
     getCommodityByNo() {
       getGoodByNo(this.form.no).then(res => {
         this.form.goodId = res.id
         this.form.name = res.name
       })
     },
+    // 提交新增的商品库存
     onSubmit() {
       if (this.form.goodId === '') {
         this.$message({
@@ -361,6 +394,7 @@ export default {
           message: '请输入商品码'
         })
       }
+      // 新增
       if (this.form.id === '') {
         this.$refs['inventoryForm'].validate(valid => {
           if (valid) {
@@ -371,6 +405,8 @@ export default {
               })
               this.onClose()
               this.handleSearch()
+              this.getInventoryTop()
+              this.dialogLoading = false
             }).catch(() => {
               this.dialogLoading = false
             })
@@ -380,6 +416,7 @@ export default {
           }
         })
       } else {
+        // 更新
         this.$refs['inventoryForm'].validate(valid => {
           if (valid) {
             this.dialogLoading = true
@@ -390,6 +427,7 @@ export default {
               })
               this.onClose()
               this.handleSearch()
+              this.getInventoryTop()
               this.dialogLoading = false
             })
           } else {
@@ -399,6 +437,7 @@ export default {
         })
       }
     },
+    // 重置
     resetForm(formName) {
       this.$refs[formName].resetFields()
       this.handleSearch()
@@ -424,23 +463,28 @@ export default {
 <style lang="scss">
 .inventory-filter {
   padding: 5px 10px;
+
   .inventory-filter-form {
     display: flex;
     justify-self: start;
+
     .el-form-item {
       margin-bottom: 0;
     }
   }
 }
+
 .inventory-action {
   padding: 5px 10px;
   display: flex;
   justify-self: start;
 }
+
 .inventory-table {
   width: calc(100% - 20px);
   margin: 5px 10px;
 }
+
 .inventory-dialog {
   .el-dialog__body {
     padding: 5px 10px;
@@ -450,9 +494,11 @@ export default {
 .inventory-pagination {
   text-align: right;
 }
+
 .delete-button {
   color: #f56c6c;
 }
+
 .delete-button:hover {
   color: lighten(#f56c6c, 10%);
 }

@@ -4,16 +4,18 @@
       <el-col :span="24">
         <el-input
           v-model="goodNo"
+          ref="input"
           placeholder="请输入商品编号"
           class="deal-input-goodid"
-          @keyup.native.enter="addGoodInSell"
+          @change="addGoodInSell"
         >
           <el-button
             slot="append"
             icon="el-icon-circle-plus"
             type="primary"
             @click="addGoodInSell"
-          >添加</el-button>
+          >添加
+          </el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -30,7 +32,8 @@
           type="primary"
           size="small"
           @click="settleAccounts"
-        >结算</el-button>
+        >结算
+        </el-button>
       </el-col>
       <el-col
         :span="4"
@@ -41,7 +44,8 @@
           type="warning"
           size="small"
           @click="clearDeal"
-        >清空</el-button>
+        >清空
+        </el-button>
       </el-col>
     </el-row>
     <el-row class="deal-table">
@@ -129,8 +133,9 @@
             <el-button
               size="mini"
               type="danger"
-              @click="delDealList(scope.row.id)"
-            >删除</el-button>
+              @click="handleDelete(scope.row.key)"
+            >删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -142,6 +147,8 @@
 import { mapActions, mapState } from 'vuex'
 import { getGoodByNo } from '@/api/goods'
 import { deal } from '@/api/deal'
+import uuid from 'uuidjs'
+
 export default {
   name: 'Deal',
   data() {
@@ -170,6 +177,9 @@ export default {
     document.removeEventListener('keyup', this.keySale)
     this.timer = null
   },
+  mounted() {
+    this.$refs['input'].focus()
+  },
   methods: {
     ...mapActions('deal', ['sell']),
     ...mapActions('commodity', ['getByNo']),
@@ -183,16 +193,19 @@ export default {
             res.quantity = 1
             res.discounts = 0
             res.subtotal = res.quantity * res.sell - res.discounts
+            res.key = uuid.genV4().toString()
             this.dealRecords.push(res)
+            this.goodNo = ''
           })
-          this.goodNo = ''
         } else {
           this.$message({
             type: 'warning',
             message: '请输入正确的商品编码'
           })
         }
+        this.setInputSelected()
       } else {
+        this.setInputSelected()
         this.$message({
           type: 'warning',
           message: '请输入商品编码'
@@ -207,8 +220,9 @@ export default {
       }
     },
     // 删除一行销售商品
-    handleDelete(id) {
-      this.dealRecords = this.dealRecords.filter(f => f.id !== id)
+    handleDelete(key) {
+      this.dealRecords = this.dealRecords.filter(f => f.key !== key)
+      this.setInputSelected()
     },
     // 清空销售列表
     clearDeal() {
@@ -219,9 +233,11 @@ export default {
       })
         .then(() => {
           this.dealRecords = []
+          this.setInputSelected()
         })
         .catch(() => {
           console.log('取消清空')
+          this.setInputSelected()
         })
     },
     // 结算
@@ -235,6 +251,7 @@ export default {
             })
             this.goodNo = ''
             this.dealRecords = []
+            this.setInputSelected()
           })
           .catch(e => {
             console.error(e)
@@ -245,6 +262,7 @@ export default {
           })
       }
     },
+    // 结算
     onSell(e) {
       if (e.code === 'F9') {
         if (this.dealRecords.length > 0) {
@@ -256,6 +274,7 @@ export default {
               })
               this.goodNo = ''
               this.dealRecords = []
+              this.setInputSelected()
             })
             .catch(e => {
               console.error(e)
@@ -270,6 +289,10 @@ export default {
     keySale(e) {
       this.timer && clearTimeout(this.timer)
       this.timer = setTimeout(this.onSell(e), 500)
+    },
+    setInputSelected() {
+      this.$refs['input'].focus()
+      this.$refs['input'].select()
     }
   }
 }
@@ -284,13 +307,16 @@ export default {
     align-items: center;
     margin-bottom: 10px;
   }
+
   &-summation {
     text-align: center;
+
     span {
       font-size: 160%;
       font-weight: bold;
     }
   }
+
   .deal-table {
     margin-top: 10px;
     height: 80vh;

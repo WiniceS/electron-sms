@@ -27,7 +27,7 @@
       </el-col>
     </el-row>
     <el-row class="dashboard-container-search">
-      <good-serach />
+      <good-search ref="searchBar" />
     </el-row>
     <el-row
       :gutter="10"
@@ -77,7 +77,7 @@
 
 <script>
 import BlockCard from '@/components/BlockCard'
-import GoodSerach from './compontents/Search'
+import GoodSearch from './compontents/Search'
 import { getDashboardStatistics } from '@/api/statistice'
 import 'echarts/lib/component/title'
 
@@ -85,47 +85,56 @@ export default {
   name: 'Dashboard',
   components: {
     BlockCard,
-    GoodSerach
+    GoodSearch
   },
   data() {
     return {
+      // 今日销售额
       todaySell: {
         icon: '',
         label: '今日销售额（元）',
         number: 0
       },
+      // 今日收入
       todayIncome: {
         icon: '',
         label: '今日收入（元）',
         number: 0
       },
+      // 今日支出
       todayOutgoing: {
         icon: '',
         label: '今日支出（元）',
         number: 0
       },
+      // 近7天销售额
       saleChartData: {
         columns: ['date', 'number'],
         rows: []
       },
+      // 近7天销售商品数top10
       saleTopChartData: {
         columns: ['name', 'number'],
         rows: []
       },
+      // 近7天收入
       incomeChartData: {
         columns: ['date', 'number'],
         rows: []
       },
+      // 近7天支出
       outgoingChartData: {
         columns: ['date', 'number'],
         rows: []
       },
+      // 折线图配置
       lineChartSettings: {
         labelMap: {
           date: '日期',
           number: '金额'
         }
       },
+      // 柱状图配置
       barChartSettings: {
         labelMap: {
           date: '商品名称',
@@ -138,7 +147,14 @@ export default {
   created() {
     this.getStatistics()
   },
+  mounted() {
+    this.$refs['searchBar'].getInputFocus()
+  },
   methods: {
+    /**
+     * @description 获取图表和块的统计信息
+     * @returns {Promise<void>}
+     */
     getStatistics() {
       return getDashboardStatistics().then(res => {
         this.todaySell.number = res.todaySale
@@ -160,18 +176,22 @@ export default {
 .dashboard {
   &-container {
     margin: 30px;
+
     &-block-card {
       margin-bottom: 20px;
     }
+
     &-search {
       margin-bottom: 10px;
     }
+
     &-chart {
-      border: 1px solid #aaa;
+      border: 1px solid #ddd;
       border-radius: 20px;
       padding: 10px;
     }
   }
+
   &-text {
     font-size: 30px;
     line-height: 46px;

@@ -88,9 +88,9 @@
     >
       <el-form
         ref="typeForm"
-        label-position="left"
         :model="form"
         size="small"
+        label-width="150px"
       >
         <el-form-item
           label="类型"
@@ -99,7 +99,6 @@
           <el-input
             v-model="form.name"
             autocomplete="off"
-            style="width:70%"
           />
         </el-form-item>
       </el-form>

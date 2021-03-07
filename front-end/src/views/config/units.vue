@@ -88,9 +88,9 @@
     >
       <el-form
         ref="unitForm"
-        label-position="left"
         :model="form"
         size="small"
+        label-width="150px"
       >
         <el-form-item
           label="单位"
@@ -99,7 +99,6 @@
           <el-input
             v-model="form.name"
             autocomplete="off"
-            style="width:70%"
           />
         </el-form-item>
       </el-form>
