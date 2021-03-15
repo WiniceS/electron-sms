@@ -2,11 +2,11 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <svg-icon v-if="logo" :icon-class="logo" class="sidebar-logo" />
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <svg-icon v-if="logo" :icon-class="logo" class="sidebar-logo" />
         <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
     </transition>
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: '超市系统',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      logo: 'carrot'
     }
   }
 }
@@ -55,15 +55,15 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 40px;
+      height: 40px;
       vertical-align: middle;
-      margin-right: 12px;
+      margin-right: 0 !important;
     }
 
     & .sidebar-title {
       display: inline-block;
-      margin: 0;
+      margin: 0 0 0 12px;
       color: #fff;
       font-weight: 600;
       line-height: 50px;
