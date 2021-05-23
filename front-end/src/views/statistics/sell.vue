@@ -61,23 +61,14 @@
       </el-form>
     </el-row>
     <el-row class="statistics-sell-charts">
-      <el-col
-        :span="12"
-        class="statistics-sell-charts-top"
-      >
-        <ve-line :data="chartData" />
-      </el-col>
-      <el-col
-        :span="12"
-        class="statistics-sell-charts-minimum"
-      >
-        <ve-bar :data="chartData" />
-      </el-col>
+      <ve-line :data="chartData" />
     </el-row>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'StatisticsSell',
   data() {
@@ -103,7 +94,24 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('config', ['typeOptions', 'unitOption'])
+  },
+  created() {
+    this.handleSearch()
+    if (this.typeOptions.length < 1) {
+      this.$nextTick(() => {
+        this.setTypeOptions()
+      })
+    }
+    if (this.unitOption.length < 1) {
+      this.$nextTick(() => {
+        this.setUnitOptions()
+      })
+    }
+  },
   methods: {
+    ...mapActions('config', ['setTypeOptions', 'setUnitOptions']),
     handleSearch() {
 
     }
